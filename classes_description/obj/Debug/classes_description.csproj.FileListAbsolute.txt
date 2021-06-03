@@ -1,0 +1,17 @@
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\bin\Debug\classes_description.exe.config
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\bin\Debug\classes_description.exe
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\bin\Debug\classes_description.pdb
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\bin\Debug\System.Data.SQLite.dll
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\bin\Debug\System.Data.SQLite.pdb
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\bin\Debug\System.Data.SQLite.xml
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\bin\Debug\System.Data.SQLite.dll.config
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.Form1.resources
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.Properties.Resources.resources
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.csproj.GenerateResource.cache
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.csproj.CoreCompileInputs.cache
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.csproj.CopyComplete
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.exe
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.pdb
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.frmClassEdit.resources
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.csprojAssemblyReference.cache
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.frmPropertyEdit.resources
