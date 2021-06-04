@@ -34,7 +34,6 @@ namespace classes_description
             InsertMenu(systemMenuHandle, 11, MF_BYPOSITION, _OpenOrCreateDatabaseSysMenuID, "Open or Create database...");
             
         }
-
     }
 
     // Обработка дополнительного меню

@@ -15,3 +15,4 @@ D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_descrip
 D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.frmClassEdit.resources
 D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.csprojAssemblyReference.cache
 D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.frmPropertyEdit.resources
+D:\PROJECTS\VISUAL_VALIDATION\_NEW_2021_\CPP\classes_description\classes_description\obj\Debug\classes_description.frmSearcProperty.resources

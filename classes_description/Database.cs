@@ -229,6 +229,16 @@ namespace classes_description
             ExecSql($"UPDATE properties SET description='{description}' WHERE id={id}");
         }
 
+        /// <summary>
+        /// Меняет родителя параметра.
+        /// </summary>
+        /// <param name="id">ROWID параметра</param>
+        /// <param name="new_parent_id">Новое значение родителя.</param>
+        public void ChangePropertyParent(long id, long new_parent_id)
+        {
+            ExecSql($"UPDATE properties SET parent='{new_parent_id}' WHERE id={id}");
+        }
+
         // *** PRIVATE мЕТОДЫ ***************************************
 
         /// <summary>

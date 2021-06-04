@@ -26,14 +26,14 @@ namespace classes_description
             if (!wasChanged)
             {
                 wasChanged = true;
-                SaveButton.ImageIndex = 4;
+                SaveButton.ImageIndex = (int)IconTypes.NotSavedIcon;
             }
         }
 
         public void TextSaved()
         {
             wasChanged = false;
-            SaveButton.ImageIndex = 3;
+            SaveButton.ImageIndex = (int)IconTypes.SaveIcon;
         }
 
         public void ClearText()
@@ -52,7 +52,7 @@ namespace classes_description
     /// <summary>
     /// Типы свойство (значения ImageIndex в Form1.ImageList)
     /// </summary>
-    enum PropTypes : long
+    enum IconTypes : long
     {
         SaveIcon = 3,
         NotSavedIcon = 4,
@@ -61,6 +61,8 @@ namespace classes_description
         Cirle = 11,
         Folder = 6,
         CollapseAll = 14,
-        ExpandAll = 15
+        ExpandAll = 15,
+        DragDrop = 17,
+        Search = 18
     }
 }

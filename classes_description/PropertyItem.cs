@@ -108,16 +108,16 @@ namespace classes_description
             frm.tbPropertyName.Text = currentProperty.Text;
             switch ((long)currentProperty.ImageIndex)
             {
-                case (long)PropTypes.Cirle:
+                case (long)IconTypes.Cirle:
                     frm.rbCircle.Checked = true;
                     break;
-                case (long)PropTypes.Square:
+                case (long)IconTypes.Square:
                     frm.rbSquare.Checked = true;
                     break;
-                case (long)PropTypes.Triangle:
+                case (long)IconTypes.Triangle:
                     frm.rbTriangle.Checked = true;
                     break;
-                case (long)PropTypes.Folder:
+                case (long)IconTypes.Folder:
                     frm.rbFolder.Checked = true;
                     break;
             }
@@ -184,7 +184,7 @@ namespace classes_description
         {
             TreeNode currentProperty = main.tvProps.SelectedNode;
             if (currentProperty == null) return;
-            if (main.btnDescSave.ImageIndex == (int)PropTypes.SaveIcon) return;
+            if (main.btnDescSave.ImageIndex == (int)IconTypes.SaveIcon) return;
 
             if (MessageBox.Show("Все несохраненные данные будут потеряны. Продолжить?",
                                 "",
@@ -223,6 +223,17 @@ namespace classes_description
         }
 
         /// <summary>
+        /// Меняет родителя параметра.
+        /// </summary>
+        /// <param name="id">ROWID параметра</param>
+        /// <param name="new_parent_id">Новый ROWID родительского элемента</param>
+        /// <param name="main">Ссылка на главную форму.</param>
+        public static void ChangeParent(long id, long new_parent_id, Form1 main)
+        {
+            main.db.ChangePropertyParent(id, new_parent_id);
+        }
+
+        /// <summary>
         /// Рекурсивно ищет TreeNode с заданным Tag. Результатом является объект TreeNode или null.
         /// </summary>
         /// <param name="id">Значение Tag.</param>
@@ -244,6 +255,30 @@ namespace classes_description
             }
         }
 
+
+        private static void SearchNodesByText(string text, TreeNode first, ref List<TreeNode> result)
+        {
+            foreach (TreeNode t in first.Nodes)
+            {
+                if (t.Text.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                {
+                    result.Add(t);
+                }
+
+                if (t.Nodes.Count > 0) SearchNodesByText(text, t, ref result);
+            }
+        }
+
+
+        public static List<TreeNode> SearchProperties(string text, TreeNode fromNode)
+        {
+            if (fromNode == null && text.Trim() == "") return null;
+
+            List<TreeNode> result = new List<TreeNode>();
+            SearchNodesByText(text, fromNode, ref result);
+            return result;
+        }
+
         /// <summary>
         /// Проверяет на несохраненные данные описания свойства. Запрашивает пользователя.И в зависимости от ответа
         /// либо сохраняет, либо не сохраняет данные. Возвращает булево значение для использования в аргументе Cancel,
@@ -253,7 +288,7 @@ namespace classes_description
         /// <returns>True - пользователь хочет отменить действие. False-можно продолжить.</returns>
         public static bool CheckForUnsavedDesc(Form1 main)
         {
-            if (main.btnDescSave.ImageIndex == (int)PropTypes.NotSavedIcon)
+            if (main.btnDescSave.ImageIndex == (int)IconTypes.NotSavedIcon)
             {
                 DialogResult res = MessageBox.Show("Имеются несохраненные данные (описание свойства). Сохранить?",
                                 "",

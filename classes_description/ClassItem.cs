@@ -168,7 +168,7 @@ namespace classes_description
         {
             TreeNode currentClass = main.tvClasses.SelectedNode;
             if (currentClass == null) return;
-            if (main.btnClassDescSave.ImageIndex == (int)PropTypes.SaveIcon) return;
+            if (main.btnClassDescSave.ImageIndex == (int)IconTypes.SaveIcon) return;
 
             if (MessageBox.Show("Все несохраненные данные будут потеряны. Продолжить?",
                                 "",
@@ -188,7 +188,7 @@ namespace classes_description
         /// <returns>True - пользователь хочет отменить действие. False-можно продолжить.</returns>
         public static bool CheckForUnsavedDesc(Form1 main)
         {
-            if (main.btnClassDescSave.ImageIndex == (int)PropTypes.NotSavedIcon)
+            if (main.btnClassDescSave.ImageIndex == (int)IconTypes.NotSavedIcon)
             {
                 DialogResult res = MessageBox.Show("Имеются несохраненные данные (описание класса). Сохранить?",
                                 "",
