@@ -584,6 +584,7 @@
             this.btnPropCollapseExpand.Size = new System.Drawing.Size(20, 20);
             this.btnPropCollapseExpand.TabIndex = 7;
             this.btnPropCollapseExpand.UseVisualStyleBackColor = false;
+            this.btnPropCollapseExpand.Click += new System.EventHandler(this.btnPropCollapseExpand_Click);
             // 
             // btnPropSearch
             // 
