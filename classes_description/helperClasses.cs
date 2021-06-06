@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Windows.Forms;
 
 namespace classes_description
 {
+
     public class PropertyDescription : Description
     {
         public PropertyDescription(Button btn, RichTextBox tb) : base(btn, tb)
@@ -26,14 +28,14 @@ namespace classes_description
             if (!wasChanged)
             {
                 wasChanged = true;
-                SaveButton.ImageIndex = (int)IconTypes.NotSavedIcon;
+                SaveButton.ImageKey = "notsaved";
             }
         }
 
         public void TextSaved()
         {
             wasChanged = false;
-            SaveButton.ImageIndex = (int)IconTypes.SaveIcon;
+            SaveButton.ImageKey = "save";
         }
 
         public void ClearText()
@@ -52,17 +54,32 @@ namespace classes_description
     /// <summary>
     /// Типы свойство (значения ImageIndex в Form1.ImageList)
     /// </summary>
-    enum IconTypes : long
+    enum IconTypes : int
     {
-        SaveIcon = 3,
-        NotSavedIcon = 4,
-        Triangle = 9,
-        Square = 13,
-        Cirle = 11,
-        Folder = 6,
-        CollapseAll = 14,
-        ExpandAll = 15,
-        DragDrop = 17,
-        Search = 18
+        Class = 0,
+        Triangle = 1,
+        Square = 2,
+        Cirle = 3,
+        Folder = 4,
+        FolderBlue = 5,
+        FolderGreen = 6,
+        File = 7
+    }
+
+    /// <summary>
+    /// Вспомогательный класс для ассоциации кнопок RichTextBox (применяется к Tag)
+    /// </summary>
+    class RichTextRelation
+    {
+        public RichTextBox TextBox { get; private set; }
+        public Color TextColor;
+        public Color BgColor;
+
+        public RichTextRelation(RichTextBox tb)
+        {
+            TextBox = tb;
+            TextColor = Color.Black;
+            BgColor = Color.Yellow;
+        }
     }
 }

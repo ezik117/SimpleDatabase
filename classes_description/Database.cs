@@ -39,56 +39,90 @@ namespace classes_description
         {
             conn = new SQLiteConnection();
             cmd = new SQLiteCommand(conn);
+            cmd.Parameters.Add("@data", DbType.Binary);
         }
 
         /// <summary>
-        /// Создать базу данных с инициализацией всех таблиц и связей. БД будет создана в текущей папке сборки.
+        /// Создает необходимые папки по умолчанию.
+        /// </summary>
+        private void CreateFolders()
+        {
+            if (!Directory.Exists($@"{Application.StartupPath}\databases"))
+                Directory.CreateDirectory($@"{Application.StartupPath}\databases");
+            if (!Directory.Exists($@"{Application.StartupPath}\temp"))
+                Directory.CreateDirectory($@"{Application.StartupPath}\temp");
+        }
+
+        /// <summary>
+        /// Создать базу данных с инициализацией всех таблиц и связей.
+        /// Если файд БД существует он будет перезаписан.
+        /// Соединение с БД не будет открыто.
         /// </summary>
         /// <param name="fileName">Имя файла БД без разрешения.</param>
         public void Create(string fileName)
         {
-            Close();
-            FileName = $@"{ Application.StartupPath}\{ fileName}.sqlite";
-            conn.ConnectionString = $@"Data Source={Application.StartupPath}\{fileName}.sqlite; foreign keys=true; nolock=1; version=3;";
-            conn.Open();
+            CreateFolders();
 
-            //ExecSql("PRAGMA foreign_keys = ON");
+            SQLiteConnection cn = new SQLiteConnection();
+            SQLiteCommand c = new SQLiteCommand(cn);
 
-            ExecSql("DROP TABLE IF EXISTS classes");
-            ExecSql(@"CREATE TABLE classes (id INTEGER PRIMARY KEY AUTOINCREMENT,
+            cn.ConnectionString = $@"Data Source={Application.StartupPath}\databases\{fileName}.sqlite; foreign keys=true; nolock=1; version=3;";
+            cn.Open();
+
+            c.CommandText = "DROP TABLE IF EXISTS classes";
+            c.ExecuteNonQuery();
+
+            c.CommandText = @"CREATE TABLE classes (id INTEGER PRIMARY KEY AUTOINCREMENT,
                                                 name TEXT NOT NULL UNIQUE,
-                                                description TEXT DEFAULT NULL)");
+                                                description TEXT DEFAULT NULL)";
+            c.ExecuteNonQuery();
 
-            ExecSql("DROP TABLE IF EXISTS properties");
-            ExecSql(@"CREATE TABLE properties (id INTEGER PRIMARY KEY AUTOINCREMENT,
+            c.CommandText = "DROP TABLE IF EXISTS properties";
+            c.ExecuteNonQuery();
+
+            c.CommandText = @"CREATE TABLE properties (id INTEGER PRIMARY KEY AUTOINCREMENT,
 						name TEXT NOT NULL,
 						description TEXT DEFAULT NULL,
 						type INTEGER NOT NULL,
 						parent INTEGER,
 						class INTEGER NOT NULL,
-						FOREIGN KEY(parent) REFERENCES properties(id) ON UPDATE CASCADE ON DELETE CASCADE,
-						FOREIGN KEY(class) REFERENCES classes(id) ON UPDATE CASCADE ON DELETE CASCADE)");
+						FOREIGN KEY(parent) REFERENCES properties(id) ON DELETE CASCADE,
+						FOREIGN KEY(class) REFERENCES classes(id) ON DELETE CASCADE)";
+            c.ExecuteNonQuery();
+
+            c.CommandText = "DROP TABLE IF EXISTS attachments";
+            c.ExecuteNonQuery();
+
+            c.CommandText = @"CREATE TABLE attachments (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        property INTEGER NOT NULL,
+                        filename TEXT NOT NULL,
+                        data BLOB,
+                        FOREIGN KEY(property) REFERENCES properties(id) ON DELETE CASCADE)";
+            c.ExecuteNonQuery();
+
+            cn.Close();
         }
 
         /// <summary>
         /// Пытается открыть БД. Если БД не существует создает ее.
+        /// Соединение с БД будет открыто.
         /// </summary>
-        /// <param name="fileName">Имя файла БД без разрешения.</param>
+        /// <param name="fileName">Имя файла БД без расширения и пути.</param>
         public void OpenOrCreate(string fileName)
         {
             Close();
-            FileName = $@"{ Application.StartupPath}\{ fileName}.sqlite";
-            conn.ConnectionString = $@"Data Source={Application.StartupPath}\{fileName}.sqlite; nolock=1; foreign keys=true; version=3;";
 
-            if (File.Exists(FileName))
-            {
-                conn.Open();
-                //ExecSql("PRAGMA foreign_keys = ON"); // это значение выключено каждый раз при входе в БД
-            }
-            else
+            CreateFolders();
+
+            FileName = $@"{Application.StartupPath}\databases\{fileName}.sqlite";
+            conn.ConnectionString = $@"Data Source={FileName}; foreign keys=true; nolock=1; version=3;";
+
+            if (!File.Exists(FileName))
             {
                 Create(fileName);
             }
+
+            conn.Open();
         }
 
         /// <summary>
@@ -287,6 +321,35 @@ namespace classes_description
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Добавляет вложение в БД в виде бинарных данных. В качестве имени файла будет сохранено только имя и расширение.
+        /// Путь будет удален.
+        /// </summary>
+        /// <param name="fileName">Полное имя файла с путем.</param>
+        /// <param name="property_id">ROWID связанного параметра.</param>
+        /// <returns>ROWID созданного вложения.</returns>
+        public long AttachmentInsert(string fileName, long property_id)
+        {
+            cmd.CommandText = $@"INSERT INTO attachments (property, filename, data)
+                                       VALUES({property_id}, '{Path.GetFileName(fileName)}', @data)";
+            cmd.Parameters["@data"].Value = File.ReadAllBytes(fileName);
+            cmd.ExecuteNonQuery();
+            cmd.Parameters["@data"].Value = null;
+            return conn.LastInsertRowId;
+        }
+
+        /// <summary>
+        /// Копирует файл вложения в папку приложения TEMP и возвращает имя распакованного файла с путем.
+        /// </summary>
+        /// <param name="property_id">Связанное свойство.</param>
+        /// <returns>Имя распакованного файла с путем</returns>
+        public string AttachmentExtract(long property_id)
+        {
+            SqlRows rows = ExecSqlReturn("SELECT filename, data FROM attachments WHERE property=" + property_id.ToString());
+            File.WriteAllBytes($@"{Application.StartupPath}\temp\{rows[0]["filename"]}", (byte[])rows[0]["data"]);
+            return $@"{Application.StartupPath}\temp\{rows[0]["filename"]}";
         }
 
         /// <summary>

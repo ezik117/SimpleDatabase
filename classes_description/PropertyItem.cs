@@ -74,7 +74,7 @@ namespace classes_description
 
             frmPropertyEdit frm = new frmPropertyEdit();
             frm.tbPropertyName.Text = "";
-            frm.rbTriangle.Checked = true;
+            frm.PropertyType = 7;
 
             if (frm.ShowDialog() != DialogResult.OK) return;
 
@@ -106,21 +106,8 @@ namespace classes_description
 
             frmPropertyEdit frm = new frmPropertyEdit();
             frm.tbPropertyName.Text = currentProperty.Text;
-            switch ((long)currentProperty.ImageIndex)
-            {
-                case (long)IconTypes.Cirle:
-                    frm.rbCircle.Checked = true;
-                    break;
-                case (long)IconTypes.Square:
-                    frm.rbSquare.Checked = true;
-                    break;
-                case (long)IconTypes.Triangle:
-                    frm.rbTriangle.Checked = true;
-                    break;
-                case (long)IconTypes.Folder:
-                    frm.rbFolder.Checked = true;
-                    break;
-            }
+            frm.PropertyType = currentProperty.ImageIndex;
+
             if (frm.ShowDialog() != DialogResult.OK) return;
 
             long id = main.db.SaveProperty((long)currentProperty.Tag, (long)main.tvClasses.SelectedNode.Tag,
@@ -184,7 +171,7 @@ namespace classes_description
         {
             TreeNode currentProperty = main.tvProps.SelectedNode;
             if (currentProperty == null) return;
-            if (main.btnDescSave.ImageIndex == (int)IconTypes.SaveIcon) return;
+            if (main.btnDescSave.ImageKey == "save") return;
 
             if (MessageBox.Show("Все несохраненные данные будут потеряны. Продолжить?",
                                 "",
@@ -288,7 +275,7 @@ namespace classes_description
         /// <returns>True - пользователь хочет отменить действие. False-можно продолжить.</returns>
         public static bool CheckForUnsavedDesc(Form1 main)
         {
-            if (main.btnDescSave.ImageIndex == (int)IconTypes.NotSavedIcon)
+            if (main.btnDescSave.ImageKey == "notsaved")
             {
                 DialogResult res = MessageBox.Show("Имеются несохраненные данные (описание свойства). Сохранить?",
                                 "",

@@ -151,7 +151,7 @@ namespace classes_description
             main.tbClassDescEdit.Text = (DBNull.Value.Equals(r[0]["description"]) ? "" : (string)r[0]["description"]);
 
             main.tvProps.Nodes.Clear();
-            TreeNode t = new TreeNode(currentClass.Text, 7, 7);
+            TreeNode t = new TreeNode(currentClass.Text, 0, 0);
             t.Tag = (long)-1;
             main.tvProps.Nodes.Add(t);
 
@@ -168,7 +168,7 @@ namespace classes_description
         {
             TreeNode currentClass = main.tvClasses.SelectedNode;
             if (currentClass == null) return;
-            if (main.btnClassDescSave.ImageIndex == (int)IconTypes.SaveIcon) return;
+            if (main.btnClassDescSave.ImageKey == "save") return;
 
             if (MessageBox.Show("Все несохраненные данные будут потеряны. Продолжить?",
                                 "",
@@ -188,7 +188,7 @@ namespace classes_description
         /// <returns>True - пользователь хочет отменить действие. False-можно продолжить.</returns>
         public static bool CheckForUnsavedDesc(Form1 main)
         {
-            if (main.btnClassDescSave.ImageIndex == (int)IconTypes.NotSavedIcon)
+            if (main.btnClassDescSave.ImageKey == "notsaved")
             {
                 DialogResult res = MessageBox.Show("Имеются несохраненные данные (описание класса). Сохранить?",
                                 "",

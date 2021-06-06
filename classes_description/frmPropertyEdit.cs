@@ -21,12 +21,27 @@ namespace classes_description
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            foreach (Control c in this.Controls)
+            {
+                if (c.GetType() == typeof(RadioButton))
+                {
+                    if (((RadioButton)c).Checked)
+                        PropertyType = ((RadioButton)c).ImageIndex;
+                }
+            }
             Close();
         }
 
-        private void rbTriangle_CheckedChanged(object sender, EventArgs e)
+        private void frmPropertyEdit_Load(object sender, EventArgs e)
         {
-            PropertyType = Convert.ToInt16(((RadioButton)sender).Tag);
+            foreach (Control c in this.Controls)
+            {
+                if (c.GetType() == typeof(RadioButton))
+                {
+                    if (((RadioButton)c).ImageIndex == PropertyType)
+                        ((RadioButton)c).Checked = true;
+                }
+            }
         }
     }
 }

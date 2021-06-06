@@ -27,10 +27,26 @@ namespace classes_description
         {
             InitializeComponent();
 
+            // зададим принадлежность к двум разных RichTextBoxам для кнопок их управления
+            btnTextColorApply.Tag = new RichTextRelation(tbDescEdit);
+            btnBgColorApply.Tag = new RichTextRelation(tbDescEdit);
+            btnTextColorApply2.Tag = new RichTextRelation(tbClassDescEdit);
+            btnBgColorApply2.Tag = new RichTextRelation(tbClassDescEdit);
+
+            btnTextBold.Tag = btnTextItalic.Tag = btnTextUnderline.Tag = btnTextBulletList.Tag = btnTextFont.Tag = tbDescEdit;
+            btnTextBold2.Tag = btnTextItalic2.Tag = btnTextUnderline2.Tag = btnTextBulletList2.Tag = btnTextFont2.Tag = tbClassDescEdit;
+
+            btnBgColorPickup.Tag = btnBgColorApply;
+            btnBgColorPickup2.Tag = btnBgColorApply2;
+
+            btnTextColorPickup.Tag = btnTextColorApply;
+            btnTextColorPickup2.Tag = btnTextColorApply2;
+
             propDescr = new PropertyDescription(btnDescSave, tbDescEdit);
             classDescr = new PropertyDescription(btnClassDescSave, tbClassDescEdit);
+
             db = new Database();
-            db.OpenOrCreate("classes");
+            db.OpenOrCreate("default");
 
             ClassItem.Load(this);
             
@@ -94,14 +110,14 @@ namespace classes_description
         // Свернуть / развернуть список
         private void btnPropCollapseExpand_Click(object sender, EventArgs e)
         {
-            if (btnPropCollapseExpand.ImageIndex == (long)IconTypes.CollapseAll)
+            if (btnPropCollapseExpand.ImageKey == "collapse")
             {
-                btnPropCollapseExpand.ImageIndex = (int)IconTypes.ExpandAll;
+                btnPropCollapseExpand.ImageKey = "expand";
                 tvProps.CollapseAll();
             }
             else
             {
-                btnPropCollapseExpand.ImageIndex = (int)IconTypes.CollapseAll;
+                btnPropCollapseExpand.ImageKey = "collapse";
                 tvProps.ExpandAll();
             }
         }
@@ -247,7 +263,7 @@ namespace classes_description
                 if (DragDropSelectedNode != null && DragDropSelectedNodeImageIndex != -1) DragDropSelectedNode.ImageIndex = DragDropSelectedNodeImageIndex;
                 DragDropSelectedNode = targetNode;
                 DragDropSelectedNodeImageIndex = DragDropSelectedNode.ImageIndex;
-                DragDropSelectedNode.ImageIndex = (int)IconTypes.DragDrop;
+                DragDropSelectedNode.ImageKey = "selected";
             }
         }
 
@@ -297,9 +313,7 @@ namespace classes_description
         // Редактор. Жирный текст.
         private void btnTextBold_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = tbDescEdit;
-
-            if ((string)(sender as Button).Tag == "2") tb = tbClassDescEdit;
+            RichTextBox tb = (RichTextBox)((Button)sender).Tag;
 
             if (tb.SelectionFont != null)
             {
@@ -311,9 +325,7 @@ namespace classes_description
         // Редактор. Наклонный текст.
         private void btnTextItalic_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = tbDescEdit;
-
-            if ((string)(sender as Button).Tag == "2") tb = tbClassDescEdit;
+            RichTextBox tb = (RichTextBox)((Button)sender).Tag;
 
             if (tb.SelectionFont != null)
             {
@@ -325,15 +337,21 @@ namespace classes_description
         // Редактор. Подкчеркнутый текст.
         private void btnTextUnderline_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = tbDescEdit;
-
-            if ((string)(sender as Button).Tag == "2") tb = tbClassDescEdit;
+            RichTextBox tb = (RichTextBox)((Button)sender).Tag;
 
             if (tb.SelectionFont != null)
             {
                 FontStyle newFontStyle = tb.SelectionFont.Style ^ FontStyle.Underline;
                 tb.SelectionFont = new Font(tb.SelectionFont.FontFamily, tb.SelectionFont.Size, newFontStyle);
             }
+        }
+
+        // Редактор. Ненумерованный список.
+        private void btnTextBulletList_Click(object sender, EventArgs e)
+        {
+            RichTextBox tb = (RichTextBox)((Button)sender).Tag;
+
+            tb.SelectionBullet = !tb.SelectionBullet;
         }
 
         // Поиск свойства
@@ -353,6 +371,75 @@ namespace classes_description
                 btnPropSearch.PerformClick();
                 e.Handled = true;
                 return;
+            }
+        }
+
+        // Редактор. отрисовка цвета текста в кнопке "Применить цвет текста"
+        private void btnTextColorApply_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.FillRectangle(new SolidBrush(((RichTextRelation)((Button)sender).Tag).TextColor),
+                                     new Rectangle(4, 4, 12, 12));
+        }
+
+        // Редактор. Выбор цвета для текста
+        private void btnTextColorPickup_Click(object sender, EventArgs e)
+        {
+            Button btnAppy = (Button)((Button)sender).Tag;
+            ColorDialog cd = new ColorDialog();
+            if (cd.ShowDialog() == DialogResult.OK)
+            {
+                ((RichTextRelation)btnAppy.Tag).TextColor = 
+                    ((RichTextRelation)btnAppy.Tag).TextBox.SelectionColor = 
+                        cd.Color;
+                btnAppy.Invalidate();
+            }
+        }
+
+        // Редактор. Применить цвет текста к выделенному тексту
+        private void btnTextColorApply_Click(object sender, EventArgs e)
+        {
+            ((RichTextRelation)((Button)sender).Tag).TextBox.SelectionColor =
+                ((RichTextRelation)((Button)sender).Tag).TextColor;
+        }
+
+        // Редактор. отрисовка цвета выделения в кнопке "Применить цвет выделения"
+        private void btnBgColorApply_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.FillRectangle(new SolidBrush(((RichTextRelation)((Button)sender).Tag).BgColor),
+                         new Rectangle(4, 4, 12, 12));
+        }
+
+        // Редактор. Выбрать цвет выделения
+        private void btnBgColorPickup_Click(object sender, EventArgs e)
+        {
+            Button btnAppy = (Button)((Button)sender).Tag;
+            ColorDialog cd = new ColorDialog();
+            if (cd.ShowDialog() == DialogResult.OK)
+            {
+                ((RichTextRelation)btnAppy.Tag).BgColor =
+                    ((RichTextRelation)btnAppy.Tag).TextBox.SelectionBackColor =
+                        cd.Color;
+                btnAppy.Invalidate();
+            }
+        }
+
+        // Редактор. Применить цвет выделения к выделенному тексту
+        private void btnBgColorApply_Click(object sender, EventArgs e)
+        {
+            ((RichTextRelation)((Button)sender).Tag).TextBox.SelectionBackColor =
+                ((RichTextRelation)((Button)sender).Tag).BgColor;
+        }
+
+        // Редактор. Выбор фонта
+        private void btnTextFont_Click(object sender, EventArgs e)
+        {
+            RichTextBox tb = (RichTextBox)((Button)sender).Tag;
+
+            FontDialog fd = new FontDialog();
+            fd.Font = tb.SelectionFont;
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                tb.SelectionFont = fd.Font;
             }
         }
     }

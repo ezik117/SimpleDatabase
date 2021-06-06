@@ -31,7 +31,7 @@ namespace classes_description
         {
             IntPtr systemMenuHandle = GetSystemMenu(main.Handle, false);
             InsertMenu(systemMenuHandle, 10, MF_BYPOSITION | MF_SEPARATOR, 0, string.Empty);
-            InsertMenu(systemMenuHandle, 11, MF_BYPOSITION, _OpenOrCreateDatabaseSysMenuID, "Open or Create database...");
+            InsertMenu(systemMenuHandle, 11, MF_BYPOSITION, _OpenOrCreateDatabaseSysMenuID, "Database Manager");
             
         }
     }
@@ -48,18 +48,14 @@ namespace classes_description
                 switch (m.WParam.ToInt32())
                 {
                     case SystemMenu._OpenOrCreateDatabaseSysMenuID:
-                        OpenFileDialog of = new OpenFileDialog();
-                        of.InitialDirectory = Application.StartupPath;
-                        of.Filter = "SQLite database (*.sqlite) | *.sqlite";
-                        of.CheckFileExists = false;
-                        if (of.ShowDialog() == DialogResult.OK)
+                        frmDbManager frm = new frmDbManager();
+                        frm.dbName = Path.GetFileNameWithoutExtension(db.FileName);
+                        frm.main = this;
+                        frm.ShowDialog();
+                        if (frm.action == 3)
                         {
-                            bool Cancel = ClassItem.CheckForUnsavedDesc(this);
-                            if (Cancel) return;
-                            Cancel = PropertyItem.CheckForUnsavedDesc(this);
-                            if (Cancel) return;
-
-                            db.OpenOrCreate(Path.GetFileNameWithoutExtension(of.SafeFileName));
+                            db.Close();
+                            db.OpenOrCreate(frm.dbName);
                             ClassItem.Load(this);
                         }
                         break;
