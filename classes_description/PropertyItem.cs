@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace classes_description
+namespace simple_database
 {
     using SqlRows = List<Dictionary<string, object>>;
 
@@ -78,14 +78,36 @@ namespace classes_description
 
             if (frm.ShowDialog() != DialogResult.OK) return;
 
+            long id;
+            string propName = frm.tbPropertyName.Text.Trim();
+
+            if (frm.rbAttachment.Checked)
+            {
+                // выбрано вложение.
+                OpenFileDialog of = new OpenFileDialog();
+                if (of.ShowDialog() == DialogResult.OK)
+                {
+                    if (propName == "") propName = System.IO.Path.GetFileName(of.FileName);
+
+                    id = main.db.AttachmentInsert(-1, (long)main.tvClasses.SelectedNode.Tag,
+                                                   propName, frm.PropertyType,
+                                                   (long)currentProperty.Tag, "", of.FileName);
+                }
+                else
+                    return;
+            }
+            else
+            {
+                // выбран значок
+                id = main.db.SaveProperty(-1, (long)main.tvClasses.SelectedNode.Tag,
+                                            propName, frm.PropertyType,
+                                            (long)currentProperty.Tag, "");
+            }
+
             main.propDescr.ClearText();
 
-            long id = main.db.SaveProperty(-1, (long)main.tvClasses.SelectedNode.Tag,
-                                           frm.tbPropertyName.Text.Trim(), frm.PropertyType,
-                                           (long)currentProperty.Tag, "");
-
             TreeNode t = new TreeNode();
-            t.Text = frm.tbPropertyName.Text.Trim();
+            t.Text = propName;
             t.ImageIndex = t.SelectedImageIndex = frm.PropertyType;
             t.Tag = id;
 
@@ -95,7 +117,7 @@ namespace classes_description
         }
 
         /// <summary>
-        /// Обновить свойство.
+        /// Обновить (редактировать) свойство.
         /// </summary>
         /// <param name="main">Ссылка на главную форму.</param>
         public static void Update(Form1 main)
@@ -183,25 +205,39 @@ namespace classes_description
         }
 
         /// <summary>
-        /// считывает все взаимосвязанные со свойством объекты.
+        /// Выбрано свойство класса (автоматически или щелчком пользователя).
+        /// Считывает все взаимосвязанные со свойством объекты.
         /// </summary>
         /// <param name="main">Ссылка на главную форму.</param>
         public static void PropertyChanged(Form1 main)
         {
             TreeNode currentProperty = main.tvProps.SelectedNode;
             if (stopEventProcessing) return;
-            if (currentProperty == null) return;
+            if (currentProperty == null)
+            {
+                main.btnAttachment.Visible = false;
+                return;
+            }
+
             if ((long)currentProperty.Tag == -1)
             {
+                // выбран корневой узел
                 main.tbDescEdit.Rtf = "";
                 main.tbDescEdit.ReadOnly = true;
                 main.propDescr.TextSaved();
+                main.btnAttachment.Visible = false;
                 return;
             }
             else
             {
                 main.tbDescEdit.ReadOnly = false;
             }
+
+            // вложения
+            if (currentProperty.ImageIndex == (int)IconTypes.Attachment)
+                main.btnAttachment.Visible = true;
+            else
+                main.btnAttachment.Visible = false;
 
             // description
             SqlRows r = main.db.LoadProperty((long)currentProperty.Tag);
@@ -218,6 +254,20 @@ namespace classes_description
         public static void ChangeParent(long id, long new_parent_id, Form1 main)
         {
             main.db.ChangePropertyParent(id, new_parent_id);
+        }
+
+
+        /// <summary>
+        /// Распаковывает вложение в папку TEMP и открывает его.
+        /// </summary>
+        /// <param name="main">Ссылка на главную форму.</param>
+        public static void ExtractAttachment(Form1 main)
+        {
+            TreeNode currentProperty = main.tvProps.SelectedNode;
+            if (currentProperty == null) return;
+
+            string fileName = main.db.AttachmentExtract((long)currentProperty.Tag);
+            if (fileName != "") System.Diagnostics.Process.Start(fileName);
         }
 
         /// <summary>
@@ -242,7 +292,13 @@ namespace classes_description
             }
         }
 
-
+        /// <summary>
+        /// Возвращает список всех узлов где текст содержит искомую строчку.
+        /// Поиск регистронезависимый. Функция используется только как вызываемая из SearchProperties.
+        /// </summary>
+        /// <param name="text">Тест для поиска.</param>
+        /// <param name="first">Узел с которого ищем.</param>
+        /// <param name="result">Список узлов.</param>
         private static void SearchNodesByText(string text, TreeNode first, ref List<TreeNode> result)
         {
             foreach (TreeNode t in first.Nodes)
@@ -256,7 +312,12 @@ namespace classes_description
             }
         }
 
-
+        /// <summary>
+        /// Ищет все свойства в имени которого содержится искомый текст.
+        /// </summary>
+        /// <param name="text">Тест для поиска.</param>
+        /// <param name="fromNode">Узел с которого ищем.</param>
+        /// <returns>Список узлов.</returns>
         public static List<TreeNode> SearchProperties(string text, TreeNode fromNode)
         {
             if (fromNode == null && text.Trim() == "") return null;

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace classes_description
+namespace simple_database
 {
     public partial class frmDbManager : Form
     {

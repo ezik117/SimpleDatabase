@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace classes_description
+namespace simple_database
 {
     public partial class frmPropertyEdit : Form
     {
@@ -19,6 +19,7 @@ namespace classes_description
             InitializeComponent();
         }
 
+        
         private void btnOk_Click(object sender, EventArgs e)
         {
             foreach (Control c in this.Controls)
@@ -38,6 +39,11 @@ namespace classes_description
             {
                 if (c.GetType() == typeof(RadioButton))
                 {
+                    if (PropertyType == (int)IconTypes.Attachment)
+                        ((RadioButton)c).Enabled = false;
+                    else
+                        ((RadioButton)c).Enabled = true;
+
                     if (((RadioButton)c).ImageIndex == PropertyType)
                         ((RadioButton)c).Checked = true;
                 }

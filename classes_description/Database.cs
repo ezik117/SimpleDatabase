@@ -9,7 +9,7 @@ using System.Data;
 using System.IO;
 
 
-namespace classes_description
+namespace simple_database
 {
     using SqlRows = List<Dictionary<string, object>>;
 
@@ -65,8 +65,7 @@ namespace classes_description
 
             SQLiteConnection cn = new SQLiteConnection();
             SQLiteCommand c = new SQLiteCommand(cn);
-
-            cn.ConnectionString = $@"Data Source={Application.StartupPath}\databases\{fileName}.sqlite; foreign keys=true; nolock=1; version=3;";
+            cn.ConnectionString = $@"Data Source={Application.StartupPath}\databases\{fileName}.sqlite; foreign keys=true; nolock=1; auto_vacuum=1, version=3;";
             cn.Open();
 
             c.CommandText = "DROP TABLE IF EXISTS classes";
@@ -115,7 +114,7 @@ namespace classes_description
             CreateFolders();
 
             FileName = $@"{Application.StartupPath}\databases\{fileName}.sqlite";
-            conn.ConnectionString = $@"Data Source={FileName}; foreign keys=true; nolock=1; version=3;";
+            conn.ConnectionString = $@"Data Source={FileName}; foreign keys=true; nolock=1; auto_vacuum=1, version=3;";
 
             if (!File.Exists(FileName))
             {
@@ -131,6 +130,14 @@ namespace classes_description
         public void Close()
         {
             if (conn?.State == ConnectionState.Open) conn?.Close();
+        }
+
+        /// <summary>
+        /// Уплотниь базу данных
+        /// </summary>
+        public void Vacuum()
+        {
+            ExecSql("VACUUM");
         }
 
         /// <summary>
@@ -270,7 +277,7 @@ namespace classes_description
         /// <param name="new_parent_id">Новое значение родителя.</param>
         public void ChangePropertyParent(long id, long new_parent_id)
         {
-            ExecSql($"UPDATE properties SET parent='{new_parent_id}' WHERE id={id}");
+            ExecSql($"UPDATE properties SET parent={(new_parent_id >= 0 ? new_parent_id.ToString() : "NULL")} WHERE id={id}");
         }
 
         // *** PRIVATE мЕТОДЫ ***************************************
@@ -328,32 +335,64 @@ namespace classes_description
         /// Путь будет удален.
         /// </summary>
         /// <param name="fileName">Полное имя файла с путем.</param>
-        /// <param name="property_id">ROWID связанного параметра.</param>
-        /// <returns>ROWID созданного вложения.</returns>
-        public long AttachmentInsert(string fileName, long property_id)
+        /// <returns>ROWID созданного свойства.</returns>
+        public long AttachmentInsert(long id, long class_id, string name, long type, long parent_id, string description, string fileName)
         {
-            cmd.CommandText = $@"INSERT INTO attachments (property, filename, data)
-                                       VALUES({property_id}, '{Path.GetFileName(fileName)}', @data)";
-            cmd.Parameters["@data"].Value = File.ReadAllBytes(fileName);
-            cmd.ExecuteNonQuery();
-            cmd.Parameters["@data"].Value = null;
-            return conn.LastInsertRowId;
+            SQLiteTransaction trans = conn.BeginTransaction();
+            long rowid = -1;
+
+            try
+            {
+                rowid = SaveProperty(id, class_id, name, type, parent_id, description);
+
+                cmd.CommandText = $@"INSERT INTO attachments (property, filename, data)
+                                       VALUES({rowid}, '{Path.GetFileName(fileName)}', @data)";
+                cmd.Parameters["@data"].Value = File.ReadAllBytes(fileName);
+                cmd.ExecuteNonQuery();
+                cmd.Parameters["@data"].Value = null;
+                trans.Commit();
+            }
+            catch
+            {
+                trans.Rollback();
+            }
+            
+            return rowid;
         }
 
         /// <summary>
-        /// Копирует файл вложения в папку приложения TEMP и возвращает имя распакованного файла с путем.
+        /// Копирует файл вложения в папку приложения TEMP и возвращает имя распакованного файла с путем,
+        /// или пустой строки если ошибка.
         /// </summary>
         /// <param name="property_id">Связанное свойство.</param>
-        /// <returns>Имя распакованного файла с путем</returns>
+        /// <returns>Имя распакованного файла с путем, или пустая строка если ошибка.</returns>
         public string AttachmentExtract(long property_id)
         {
             SqlRows rows = ExecSqlReturn("SELECT filename, data FROM attachments WHERE property=" + property_id.ToString());
-            File.WriteAllBytes($@"{Application.StartupPath}\temp\{rows[0]["filename"]}", (byte[])rows[0]["data"]);
-            return $@"{Application.StartupPath}\temp\{rows[0]["filename"]}";
+            string fullFileName = $@"{Application.StartupPath}\temp\{rows[0]["filename"]}";
+            if (File.Exists(fullFileName))
+                if (MessageBox.Show("Файл с таким именем уже существует в папке TEMP, заменить?",
+                                    "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    return "";
+            try
+            {
+                File.WriteAllBytes(fullFileName, (byte[])rows[0]["data"]);
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка при сохранении файла. Возможно существующий файл заблокирован для удаления.", "",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return "";
+            }
+
+            return fullFileName;
         }
 
         /// <summary>
-        /// Экранирует одиночные кавычки.
+        /// 
+        /// 
+        /// 
+        ///
         /// </summary>
         /// <param name="text">Тект для экранирования.</param>
         /// <returns>Текст для вставки в SQL запрос.</returns>

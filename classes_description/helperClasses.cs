@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace classes_description
+namespace simple_database
 {
 
     public class PropertyDescription : Description
@@ -23,6 +23,8 @@ namespace classes_description
         public RichTextBox tb;
         public bool wasChanged;
 
+        public TextFormatter textFormatter;
+
         public void TextChanging()
         {
             if (!wasChanged)
@@ -36,6 +38,7 @@ namespace classes_description
         {
             wasChanged = false;
             SaveButton.ImageKey = "save";
+            this.textFormatter.enabled = false;
         }
 
         public void ClearText()
@@ -48,6 +51,38 @@ namespace classes_description
         {
             this.SaveButton = SaveButton;
             this.tb = tb;
+            this.textFormatter = new TextFormatter();
+            this.textFormatter.enabled = false;
+        }
+    }
+
+    /// <summary>
+    /// Класс для операции "по образцу"
+    /// </summary>
+    public class TextFormatter
+    {
+        public Font txtFont = null;
+        public Color txtColor = Color.Black;
+        public Color txtBgColor = Color.White;
+        public bool txtBulletIndent = false;
+        public bool enabled = false;
+
+        public void SaveFormat(RichTextBox tb)
+        {
+            enabled = true;
+            txtFont = tb.SelectionFont;
+            txtColor = tb.SelectionColor;
+            txtBgColor = tb.SelectionBackColor;
+            txtBulletIndent = tb.SelectionBullet;
+        }
+
+        public void CopyFormat(RichTextBox tb)
+        {
+            enabled = false;
+            tb.SelectionFont = txtFont;
+            tb.SelectionColor = txtColor;
+            tb.SelectionBackColor = txtBgColor;
+            tb.SelectionBullet = txtBulletIndent;
         }
     }
 
@@ -63,7 +98,9 @@ namespace classes_description
         Folder = 4,
         FolderBlue = 5,
         FolderGreen = 6,
-        File = 7
+        File = 7,
+        Selected = 8,
+        Attachment = 9
     }
 
     /// <summary>
@@ -82,4 +119,6 @@ namespace classes_description
             BgColor = Color.Yellow;
         }
     }
+
+
 }

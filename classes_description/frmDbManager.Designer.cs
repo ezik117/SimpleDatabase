@@ -1,4 +1,4 @@
-﻿namespace classes_description
+﻿namespace simple_database
 {
     partial class frmDbManager
     {

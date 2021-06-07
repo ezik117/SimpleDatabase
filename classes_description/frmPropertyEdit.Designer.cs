@@ -1,4 +1,4 @@
-﻿namespace classes_description
+﻿namespace simple_database
 {
     partial class frmPropertyEdit
     {
@@ -40,6 +40,7 @@
             this.rbFolderBlue = new System.Windows.Forms.RadioButton();
             this.rbFolderGreen = new System.Windows.Forms.RadioButton();
             this.rbFile = new System.Windows.Forms.RadioButton();
+            this.rbAttachment = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // btnOk
@@ -86,6 +87,8 @@
             this.imageList1.Images.SetKeyName(5, "folder_blue");
             this.imageList1.Images.SetKeyName(6, "folder_green");
             this.imageList1.Images.SetKeyName(7, "file");
+            this.imageList1.Images.SetKeyName(8, "selected");
+            this.imageList1.Images.SetKeyName(9, "attachment");
             // 
             // rbSquare
             // 
@@ -168,7 +171,7 @@
             this.rbFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.rbFile.ImageIndex = 7;
             this.rbFile.ImageList = this.imageList1;
-            this.rbFile.Location = new System.Drawing.Point(124, 70);
+            this.rbFile.Location = new System.Drawing.Point(124, 40);
             this.rbFile.Name = "rbFile";
             this.rbFile.Size = new System.Drawing.Size(50, 24);
             this.rbFile.TabIndex = 10;
@@ -176,12 +179,28 @@
             this.rbFile.Tag = "6";
             this.rbFile.UseVisualStyleBackColor = true;
             // 
+            // rbAttachment
+            // 
+            this.rbAttachment.Cursor = System.Windows.Forms.Cursors.Default;
+            this.rbAttachment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rbAttachment.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.rbAttachment.ImageIndex = 9;
+            this.rbAttachment.ImageList = this.imageList1;
+            this.rbAttachment.Location = new System.Drawing.Point(317, 100);
+            this.rbAttachment.Name = "rbAttachment";
+            this.rbAttachment.Size = new System.Drawing.Size(50, 24);
+            this.rbAttachment.TabIndex = 13;
+            this.rbAttachment.TabStop = true;
+            this.rbAttachment.Tag = "6";
+            this.rbAttachment.UseVisualStyleBackColor = true;
+            // 
             // frmPropertyEdit
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(383, 133);
+            this.Controls.Add(this.rbAttachment);
             this.Controls.Add(this.rbFile);
             this.Controls.Add(this.rbFolderGreen);
             this.Controls.Add(this.rbFolderBlue);
@@ -213,5 +232,6 @@
         public System.Windows.Forms.RadioButton rbFolderBlue;
         public System.Windows.Forms.RadioButton rbFolderGreen;
         public System.Windows.Forms.RadioButton rbFile;
+        public System.Windows.Forms.RadioButton rbAttachment;
     }
 }

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace classes_description
+namespace simple_database
 {
     using SqlRows = List<Dictionary<string, object>>;
 
@@ -45,11 +45,34 @@ namespace classes_description
             propDescr = new PropertyDescription(btnDescSave, tbDescEdit);
             classDescr = new PropertyDescription(btnClassDescSave, tbClassDescEdit);
 
+            // очистим папку TEMP, если там что то есть
+            CleanUpTemp();
+
+            // создаем или открываем БД по умолчанию
             db = new Database();
             db.OpenOrCreate("default");
 
+            // загружаем данные в форму
             ClassItem.Load(this);
             
+        }
+
+        // Очистка папки temp
+        private void CleanUpTemp()
+        {
+            try
+            {
+                string[] files = System.IO.Directory.GetFiles($@"{Application.StartupPath}\temp");
+                foreach (string file in files)
+                {
+                    try
+                    {
+                        System.IO.File.Delete(file);
+                    }
+                    catch { };
+                }
+            }
+            catch { };
         }
 
         // Добавить класс
@@ -260,7 +283,9 @@ namespace classes_description
 
             if (DragDropSelectedNode != targetNode)
             {
-                if (DragDropSelectedNode != null && DragDropSelectedNodeImageIndex != -1) DragDropSelectedNode.ImageIndex = DragDropSelectedNodeImageIndex;
+                if (DragDropSelectedNode != null && DragDropSelectedNodeImageIndex != -1 && DragDropSelectedNode != null)
+                    DragDropSelectedNode.ImageIndex = DragDropSelectedNodeImageIndex;
+
                 DragDropSelectedNode = targetNode;
                 DragDropSelectedNodeImageIndex = DragDropSelectedNode.ImageIndex;
                 DragDropSelectedNode.ImageKey = "selected";
@@ -442,5 +467,46 @@ namespace classes_description
                 tb.SelectionFont = fd.Font;
             }
         }
+
+        // Извлечь вложение.
+        private void btnAttachment_Click(object sender, EventArgs e)
+        {
+            PropertyItem.ExtractAttachment(this);
+        }
+
+        // Двойной клик на свойстве. Открыть если вложение.
+        private void tvProps_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.ImageIndex == (int)IconTypes.Attachment)
+                btnAttachment.PerformClick();
+        }
+
+        // Редактор. Сохранить Формат по образцу 
+        private void btnTextAutoFormat_Click(object sender, EventArgs e)
+        {
+            propDescr.textFormatter.SaveFormat(tbDescEdit);
+        }
+
+        // Редактор. Восстановить Формат по образцу
+        private void tbDescEdit_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (propDescr.textFormatter.enabled)
+                propDescr.textFormatter.CopyFormat(tbDescEdit);
+        }
+
+        // Редактор. Сохранить Формат по образцу 
+        private void btnTextAutoFormat2_Click(object sender, EventArgs e)
+        {
+            classDescr.textFormatter.SaveFormat(tbClassDescEdit);
+        }
+
+        // Редактор. Сохранить Формат по образцу 
+        private void tbClassDescEdit_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (classDescr.textFormatter.enabled)
+                classDescr.textFormatter.CopyFormat(tbClassDescEdit);
+        }
     }
+
+
 }

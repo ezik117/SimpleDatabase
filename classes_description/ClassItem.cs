@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace classes_description
+namespace simple_database
 {
     using SqlRows = List<Dictionary<string, object>>;
 
@@ -74,7 +74,7 @@ namespace classes_description
             else
                 NodeChanged(main); // clear all
 
-            main.Text = $"Справочник классов проекта [{System.IO.Path.GetFileName(main.db.FileName).ToUpper()}]";
+            main.Text = $"Справочник. [{System.IO.Path.GetFileName(main.db.FileName).ToUpper()}]";
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace classes_description
+namespace simple_database
 {
     /// <summary>
     /// Класс для добавления дополнительных пунктов меню в системное (левый верхний угол главного окна).
@@ -26,13 +26,15 @@ namespace classes_description
         public const Int32 MF_STRING = 0x0;
 
         public const Int32 _OpenOrCreateDatabaseSysMenuID = 1000;
+        public const Int32 _VacuumDatabaseSysMenuID = 1001;
 
         public static void AddItem(Form1 main)
         {
             IntPtr systemMenuHandle = GetSystemMenu(main.Handle, false);
             InsertMenu(systemMenuHandle, 10, MF_BYPOSITION | MF_SEPARATOR, 0, string.Empty);
-            InsertMenu(systemMenuHandle, 11, MF_BYPOSITION, _OpenOrCreateDatabaseSysMenuID, "Database Manager");
-            
+            InsertMenu(systemMenuHandle, 11, MF_BYPOSITION, _OpenOrCreateDatabaseSysMenuID, "Менеджер базы данных");
+            InsertMenu(systemMenuHandle, 12, MF_BYPOSITION, _VacuumDatabaseSysMenuID, "Уплотнить базу данных");
+
         }
     }
 
@@ -58,6 +60,9 @@ namespace classes_description
                             db.OpenOrCreate(frm.dbName);
                             ClassItem.Load(this);
                         }
+                        break;
+                    case SystemMenu._VacuumDatabaseSysMenuID:
+                        db.Vacuum();
                         break;
                 }
             }

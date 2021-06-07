@@ -1,4 +1,4 @@
-﻿namespace classes_description
+﻿namespace simple_database
 {
     partial class Form1
     {
@@ -34,8 +34,11 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.tbDescEdit = new System.Windows.Forms.RichTextBox();
             this.panel9 = new System.Windows.Forms.Panel();
-            this.btnBgColorApply = new System.Windows.Forms.Button();
+            this.btnTextAutoFormat = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.btnAttachment = new System.Windows.Forms.Button();
+            this.btnTextFont = new System.Windows.Forms.Button();
+            this.btnBgColorApply = new System.Windows.Forms.Button();
             this.btnBgColorPickup = new System.Windows.Forms.Button();
             this.btnTextColorApply = new System.Windows.Forms.Button();
             this.btnTextColorPickup = new System.Windows.Forms.Button();
@@ -71,6 +74,12 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.tbClassDescEdit = new System.Windows.Forms.RichTextBox();
             this.panel10 = new System.Windows.Forms.Panel();
+            this.btnTextFont2 = new System.Windows.Forms.Button();
+            this.btnBgColorApply2 = new System.Windows.Forms.Button();
+            this.btnBgColorPickup2 = new System.Windows.Forms.Button();
+            this.btnTextColorApply2 = new System.Windows.Forms.Button();
+            this.btnTextColorPickup2 = new System.Windows.Forms.Button();
+            this.btnTextBulletList2 = new System.Windows.Forms.Button();
             this.btnTextUnderline2 = new System.Windows.Forms.Button();
             this.btnTextItalic2 = new System.Windows.Forms.Button();
             this.btnTextBold2 = new System.Windows.Forms.Button();
@@ -78,13 +87,7 @@
             this.btnClassDescReload = new System.Windows.Forms.Button();
             this.btnClassDescSave = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnBgColorPickup2 = new System.Windows.Forms.Button();
-            this.btnTextColorApply2 = new System.Windows.Forms.Button();
-            this.btnTextColorPickup2 = new System.Windows.Forms.Button();
-            this.btnTextBulletList2 = new System.Windows.Forms.Button();
-            this.btnBgColorApply2 = new System.Windows.Forms.Button();
-            this.btnTextFont = new System.Windows.Forms.Button();
-            this.btnTextFont2 = new System.Windows.Forms.Button();
+            this.btnTextAutoFormat2 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -127,6 +130,7 @@
             // 
             this.tbDescEdit.BackColor = System.Drawing.Color.White;
             this.tbDescEdit.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbDescEdit.BulletIndent = 10;
             this.tbDescEdit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbDescEdit.HideSelection = false;
             this.tbDescEdit.Location = new System.Drawing.Point(0, 24);
@@ -136,11 +140,14 @@
             this.tbDescEdit.Text = "";
             this.tbDescEdit.TextChanged += new System.EventHandler(this.tbDescEdit_TextChanged);
             this.tbDescEdit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbDescEdit_KeyDown);
+            this.tbDescEdit.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tbDescEdit_MouseUp);
             // 
             // panel9
             // 
             this.panel9.BackColor = System.Drawing.SystemColors.Control;
             this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel9.Controls.Add(this.btnTextAutoFormat);
+            this.panel9.Controls.Add(this.btnAttachment);
             this.panel9.Controls.Add(this.btnTextFont);
             this.panel9.Controls.Add(this.btnBgColorApply);
             this.panel9.Controls.Add(this.btnBgColorPickup);
@@ -156,25 +163,24 @@
             this.panel9.Size = new System.Drawing.Size(347, 22);
             this.panel9.TabIndex = 5;
             // 
-            // btnBgColorApply
+            // btnTextAutoFormat
             // 
-            this.btnBgColorApply.BackColor = System.Drawing.SystemColors.Control;
-            this.btnBgColorApply.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnBgColorApply.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnBgColorApply.FlatAppearance.BorderSize = 0;
-            this.btnBgColorApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBgColorApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnBgColorApply.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnBgColorApply.ImageKey = "(none)";
-            this.btnBgColorApply.ImageList = this.imageList1;
-            this.btnBgColorApply.Location = new System.Drawing.Point(140, 0);
-            this.btnBgColorApply.Name = "btnBgColorApply";
-            this.btnBgColorApply.Size = new System.Drawing.Size(20, 20);
-            this.btnBgColorApply.TabIndex = 18;
-            this.btnBgColorApply.Tag = "1";
-            this.btnBgColorApply.UseVisualStyleBackColor = false;
-            this.btnBgColorApply.Click += new System.EventHandler(this.btnBgColorApply_Click);
-            this.btnBgColorApply.Paint += new System.Windows.Forms.PaintEventHandler(this.btnBgColorApply_Paint);
+            this.btnTextAutoFormat.BackColor = System.Drawing.SystemColors.Control;
+            this.btnTextAutoFormat.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnTextAutoFormat.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnTextAutoFormat.FlatAppearance.BorderSize = 0;
+            this.btnTextAutoFormat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTextAutoFormat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnTextAutoFormat.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnTextAutoFormat.ImageKey = "brush";
+            this.btnTextAutoFormat.ImageList = this.imageList1;
+            this.btnTextAutoFormat.Location = new System.Drawing.Point(180, 0);
+            this.btnTextAutoFormat.Name = "btnTextAutoFormat";
+            this.btnTextAutoFormat.Size = new System.Drawing.Size(20, 20);
+            this.btnTextAutoFormat.TabIndex = 21;
+            this.btnTextAutoFormat.Tag = "1";
+            this.btnTextAutoFormat.UseVisualStyleBackColor = false;
+            this.btnTextAutoFormat.Click += new System.EventHandler(this.btnTextAutoFormat_Click);
             // 
             // imageList1
             // 
@@ -199,6 +205,67 @@
             this.imageList1.Images.SetKeyName(16, "textcolor");
             this.imageList1.Images.SetKeyName(17, "backcolor");
             this.imageList1.Images.SetKeyName(18, "font");
+            this.imageList1.Images.SetKeyName(19, "attachment");
+            this.imageList1.Images.SetKeyName(20, "brush");
+            // 
+            // btnAttachment
+            // 
+            this.btnAttachment.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAttachment.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnAttachment.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnAttachment.FlatAppearance.BorderSize = 0;
+            this.btnAttachment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAttachment.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnAttachment.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnAttachment.ImageKey = "attachment";
+            this.btnAttachment.ImageList = this.imageList1;
+            this.btnAttachment.Location = new System.Drawing.Point(325, 0);
+            this.btnAttachment.Name = "btnAttachment";
+            this.btnAttachment.Size = new System.Drawing.Size(20, 20);
+            this.btnAttachment.TabIndex = 20;
+            this.btnAttachment.Tag = "1";
+            this.btnAttachment.UseVisualStyleBackColor = false;
+            this.btnAttachment.Visible = false;
+            this.btnAttachment.Click += new System.EventHandler(this.btnAttachment_Click);
+            // 
+            // btnTextFont
+            // 
+            this.btnTextFont.BackColor = System.Drawing.SystemColors.Control;
+            this.btnTextFont.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnTextFont.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnTextFont.FlatAppearance.BorderSize = 0;
+            this.btnTextFont.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTextFont.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnTextFont.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnTextFont.ImageKey = "font";
+            this.btnTextFont.ImageList = this.imageList1;
+            this.btnTextFont.Location = new System.Drawing.Point(160, 0);
+            this.btnTextFont.Name = "btnTextFont";
+            this.btnTextFont.Size = new System.Drawing.Size(20, 20);
+            this.btnTextFont.TabIndex = 19;
+            this.btnTextFont.Tag = "1";
+            this.btnTextFont.UseVisualStyleBackColor = false;
+            this.btnTextFont.Click += new System.EventHandler(this.btnTextFont_Click);
+            // 
+            // btnBgColorApply
+            // 
+            this.btnBgColorApply.BackColor = System.Drawing.SystemColors.Control;
+            this.btnBgColorApply.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnBgColorApply.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnBgColorApply.FlatAppearance.BorderSize = 0;
+            this.btnBgColorApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBgColorApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnBgColorApply.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnBgColorApply.ImageKey = "(none)";
+            this.btnBgColorApply.ImageList = this.imageList1;
+            this.btnBgColorApply.Location = new System.Drawing.Point(140, 0);
+            this.btnBgColorApply.Name = "btnBgColorApply";
+            this.btnBgColorApply.Size = new System.Drawing.Size(20, 20);
+            this.btnBgColorApply.TabIndex = 18;
+            this.btnBgColorApply.Tag = "1";
+            this.btnBgColorApply.UseVisualStyleBackColor = false;
+            this.btnBgColorApply.Click += new System.EventHandler(this.btnBgColorApply_Click);
+            this.btnBgColorApply.Paint += new System.Windows.Forms.PaintEventHandler(this.btnBgColorApply_Paint);
             // 
             // btnBgColorPickup
             // 
@@ -430,6 +497,7 @@
             this.tvProps.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tvProps_ItemDrag);
             this.tvProps.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvProps_BeforeSelect);
             this.tvProps.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvProps_AfterSelect);
+            this.tvProps.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvProps_NodeMouseDoubleClick);
             this.tvProps.DragDrop += new System.Windows.Forms.DragEventHandler(this.tvProps_DragDrop);
             this.tvProps.DragEnter += new System.Windows.Forms.DragEventHandler(this.tvProps_DragEnter);
             this.tvProps.DragOver += new System.Windows.Forms.DragEventHandler(this.tvProps_DragOver);
@@ -447,6 +515,8 @@
             this.imageList2.Images.SetKeyName(5, "folder_blue");
             this.imageList2.Images.SetKeyName(6, "folder_green");
             this.imageList2.Images.SetKeyName(7, "file");
+            this.imageList2.Images.SetKeyName(8, "selected");
+            this.imageList2.Images.SetKeyName(9, "attachment");
             // 
             // panel11
             // 
@@ -675,7 +745,7 @@
             this.label1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.label1.Size = new System.Drawing.Size(198, 22);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Классы";
+            this.label1.Text = "Категории";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // splitter1
@@ -712,11 +782,13 @@
             this.tbClassDescEdit.Text = "";
             this.tbClassDescEdit.TextChanged += new System.EventHandler(this.tbClassDescEdit_TextChanged);
             this.tbClassDescEdit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbClassDescEdit_KeyDown);
+            this.tbClassDescEdit.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tbClassDescEdit_MouseUp);
             // 
             // panel10
             // 
             this.panel10.BackColor = System.Drawing.SystemColors.Control;
             this.panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel10.Controls.Add(this.btnTextAutoFormat2);
             this.panel10.Controls.Add(this.btnTextFont2);
             this.panel10.Controls.Add(this.btnBgColorApply2);
             this.panel10.Controls.Add(this.btnBgColorPickup2);
@@ -731,6 +803,121 @@
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(800, 22);
             this.panel10.TabIndex = 6;
+            // 
+            // btnTextFont2
+            // 
+            this.btnTextFont2.BackColor = System.Drawing.SystemColors.Control;
+            this.btnTextFont2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnTextFont2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnTextFont2.FlatAppearance.BorderSize = 0;
+            this.btnTextFont2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTextFont2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnTextFont2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnTextFont2.ImageKey = "font";
+            this.btnTextFont2.ImageList = this.imageList1;
+            this.btnTextFont2.Location = new System.Drawing.Point(160, 0);
+            this.btnTextFont2.Name = "btnTextFont2";
+            this.btnTextFont2.Size = new System.Drawing.Size(20, 20);
+            this.btnTextFont2.TabIndex = 23;
+            this.btnTextFont2.Tag = "1";
+            this.btnTextFont2.UseVisualStyleBackColor = false;
+            this.btnTextFont2.Click += new System.EventHandler(this.btnTextFont_Click);
+            // 
+            // btnBgColorApply2
+            // 
+            this.btnBgColorApply2.BackColor = System.Drawing.SystemColors.Control;
+            this.btnBgColorApply2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnBgColorApply2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnBgColorApply2.FlatAppearance.BorderSize = 0;
+            this.btnBgColorApply2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBgColorApply2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnBgColorApply2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnBgColorApply2.ImageKey = "(none)";
+            this.btnBgColorApply2.ImageList = this.imageList1;
+            this.btnBgColorApply2.Location = new System.Drawing.Point(140, 0);
+            this.btnBgColorApply2.Name = "btnBgColorApply2";
+            this.btnBgColorApply2.Size = new System.Drawing.Size(20, 20);
+            this.btnBgColorApply2.TabIndex = 22;
+            this.btnBgColorApply2.Tag = "1";
+            this.btnBgColorApply2.UseVisualStyleBackColor = false;
+            this.btnBgColorApply2.Click += new System.EventHandler(this.btnBgColorApply_Click);
+            this.btnBgColorApply2.Paint += new System.Windows.Forms.PaintEventHandler(this.btnBgColorApply_Paint);
+            // 
+            // btnBgColorPickup2
+            // 
+            this.btnBgColorPickup2.BackColor = System.Drawing.SystemColors.Control;
+            this.btnBgColorPickup2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnBgColorPickup2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnBgColorPickup2.FlatAppearance.BorderSize = 0;
+            this.btnBgColorPickup2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBgColorPickup2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnBgColorPickup2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnBgColorPickup2.ImageKey = "backcolor";
+            this.btnBgColorPickup2.ImageList = this.imageList1;
+            this.btnBgColorPickup2.Location = new System.Drawing.Point(120, 0);
+            this.btnBgColorPickup2.Name = "btnBgColorPickup2";
+            this.btnBgColorPickup2.Size = new System.Drawing.Size(20, 20);
+            this.btnBgColorPickup2.TabIndex = 21;
+            this.btnBgColorPickup2.Tag = "1";
+            this.btnBgColorPickup2.UseVisualStyleBackColor = false;
+            this.btnBgColorPickup2.Click += new System.EventHandler(this.btnBgColorPickup_Click);
+            // 
+            // btnTextColorApply2
+            // 
+            this.btnTextColorApply2.BackColor = System.Drawing.SystemColors.Control;
+            this.btnTextColorApply2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnTextColorApply2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnTextColorApply2.FlatAppearance.BorderSize = 0;
+            this.btnTextColorApply2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTextColorApply2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnTextColorApply2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnTextColorApply2.ImageKey = "(none)";
+            this.btnTextColorApply2.ImageList = this.imageList1;
+            this.btnTextColorApply2.Location = new System.Drawing.Point(100, 0);
+            this.btnTextColorApply2.Name = "btnTextColorApply2";
+            this.btnTextColorApply2.Size = new System.Drawing.Size(20, 20);
+            this.btnTextColorApply2.TabIndex = 20;
+            this.btnTextColorApply2.Tag = "1";
+            this.btnTextColorApply2.UseVisualStyleBackColor = false;
+            this.btnTextColorApply2.Click += new System.EventHandler(this.btnTextColorApply_Click);
+            this.btnTextColorApply2.Paint += new System.Windows.Forms.PaintEventHandler(this.btnTextColorApply_Paint);
+            // 
+            // btnTextColorPickup2
+            // 
+            this.btnTextColorPickup2.BackColor = System.Drawing.SystemColors.Control;
+            this.btnTextColorPickup2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnTextColorPickup2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnTextColorPickup2.FlatAppearance.BorderSize = 0;
+            this.btnTextColorPickup2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTextColorPickup2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnTextColorPickup2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnTextColorPickup2.ImageKey = "textcolor";
+            this.btnTextColorPickup2.ImageList = this.imageList1;
+            this.btnTextColorPickup2.Location = new System.Drawing.Point(80, 0);
+            this.btnTextColorPickup2.Name = "btnTextColorPickup2";
+            this.btnTextColorPickup2.Size = new System.Drawing.Size(20, 20);
+            this.btnTextColorPickup2.TabIndex = 19;
+            this.btnTextColorPickup2.Tag = "1";
+            this.btnTextColorPickup2.UseVisualStyleBackColor = false;
+            this.btnTextColorPickup2.Click += new System.EventHandler(this.btnTextColorPickup_Click);
+            // 
+            // btnTextBulletList2
+            // 
+            this.btnTextBulletList2.BackColor = System.Drawing.SystemColors.Control;
+            this.btnTextBulletList2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnTextBulletList2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnTextBulletList2.FlatAppearance.BorderSize = 0;
+            this.btnTextBulletList2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTextBulletList2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnTextBulletList2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnTextBulletList2.ImageKey = "bullet_list";
+            this.btnTextBulletList2.ImageList = this.imageList1;
+            this.btnTextBulletList2.Location = new System.Drawing.Point(60, 0);
+            this.btnTextBulletList2.Name = "btnTextBulletList2";
+            this.btnTextBulletList2.Size = new System.Drawing.Size(20, 20);
+            this.btnTextBulletList2.TabIndex = 18;
+            this.btnTextBulletList2.Tag = "1";
+            this.btnTextBulletList2.UseVisualStyleBackColor = false;
             // 
             // btnTextUnderline2
             // 
@@ -845,142 +1032,27 @@
             this.label4.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.label4.Size = new System.Drawing.Size(798, 22);
             this.label4.TabIndex = 2;
-            this.label4.Text = "Описание класса";
+            this.label4.Text = "Описание категории";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // btnBgColorPickup2
+            // btnTextAutoFormat2
             // 
-            this.btnBgColorPickup2.BackColor = System.Drawing.SystemColors.Control;
-            this.btnBgColorPickup2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnBgColorPickup2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnBgColorPickup2.FlatAppearance.BorderSize = 0;
-            this.btnBgColorPickup2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBgColorPickup2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnBgColorPickup2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnBgColorPickup2.ImageKey = "backcolor";
-            this.btnBgColorPickup2.ImageList = this.imageList1;
-            this.btnBgColorPickup2.Location = new System.Drawing.Point(120, 0);
-            this.btnBgColorPickup2.Name = "btnBgColorPickup2";
-            this.btnBgColorPickup2.Size = new System.Drawing.Size(20, 20);
-            this.btnBgColorPickup2.TabIndex = 21;
-            this.btnBgColorPickup2.Tag = "1";
-            this.btnBgColorPickup2.UseVisualStyleBackColor = false;
-            this.btnBgColorPickup2.Click += new System.EventHandler(this.btnBgColorPickup_Click);
-            // 
-            // btnTextColorApply2
-            // 
-            this.btnTextColorApply2.BackColor = System.Drawing.SystemColors.Control;
-            this.btnTextColorApply2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnTextColorApply2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnTextColorApply2.FlatAppearance.BorderSize = 0;
-            this.btnTextColorApply2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTextColorApply2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnTextColorApply2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnTextColorApply2.ImageKey = "(none)";
-            this.btnTextColorApply2.ImageList = this.imageList1;
-            this.btnTextColorApply2.Location = new System.Drawing.Point(100, 0);
-            this.btnTextColorApply2.Name = "btnTextColorApply2";
-            this.btnTextColorApply2.Size = new System.Drawing.Size(20, 20);
-            this.btnTextColorApply2.TabIndex = 20;
-            this.btnTextColorApply2.Tag = "1";
-            this.btnTextColorApply2.UseVisualStyleBackColor = false;
-            this.btnTextColorApply2.Click += new System.EventHandler(this.btnTextColorApply_Click);
-            this.btnTextColorApply2.Paint += new System.Windows.Forms.PaintEventHandler(this.btnTextColorApply_Paint);
-            // 
-            // btnTextColorPickup2
-            // 
-            this.btnTextColorPickup2.BackColor = System.Drawing.SystemColors.Control;
-            this.btnTextColorPickup2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnTextColorPickup2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnTextColorPickup2.FlatAppearance.BorderSize = 0;
-            this.btnTextColorPickup2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTextColorPickup2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnTextColorPickup2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnTextColorPickup2.ImageKey = "textcolor";
-            this.btnTextColorPickup2.ImageList = this.imageList1;
-            this.btnTextColorPickup2.Location = new System.Drawing.Point(80, 0);
-            this.btnTextColorPickup2.Name = "btnTextColorPickup2";
-            this.btnTextColorPickup2.Size = new System.Drawing.Size(20, 20);
-            this.btnTextColorPickup2.TabIndex = 19;
-            this.btnTextColorPickup2.Tag = "1";
-            this.btnTextColorPickup2.UseVisualStyleBackColor = false;
-            this.btnTextColorPickup2.Click += new System.EventHandler(this.btnTextColorPickup_Click);
-            // 
-            // btnTextBulletList2
-            // 
-            this.btnTextBulletList2.BackColor = System.Drawing.SystemColors.Control;
-            this.btnTextBulletList2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnTextBulletList2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnTextBulletList2.FlatAppearance.BorderSize = 0;
-            this.btnTextBulletList2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTextBulletList2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnTextBulletList2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnTextBulletList2.ImageKey = "bullet_list";
-            this.btnTextBulletList2.ImageList = this.imageList1;
-            this.btnTextBulletList2.Location = new System.Drawing.Point(60, 0);
-            this.btnTextBulletList2.Name = "btnTextBulletList2";
-            this.btnTextBulletList2.Size = new System.Drawing.Size(20, 20);
-            this.btnTextBulletList2.TabIndex = 18;
-            this.btnTextBulletList2.Tag = "1";
-            this.btnTextBulletList2.UseVisualStyleBackColor = false;
-            // 
-            // btnBgColorApply2
-            // 
-            this.btnBgColorApply2.BackColor = System.Drawing.SystemColors.Control;
-            this.btnBgColorApply2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnBgColorApply2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnBgColorApply2.FlatAppearance.BorderSize = 0;
-            this.btnBgColorApply2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBgColorApply2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnBgColorApply2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnBgColorApply2.ImageKey = "(none)";
-            this.btnBgColorApply2.ImageList = this.imageList1;
-            this.btnBgColorApply2.Location = new System.Drawing.Point(140, 0);
-            this.btnBgColorApply2.Name = "btnBgColorApply2";
-            this.btnBgColorApply2.Size = new System.Drawing.Size(20, 20);
-            this.btnBgColorApply2.TabIndex = 22;
-            this.btnBgColorApply2.Tag = "1";
-            this.btnBgColorApply2.UseVisualStyleBackColor = false;
-            this.btnBgColorApply2.Click += new System.EventHandler(this.btnBgColorApply_Click);
-            this.btnBgColorApply2.Paint += new System.Windows.Forms.PaintEventHandler(this.btnBgColorApply_Paint);
-            // 
-            // btnTextFont
-            // 
-            this.btnTextFont.BackColor = System.Drawing.SystemColors.Control;
-            this.btnTextFont.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnTextFont.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnTextFont.FlatAppearance.BorderSize = 0;
-            this.btnTextFont.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTextFont.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnTextFont.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnTextFont.ImageKey = "font";
-            this.btnTextFont.ImageList = this.imageList1;
-            this.btnTextFont.Location = new System.Drawing.Point(160, 0);
-            this.btnTextFont.Name = "btnTextFont";
-            this.btnTextFont.Size = new System.Drawing.Size(20, 20);
-            this.btnTextFont.TabIndex = 19;
-            this.btnTextFont.Tag = "1";
-            this.btnTextFont.UseVisualStyleBackColor = false;
-            this.btnTextFont.Click += new System.EventHandler(this.btnTextFont_Click);
-            // 
-            // btnTextFont2
-            // 
-            this.btnTextFont2.BackColor = System.Drawing.SystemColors.Control;
-            this.btnTextFont2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnTextFont2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnTextFont2.FlatAppearance.BorderSize = 0;
-            this.btnTextFont2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTextFont2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnTextFont2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnTextFont2.ImageKey = "font";
-            this.btnTextFont2.ImageList = this.imageList1;
-            this.btnTextFont2.Location = new System.Drawing.Point(160, 0);
-            this.btnTextFont2.Name = "btnTextFont2";
-            this.btnTextFont2.Size = new System.Drawing.Size(20, 20);
-            this.btnTextFont2.TabIndex = 23;
-            this.btnTextFont2.Tag = "1";
-            this.btnTextFont2.UseVisualStyleBackColor = false;
-            this.btnTextFont2.Click += new System.EventHandler(this.btnTextFont_Click);
+            this.btnTextAutoFormat2.BackColor = System.Drawing.SystemColors.Control;
+            this.btnTextAutoFormat2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnTextAutoFormat2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnTextAutoFormat2.FlatAppearance.BorderSize = 0;
+            this.btnTextAutoFormat2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTextAutoFormat2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnTextAutoFormat2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnTextAutoFormat2.ImageKey = "brush";
+            this.btnTextAutoFormat2.ImageList = this.imageList1;
+            this.btnTextAutoFormat2.Location = new System.Drawing.Point(180, 0);
+            this.btnTextAutoFormat2.Name = "btnTextAutoFormat2";
+            this.btnTextAutoFormat2.Size = new System.Drawing.Size(20, 20);
+            this.btnTextAutoFormat2.TabIndex = 24;
+            this.btnTextAutoFormat2.Tag = "1";
+            this.btnTextAutoFormat2.UseVisualStyleBackColor = false;
+            this.btnTextAutoFormat2.Click += new System.EventHandler(this.btnTextAutoFormat2_Click);
             // 
             // Form1
             // 
@@ -990,8 +1062,9 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Справочник классов проекта";
+            this.Text = "Справочник";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
@@ -1067,6 +1140,9 @@
         private System.Windows.Forms.Button btnTextBulletList2;
         private System.Windows.Forms.Button btnTextFont;
         private System.Windows.Forms.Button btnTextFont2;
+        public System.Windows.Forms.Button btnAttachment;
+        private System.Windows.Forms.Button btnTextAutoFormat;
+        private System.Windows.Forms.Button btnTextAutoFormat2;
     }
 }
 

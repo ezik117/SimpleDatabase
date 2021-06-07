@@ -1,4 +1,4 @@
-﻿namespace classes_description
+﻿namespace simple_database
 {
     partial class frmClassEdit
     {
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmClassEdit));
             this.tbClassName = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -59,6 +60,7 @@
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.tbClassName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmClassEdit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Класс";
