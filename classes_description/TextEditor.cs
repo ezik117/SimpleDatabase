@@ -228,16 +228,45 @@ namespace simple_database
         private void TxtBox_KeyDown(object sender, KeyEventArgs e)
         {
             // CTRL-C. Скопируем в буфер обмена.
-            if (e.Control && e.KeyCode == Keys.C)
+            if (e.Control)
             {
-                DataObject dto = new DataObject();
-                dto.SetText(txtBox.SelectedRtf, TextDataFormat.Rtf);
-                dto.SetText(txtBox.SelectedText, TextDataFormat.UnicodeText);
-                Clipboard.Clear();
-                Clipboard.SetDataObject(dto);
-                e.Handled = false;
-                return;
+                switch (e.KeyCode)
+                {
+                    case Keys.C:
+                        DataObject dto = new DataObject();
+                        dto.SetText(txtBox.SelectedRtf, TextDataFormat.Rtf);
+                        dto.SetText(txtBox.SelectedText, TextDataFormat.UnicodeText);
+                        Clipboard.Clear();
+                        Clipboard.SetDataObject(dto);
+                        e.SuppressKeyPress = true;
+                        break;
+                    case Keys.B:
+                        btnBoldText.PerformClick();
+                        e.SuppressKeyPress = true;
+                        break;
+                    case Keys.I:
+                        btnItalicText.PerformClick();
+                        e.SuppressKeyPress = true;
+                        break;
+                    case Keys.U:
+                        btnUnderlineText.PerformClick();
+                        e.SuppressKeyPress = true;
+                        break;
+                    case Keys.E:
+                        btnAlignCenter.PerformClick();
+                        e.SuppressKeyPress = true;
+                        break;
+                    case Keys.L:
+                        btnAlignLeft.PerformClick();
+                        e.SuppressKeyPress = true;
+                        break;
+                    case Keys.R:
+                        btnAlignRight.PerformClick();
+                        e.SuppressKeyPress = true;
+                        break;
+                }
             }
+
         }
 
         // Выравнивание текста по правому краю
