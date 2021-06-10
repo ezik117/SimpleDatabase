@@ -16,3 +16,4 @@ C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Debug\simple_d
 C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Debug\simple_database.csproj.CopyComplete
 C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Debug\simple_database.exe
 C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Debug\simple_database.pdb
+C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Debug\simple_database.csprojAssemblyReference.cache

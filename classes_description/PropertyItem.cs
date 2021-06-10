@@ -104,7 +104,7 @@ namespace simple_database
                                             (long)currentProperty.Tag, "");
             }
 
-            main.propDescr.ClearText();
+            main.paramTextEditor.userAction2();
 
             TreeNode t = new TreeNode();
             t.Text = propName;
@@ -134,8 +134,8 @@ namespace simple_database
 
             long id = main.db.SaveProperty((long)currentProperty.Tag, (long)main.tvClasses.SelectedNode.Tag,
                                            frm.tbPropertyName.Text.Trim(), frm.PropertyType,
-                                           (long)currentProperty.Parent.Tag, main.db.Escape(main.tbDescEdit.Rtf));
-            main.propDescr.TextSaved();
+                                           (long)currentProperty.Parent.Tag, main.db.Escape(main.paramTextEditor.txtBox.Rtf));
+            main.paramTextEditor.userAction1();
 
             currentProperty.Text = frm.tbPropertyName.Text;
             currentProperty.ImageIndex = currentProperty.SelectedImageIndex = frm.PropertyType;
@@ -149,8 +149,8 @@ namespace simple_database
         {
             if (main.tvProps.SelectedNode == null) return;
 
-            main.db.UpdatePropertyDescription((long)main.tvProps.SelectedNode.Tag, main.db.Escape(main.tbDescEdit.Rtf));
-            main.propDescr.TextSaved();
+            main.db.UpdatePropertyDescription((long)main.tvProps.SelectedNode.Tag, main.db.Escape(main.paramTextEditor.txtBox.Rtf));
+            main.paramTextEditor.userAction1();
         }
 
         /// <summary>
@@ -213,36 +213,23 @@ namespace simple_database
         {
             TreeNode currentProperty = main.tvProps.SelectedNode;
             if (stopEventProcessing) return;
-            if (currentProperty == null)
-            {
-                main.btnAttachment.Visible = false;
-                return;
-            }
 
             if ((long)currentProperty.Tag == -1)
             {
                 // выбран корневой узел
-                main.tbDescEdit.Rtf = "";
-                main.tbDescEdit.ReadOnly = true;
-                main.propDescr.TextSaved();
-                main.btnAttachment.Visible = false;
+                main.paramTextEditor.txtBox.ReadOnly = true;
+                main.paramTextEditor.userAction2();
                 return;
             }
             else
             {
-                main.tbDescEdit.ReadOnly = false;
+                main.paramTextEditor.txtBox.ReadOnly = false;
             }
-
-            // вложения
-            if (currentProperty.ImageIndex == (int)IconTypes.Attachment)
-                main.btnAttachment.Visible = true;
-            else
-                main.btnAttachment.Visible = false;
 
             // description
             SqlRows r = main.db.LoadProperty((long)currentProperty.Tag);
-            main.tbDescEdit.Rtf = (DBNull.Value.Equals(r[0]["description"]) ? "" : (string)r[0]["description"]);
-            main.propDescr.TextSaved();
+            main.paramTextEditor.txtBox.Rtf = (DBNull.Value.Equals(r[0]["description"]) ? "" : (string)r[0]["description"]);
+            main.paramTextEditor.userAction1();
         }
 
         /// <summary>
@@ -350,7 +337,7 @@ namespace simple_database
                 }
                 else if (res == DialogResult.No)
                 {
-                    main.propDescr.TextSaved();
+                    main.paramTextEditor.userAction1();
                     return false;
                 }
 

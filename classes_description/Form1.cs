@@ -14,9 +14,10 @@ namespace simple_database
 
     public partial class Form1 : Form
     {
-        public PropertyDescription propDescr;
-        public PropertyDescription classDescr;
         public Database db;
+
+        public TextEditor classTextEditor;
+        public TextEditor paramTextEditor;
 
         // используется для операций DragDrop, содержит выбранный для Drop узел
         private TreeNode DragDropSelectedNode = null;
@@ -27,23 +28,43 @@ namespace simple_database
         {
             InitializeComponent();
 
-            // зададим принадлежность к двум разных RichTextBoxам для кнопок их управления
-            btnTextColorApply.Tag = new RichTextRelation(tbDescEdit);
-            btnBgColorApply.Tag = new RichTextRelation(tbDescEdit);
-            btnTextColorApply2.Tag = new RichTextRelation(tbClassDescEdit);
-            btnBgColorApply2.Tag = new RichTextRelation(tbClassDescEdit);
+            // Редактор описания класса
+            classTextEditor = new TextEditor(pnlClassEditHolder);
+            classTextEditor.ToolBoxPos = TextEditor.ToolBoxPosition.OnBottom;
+            classTextEditor.OnContentChanged += ClassTextEditor_OnContentChanged;
+            classTextEditor.txtBox.KeyDown += classTextEditor_KeyDown;
+            classTextEditor.userAction1 = delegate
+            {
+                // Сохранить текст
+                btnClassDescSave.ImageKey = "save";
+                classTextEditor.textWasChanged = false;
+            };
+            classTextEditor.userAction2 = delegate
+            {
+                // Очистить текст
+                classTextEditor.txtBox.Clear();
+                btnClassDescSave.ImageKey = "save";
+                classTextEditor.textWasChanged = false;
+            };
 
-            btnTextBold.Tag = btnTextItalic.Tag = btnTextUnderline.Tag = btnTextBulletList.Tag = btnTextFont.Tag = tbDescEdit;
-            btnTextBold2.Tag = btnTextItalic2.Tag = btnTextUnderline2.Tag = btnTextBulletList2.Tag = btnTextFont2.Tag = tbClassDescEdit;
-
-            btnBgColorPickup.Tag = btnBgColorApply;
-            btnBgColorPickup2.Tag = btnBgColorApply2;
-
-            btnTextColorPickup.Tag = btnTextColorApply;
-            btnTextColorPickup2.Tag = btnTextColorApply2;
-
-            propDescr = new PropertyDescription(btnDescSave, tbDescEdit);
-            classDescr = new PropertyDescription(btnClassDescSave, tbClassDescEdit);
+            // Редактор описания параметра
+            paramTextEditor = new TextEditor(pnlParamEditHolder);
+            paramTextEditor.ToolBoxPos = TextEditor.ToolBoxPosition.OnBottom;
+            paramTextEditor.OnContentChanged += ParamTextEditor_OnContentChanged;
+            paramTextEditor.txtBox.KeyDown += paramTextEditor_KeyDown;
+            paramTextEditor.userAction1 = delegate
+            {
+                // Сохранить текст
+                btnDescSave.ImageKey = "save";
+                paramTextEditor.textWasChanged = false;
+            };
+            paramTextEditor.userAction2 = delegate
+            {
+                // Очистить текст
+                paramTextEditor.txtBox.Clear();
+                btnDescSave.ImageKey = "save";
+                paramTextEditor.textWasChanged = false;
+            };
 
             // очистим папку TEMP, если там что то есть
             CleanUpTemp();
@@ -54,7 +75,44 @@ namespace simple_database
 
             // загружаем данные в форму
             ClassItem.Load(this);
-            
+
+            //tbDescEdit.SelectionTabs = new int[] { 100, 200, 300, 400 };
+        }
+
+        // Обработка нажатий некоторых клавиш
+        private void paramTextEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            // CTRL-S. Сохраним данные.
+            if (e.Control && e.KeyCode == Keys.S)
+            {
+                PropertyItem.UpdateDescription(this);
+                e.Handled = false;
+                return;
+            }
+        }
+
+        // Обработка нажатий некоторых клавиш
+        private void classTextEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            // CTRL-S. Сохраним данные.
+            if (e.Control && e.KeyCode == Keys.S)
+            {
+                ClassItem.Update(this);
+                e.Handled = false;
+                return;
+            }
+        }
+
+        // Изменим иконку сохранения текста на предупреждение
+        private void ParamTextEditor_OnContentChanged(RichTextBox sender)
+        {
+            if (btnDescSave.ImageKey != "notsaved") btnDescSave.ImageKey = "notsaved";
+        }
+
+        // Изменим иконку сохранения текста на предупреждение
+        private void ClassTextEditor_OnContentChanged(RichTextBox sender)
+        {
+            if (btnClassDescSave.ImageKey != "notsaved") btnClassDescSave.ImageKey = "notsaved";
         }
 
         // Очистка папки temp
@@ -151,54 +209,6 @@ namespace simple_database
             PropertyItem.PropertyChanged(this);
         }
 
-        // Нажата клавиша в окне описания свойства. Определить действия
-        private void tbDescEdit_KeyDown(object sender, KeyEventArgs e)
-        {
-            // CTRL-S. Сохраним данные.
-            if (e.Control && e.KeyCode == Keys.S)
-            {
-                PropertyItem.UpdateDescription(this);
-                e.Handled = true;
-                return;
-            }
-
-            // CTRL-C. Скопируем в буфер обмена.
-            if (e.Control && e.KeyCode == Keys.C)
-            {
-                DataObject dto = new DataObject();
-                dto.SetText(tbDescEdit.SelectedRtf, TextDataFormat.Rtf);
-                dto.SetText(tbDescEdit.SelectedText, TextDataFormat.UnicodeText);
-                Clipboard.Clear();
-                Clipboard.SetDataObject(dto);
-                e.Handled = true;
-                return;
-            }
-        }
-
-        // Нажата клавиша в окне описания класса. Определить действия
-        private void tbClassDescEdit_KeyDown(object sender, KeyEventArgs e)
-        {
-            // CTRL-S. Сохраним данные.
-            if (e.Control && e.KeyCode == Keys.S)
-            {
-                ClassItem.Update(this);
-                e.Handled = true;
-                return;
-            }
-
-            // CTRL-C. Скопируем в буфер обмена.
-            if (e.Control && e.KeyCode == Keys.C)
-            {
-                DataObject dto = new DataObject();
-                dto.SetText(tbClassDescEdit.SelectedRtf, TextDataFormat.Rtf);
-                dto.SetText(tbClassDescEdit.SelectedText, TextDataFormat.UnicodeText);
-                Clipboard.Clear();
-                Clipboard.SetDataObject(dto);
-                e.Handled = true;
-                return;
-            }
-        }
-
         // Считать повторно описание класса.
         private void btnClassDescReload_Click(object sender, EventArgs e)
         {
@@ -231,18 +241,6 @@ namespace simple_database
             e.Cancel = ClassItem.CheckForUnsavedDesc(this);
             if (e.Cancel) return;
             e.Cancel = PropertyItem.CheckForUnsavedDesc(this);
-        }
-
-        // Тест описания свойства изменен.
-        private void tbDescEdit_TextChanged(object sender, EventArgs e)
-        {
-            propDescr.TextChanging();
-        }
-
-        // Текст описания класса изменен.
-        private void tbClassDescEdit_TextChanged(object sender, EventArgs e)
-        {
-            classDescr.TextChanging();
         }
 
         // Добавим пункты в системное меню
@@ -335,50 +333,6 @@ namespace simple_database
             return ContainsNode(node1, node2.Parent);
         }
 
-        // Редактор. Жирный текст.
-        private void btnTextBold_Click(object sender, EventArgs e)
-        {
-            RichTextBox tb = (RichTextBox)((Button)sender).Tag;
-
-            if (tb.SelectionFont != null)
-            {
-                FontStyle newFontStyle = tb.SelectionFont.Style ^ FontStyle.Bold;
-                tb.SelectionFont = new Font(tb.SelectionFont.FontFamily, tb.SelectionFont.Size, newFontStyle);
-            }
-        }
-
-        // Редактор. Наклонный текст.
-        private void btnTextItalic_Click(object sender, EventArgs e)
-        {
-            RichTextBox tb = (RichTextBox)((Button)sender).Tag;
-
-            if (tb.SelectionFont != null)
-            {
-                FontStyle newFontStyle = tb.SelectionFont.Style ^ FontStyle.Italic;
-                tb.SelectionFont = new Font(tb.SelectionFont.FontFamily, tb.SelectionFont.Size, newFontStyle);
-            }
-        }
-
-        // Редактор. Подкчеркнутый текст.
-        private void btnTextUnderline_Click(object sender, EventArgs e)
-        {
-            RichTextBox tb = (RichTextBox)((Button)sender).Tag;
-
-            if (tb.SelectionFont != null)
-            {
-                FontStyle newFontStyle = tb.SelectionFont.Style ^ FontStyle.Underline;
-                tb.SelectionFont = new Font(tb.SelectionFont.FontFamily, tb.SelectionFont.Size, newFontStyle);
-            }
-        }
-
-        // Редактор. Ненумерованный список.
-        private void btnTextBulletList_Click(object sender, EventArgs e)
-        {
-            RichTextBox tb = (RichTextBox)((Button)sender).Tag;
-
-            tb.SelectionBullet = !tb.SelectionBullet;
-        }
-
         // Поиск свойства
         private void btnPropSearch_Click(object sender, EventArgs e)
         {
@@ -399,113 +353,14 @@ namespace simple_database
             }
         }
 
-        // Редактор. отрисовка цвета текста в кнопке "Применить цвет текста"
-        private void btnTextColorApply_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.FillRectangle(new SolidBrush(((RichTextRelation)((Button)sender).Tag).TextColor),
-                                     new Rectangle(4, 4, 12, 12));
-        }
-
-        // Редактор. Выбор цвета для текста
-        private void btnTextColorPickup_Click(object sender, EventArgs e)
-        {
-            Button btnAppy = (Button)((Button)sender).Tag;
-            ColorDialog cd = new ColorDialog();
-            if (cd.ShowDialog() == DialogResult.OK)
-            {
-                ((RichTextRelation)btnAppy.Tag).TextColor = 
-                    ((RichTextRelation)btnAppy.Tag).TextBox.SelectionColor = 
-                        cd.Color;
-                btnAppy.Invalidate();
-            }
-        }
-
-        // Редактор. Применить цвет текста к выделенному тексту
-        private void btnTextColorApply_Click(object sender, EventArgs e)
-        {
-            ((RichTextRelation)((Button)sender).Tag).TextBox.SelectionColor =
-                ((RichTextRelation)((Button)sender).Tag).TextColor;
-        }
-
-        // Редактор. отрисовка цвета выделения в кнопке "Применить цвет выделения"
-        private void btnBgColorApply_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.FillRectangle(new SolidBrush(((RichTextRelation)((Button)sender).Tag).BgColor),
-                         new Rectangle(4, 4, 12, 12));
-        }
-
-        // Редактор. Выбрать цвет выделения
-        private void btnBgColorPickup_Click(object sender, EventArgs e)
-        {
-            Button btnAppy = (Button)((Button)sender).Tag;
-            ColorDialog cd = new ColorDialog();
-            if (cd.ShowDialog() == DialogResult.OK)
-            {
-                ((RichTextRelation)btnAppy.Tag).BgColor =
-                    ((RichTextRelation)btnAppy.Tag).TextBox.SelectionBackColor =
-                        cd.Color;
-                btnAppy.Invalidate();
-            }
-        }
-
-        // Редактор. Применить цвет выделения к выделенному тексту
-        private void btnBgColorApply_Click(object sender, EventArgs e)
-        {
-            ((RichTextRelation)((Button)sender).Tag).TextBox.SelectionBackColor =
-                ((RichTextRelation)((Button)sender).Tag).BgColor;
-        }
-
-        // Редактор. Выбор фонта
-        private void btnTextFont_Click(object sender, EventArgs e)
-        {
-            RichTextBox tb = (RichTextBox)((Button)sender).Tag;
-
-            FontDialog fd = new FontDialog();
-            fd.Font = tb.SelectionFont;
-            if (fd.ShowDialog() == DialogResult.OK)
-            {
-                tb.SelectionFont = fd.Font;
-            }
-        }
-
-        // Извлечь вложение.
-        private void btnAttachment_Click(object sender, EventArgs e)
-        {
-            PropertyItem.ExtractAttachment(this);
-        }
-
         // Двойной клик на свойстве. Открыть если вложение.
         private void tvProps_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node.ImageIndex == (int)IconTypes.Attachment)
-                btnAttachment.PerformClick();
+                PropertyItem.ExtractAttachment(this);
         }
 
-        // Редактор. Сохранить Формат по образцу 
-        private void btnTextAutoFormat_Click(object sender, EventArgs e)
-        {
-            propDescr.textFormatter.SaveFormat(tbDescEdit);
-        }
 
-        // Редактор. Восстановить Формат по образцу
-        private void tbDescEdit_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (propDescr.textFormatter.enabled)
-                propDescr.textFormatter.CopyFormat(tbDescEdit);
-        }
-
-        // Редактор. Сохранить Формат по образцу 
-        private void btnTextAutoFormat2_Click(object sender, EventArgs e)
-        {
-            classDescr.textFormatter.SaveFormat(tbClassDescEdit);
-        }
-
-        // Редактор. Сохранить Формат по образцу 
-        private void tbClassDescEdit_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (classDescr.textFormatter.enabled)
-                classDescr.textFormatter.CopyFormat(tbClassDescEdit);
-        }
     }
 
 

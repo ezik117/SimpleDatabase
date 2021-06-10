@@ -16,3 +16,4 @@ C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Release\simple
 C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Release\simple_database.frmDbManager.resources
 C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Release\simple_database.frmPropertyEdit.resources
 C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Release\simple_database.frmSearcProperty.resources
+C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Release\simple_database.csprojAssemblyReference.cache

@@ -28,10 +28,10 @@ namespace simple_database
             if (frm.ShowDialog() != DialogResult.OK) return;
 
             stopEventProcessing = true;
-            main.propDescr.ClearText();
+            main.paramTextEditor.userAction2();
 
             long id = main.db.SaveClass(-1, frm.tbClassName.Text.Trim(), "");
-            main.classDescr.TextSaved();
+            main.classTextEditor.userAction1();
 
             TreeNode t = new TreeNode();
             t.Text = frm.tbClassName.Text.Trim();
@@ -85,8 +85,8 @@ namespace simple_database
         {
             if (main.tvClasses.SelectedNode == null) return;
 
-            main.db.SaveClass((long)main.tvClasses.SelectedNode.Tag, main.tvClasses.SelectedNode.Text, main.tbClassDescEdit.Text);
-            main.classDescr.TextSaved();
+            main.db.SaveClass((long)main.tvClasses.SelectedNode.Tag, main.tvClasses.SelectedNode.Text, main.classTextEditor.txtBox.Rtf);
+            main.classTextEditor.userAction1();
         }
 
         /// <summary>
@@ -101,8 +101,8 @@ namespace simple_database
             frm.tbClassName.Text = main.tvClasses.SelectedNode.Text;
             if (frm.ShowDialog() != DialogResult.OK) return;
 
-            long id = main.db.SaveClass((long)main.tvClasses.SelectedNode.Tag, frm.tbClassName.Text.Trim(), main.tbClassDescEdit.Text);
-            main.classDescr.TextSaved();
+            long id = main.db.SaveClass((long)main.tvClasses.SelectedNode.Tag, frm.tbClassName.Text.Trim(), main.classTextEditor.txtBox.Rtf);
+            main.classTextEditor.userAction1();
 
             main.tvClasses.SelectedNode.Text = main.tvProps.Nodes[0].Text = frm.tbClassName.Text;
         }
@@ -135,20 +135,20 @@ namespace simple_database
             if (stopEventProcessing) return;
             if (currentClass == null)
             {
-                main.classDescr.ClearText();
+                main.classTextEditor.userAction2();
                 main.tvProps.Nodes.Clear();
-                main.propDescr.ClearText();
-                main.tbClassDescEdit.ReadOnly = true;
+                main.paramTextEditor.userAction2();
+                main.classTextEditor.txtBox.ReadOnly = true;
                 return;
             }
             else
             {
-                main.tbClassDescEdit.ReadOnly = false;
+                main.classTextEditor.txtBox.ReadOnly = false;
             }
 
             // description
             SqlRows r = main.db.LoadClass((long)currentClass.Tag);
-            main.tbClassDescEdit.Text = (DBNull.Value.Equals(r[0]["description"]) ? "" : (string)r[0]["description"]);
+            main.classTextEditor.txtBox.Rtf = (DBNull.Value.Equals(r[0]["description"]) ? "" : (string)r[0]["description"]);
 
             main.tvProps.Nodes.Clear();
             TreeNode t = new TreeNode(currentClass.Text, 0, 0);
@@ -157,7 +157,7 @@ namespace simple_database
 
             PropertyItem.Load((long)currentClass.Tag, main);
 
-            main.classDescr.TextSaved();
+            main.classTextEditor.userAction1();
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace simple_database
                 }
                 else if (res == DialogResult.No)
                 {
-                    main.classDescr.TextSaved();
+                    main.classTextEditor.userAction1();
                     return false;
                 }
 
