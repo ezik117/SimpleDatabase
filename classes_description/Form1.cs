@@ -76,7 +76,7 @@ namespace simple_database
             // загружаем данные в форму
             ClassItem.Load(this);
 
-            //tbDescEdit.SelectionTabs = new int[] { 100, 200, 300, 400 };
+
         }
 
         // Обработка нажатий некоторых клавиш
@@ -360,7 +360,11 @@ namespace simple_database
                 PropertyItem.ExtractAttachment(this);
         }
 
-
+        // уменьшаем панель описания категорий до 30% от высоты окна
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            panel1.Height = (int)(this.Height * 0.7);
+        }
     }
 
 

@@ -17,3 +17,21 @@ C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Release\simple
 C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Release\simple_database.frmPropertyEdit.resources
 C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Release\simple_database.frmSearcProperty.resources
 C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Release\simple_database.csprojAssemblyReference.cache
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Release\simple_database.exe.config
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Release\simple_database.exe
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Release\simple_database.pdb
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Release\System.Data.SQLite.dll
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Release\System.Data.SQLite.pdb
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Release\System.Data.SQLite.xml
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Release\System.Data.SQLite.dll.config
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Release\simple_database.Form1.resources
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Release\simple_database.frmClassEdit.resources
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Release\simple_database.frmDbManager.resources
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Release\simple_database.frmPropertyEdit.resources
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Release\simple_database.frmSearcProperty.resources
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Release\simple_database.Properties.Resources.resources
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Release\simple_database.csproj.GenerateResource.cache
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Release\simple_database.csproj.CoreCompileInputs.cache
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Release\simple_database.csproj.CopyComplete
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Release\simple_database.exe
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Release\simple_database.pdb

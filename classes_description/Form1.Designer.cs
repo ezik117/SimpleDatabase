@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.pnlParamEditHolder = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.btnDescReload = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -64,7 +65,6 @@
             this.btnClassDescReload = new System.Windows.Forms.Button();
             this.btnClassDescSave = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.pnlParamEditHolder = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -99,6 +99,14 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(347, 358);
             this.panel5.TabIndex = 4;
+            // 
+            // pnlParamEditHolder
+            // 
+            this.pnlParamEditHolder.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlParamEditHolder.Location = new System.Drawing.Point(0, 24);
+            this.pnlParamEditHolder.Name = "pnlParamEditHolder";
+            this.pnlParamEditHolder.Size = new System.Drawing.Size(347, 334);
+            this.pnlParamEditHolder.TabIndex = 4;
             // 
             // panel6
             // 
@@ -560,14 +568,6 @@
             this.label4.Text = "Описание категории";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // pnlParamEditHolder
-            // 
-            this.pnlParamEditHolder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlParamEditHolder.Location = new System.Drawing.Point(0, 24);
-            this.pnlParamEditHolder.Name = "pnlParamEditHolder";
-            this.pnlParamEditHolder.Size = new System.Drawing.Size(347, 334);
-            this.pnlParamEditHolder.TabIndex = 4;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -581,6 +581,7 @@
             this.Text = "Справочник";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             this.panel1.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel6.ResumeLayout(false);

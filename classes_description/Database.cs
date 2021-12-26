@@ -211,7 +211,7 @@ namespace simple_database
 	                                    SELECT properties.id, properties.parent, properties.name, properties.type
 	                                    FROM cte, properties on properties.parent = cte.id
                                     )
-                                    SELECT id, parent, name, type FROM cte");
+                                    SELECT id, parent, name, type FROM cte ORDER BY type, name");
         }
 
         /// <summary>

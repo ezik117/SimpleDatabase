@@ -17,3 +17,22 @@ C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Debug\simple_d
 C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Debug\simple_database.exe
 C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Debug\simple_database.pdb
 C:\SYSTEM\PROJECTS\CPP\simpleDatabase\classes_description\obj\x86\Debug\simple_database.csprojAssemblyReference.cache
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.Form1.resources
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.frmClassEdit.resources
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.frmDbManager.resources
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.frmPropertyEdit.resources
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.frmSearcProperty.resources
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.Properties.Resources.resources
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.csproj.GenerateResource.cache
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.csproj.CoreCompileInputs.cache
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.exe
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.pdb
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\simple_database.exe.config
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\simple_database.exe
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\simple_database.pdb
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\System.Data.SQLite.dll
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\System.Data.SQLite.pdb
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\System.Data.SQLite.xml
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\System.Data.SQLite.dll.config
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.csproj.CopyComplete
+D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.csprojAssemblyReference.cache
