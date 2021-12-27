@@ -40,7 +40,21 @@ namespace simple_database
             conn = new SQLiteConnection();
             cmd = new SQLiteCommand(conn);
             cmd.Parameters.Add("@data", DbType.Binary);
-        }
+
+            // добавление переменных для запросов
+            cmd.Parameters.Add("@className", DbType.String).IsNullable = true;
+            cmd.Parameters.Add("@description", DbType.String).IsNullable = true;
+            cmd.Parameters.Add("@id", DbType.Int64).IsNullable = true;
+            cmd.Parameters.Add("@class_id", DbType.Int64).IsNullable = true;
+            cmd.Parameters.Add("@new_parent_id", DbType.Int64).IsNullable = true;
+            cmd.Parameters.Add("@name", DbType.String).IsNullable = true;
+            cmd.Parameters.Add("@type", DbType.Int64).IsNullable = true;
+            cmd.Parameters.Add("@parent_id", DbType.Int64).IsNullable = true;
+            cmd.Parameters.Add("@rowid", DbType.Int64).IsNullable = true;
+            cmd.Parameters.Add("@fileName", DbType.String).IsNullable = true;
+            cmd.Parameters.Add("@data", DbType.Object);
+            cmd.Parameters.Add("@property_id", DbType.Int64).IsNullable = true;
+        } 
 
         /// <summary>
         /// Создает необходимые папки по умолчанию.
@@ -150,9 +164,14 @@ namespace simple_database
         public long SaveClass(long id, string className, string description)
         {
             long ret = id;
-            if (ExecSql($@"UPDATE classes SET name='{className}', description='{description}' WHERE id={id}") == 0)
+            cmd.CommandText = "UPDATE classes SET name=@className, description=@description WHERE id=@id";
+            cmd.Parameters["@className"].Value = className;
+            cmd.Parameters["@description"].Value = description;
+            cmd.Parameters["@id"].Value = id;
+            if (cmd.ExecuteNonQuery() == 0)
             {
-                ExecSql($@"INSERT INTO classes (name, description) VALUES('{className}', '{description}')");
+                cmd.CommandText = "INSERT INTO classes (name, description) VALUES(@className, @description)";
+                cmd.ExecuteNonQuery();
                 ret = conn.LastInsertRowId;
             }
 
@@ -165,7 +184,8 @@ namespace simple_database
         /// <returns>Ссылка на таблицу с классами.</returns>
         public SqlRows LoadClasses()
         {
-            return ExecSqlReturn("SELECT * FROM classes");
+            cmd.CommandText = "SELECT * FROM classes";
+            return ExecSqlReturn();
         }
 
         /// <summary>
@@ -175,7 +195,9 @@ namespace simple_database
         /// <returns>Ссылка на таблицу с классом.</returns>
         public SqlRows LoadClass(long id)
         {
-            return ExecSqlReturn("SELECT * FROM classes WHERE id=" + id.ToString());
+            cmd.CommandText = "SELECT * FROM classes WHERE id=@id";
+            cmd.Parameters["@id"].Value = id;
+            return ExecSqlReturn();
         }
 
         /// <summary>
@@ -184,7 +206,9 @@ namespace simple_database
         /// <param name="id">ROWID записи класса.</param>
         public void DeleteClass(long id)
         {
-            ExecSql("DELETE FROM classes WHERE id=" + id.ToString());
+            cmd.CommandText = "DELETE FROM classes WHERE id=@id";
+            cmd.Parameters["@id"].Value = id;
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -194,7 +218,9 @@ namespace simple_database
         /// <returns></returns>
         public SqlRows LoadProperty(long id)
         {
-            return ExecSqlReturn("SELECT * FROM properties WHERE id=" + id.ToString());
+            cmd.CommandText = "SELECT * FROM properties WHERE id=@id";
+            cmd.Parameters["@id"].Value = id;
+            return ExecSqlReturn();
         }
 
 
@@ -205,13 +231,16 @@ namespace simple_database
         /// <returns>Множество записей.</returns>
         public SqlRows LoadProperties(long class_id)
         {
-             return ExecSqlReturn($@"WITH cte AS (
-	                                    SELECT id, parent, name, type FROM properties WHERE parent IS NULL AND class={class_id}
-                                      UNION ALL
-	                                    SELECT properties.id, properties.parent, properties.name, properties.type
-	                                    FROM cte, properties on properties.parent = cte.id
-                                    )
-                                    SELECT id, parent, name, type FROM cte ORDER BY type, name");
+            cmd.CommandText = @"WITH cte AS (
+                                    SELECT id, parent, name, type FROM properties WHERE parent IS NULL AND class=@class_id
+                                  UNION ALL
+                                    SELECT properties.id, properties.parent, properties.name, properties.type
+                                    FROM cte, properties on properties.parent = cte.id
+                                  )
+                                  SELECT id, parent, name, type FROM cte ORDER BY type, name";
+            cmd.Parameters["@class_id"].Value = class_id;
+
+            return ExecSqlReturn();
         }
 
         /// <summary>
@@ -227,15 +256,24 @@ namespace simple_database
         public long SaveProperty(long id, long class_id, string name, long type, long parent_id, string description)
         {
             long ret = id;
-            if (ExecSql($@"UPDATE properties SET name='{name}',
-                                                 type={type},
-                                                 parent={(parent_id == -1 ? "NULL" : parent_id.ToString())},
-                                                 class={class_id},
-                                                 description='{description}'
-                                             WHERE id={id}") == 0)
+            cmd.CommandText = $@"UPDATE properties SET name=@name,
+                                                 type=@type,
+                                                 parent=@parent_id,
+                                                 class=@class_id,
+                                                 description=@description
+                                 WHERE id=@id";
+            cmd.Parameters["@name"].Value = name;
+            cmd.Parameters["@type"].Value = type;
+            if (parent_id == -1) cmd.Parameters["@parent_id"].Value = null; else cmd.Parameters["@parent_id"].Value =parent_id;
+            cmd.Parameters["@class_id"].Value = class_id;
+            cmd.Parameters["@description"].Value = description;
+            cmd.Parameters["@id"].Value = id;
+
+            if (cmd.ExecuteNonQuery() == 0)
             {
-                ExecSql($@"INSERT INTO properties (name, type, parent, class, description)
-                           VALUES('{name}', {type}, {(parent_id == -1 ? "NULL" : parent_id.ToString())}, {class_id}, '{description}')");
+                cmd.CommandText = @"INSERT INTO properties (name, type, parent, class, description)
+                                    VALUES(@name, @type, @parent_id, @class_id, @description)";
+                cmd.ExecuteNonQuery();
                 ret = conn.LastInsertRowId;
             }
 
@@ -248,7 +286,9 @@ namespace simple_database
         /// <param name="id">ROWID параметра.</param>
         public void DeleteProperty(long id)
         {
-            ExecSql("DELETE FROM properties WHERE id=" + id.ToString());
+            cmd.CommandText = "DELETE FROM properties WHERE id=@id";
+            cmd.Parameters["@id"].Value = id;
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -257,7 +297,9 @@ namespace simple_database
         /// <param name="class_id"></param>
         public void DeleteProperties(long class_id)
         {
-            ExecSql("DELETE FROM properties WHERE class=" + class_id.ToString());
+            cmd.CommandText = "DELETE FROM properties WHERE class=@class_id";
+            cmd.Parameters["@class_id"].Value = class_id;
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -267,7 +309,10 @@ namespace simple_database
         /// <param name="description">Описание параметра.</param>
         public void UpdatePropertyDescription(long id, string description)
         {
-            ExecSql($"UPDATE properties SET description='{description}' WHERE id={id}");
+            cmd.CommandText = "UPDATE properties SET description=@description WHERE id=@id";
+            cmd.Parameters["@id"].Value = id;
+            cmd.Parameters["@description"].Value = description;
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -277,7 +322,10 @@ namespace simple_database
         /// <param name="new_parent_id">Новое значение родителя.</param>
         public void ChangePropertyParent(long id, long new_parent_id)
         {
-            ExecSql($"UPDATE properties SET parent={(new_parent_id >= 0 ? new_parent_id.ToString() : "NULL")} WHERE id={id}");
+            cmd.CommandText = "UPDATE properties SET parent=@new_parent_id WHERE id=@id";
+            cmd.Parameters["@id"].Value = id;
+            if (new_parent_id >= 0) cmd.Parameters["@new_parent_id"].Value = new_parent_id; else cmd.Parameters["@new_parent_id"].Value = null;
+            cmd.ExecuteNonQuery();
         }
 
         // *** PRIVATE мЕТОДЫ ***************************************
@@ -296,11 +344,9 @@ namespace simple_database
         /// <summary>
         /// Выполнить команду SQL и вернуть всю запись как массив именованных пар: столбец-значение.
         /// </summary>
-        /// <param name="query">Запрос SQL.</param>
         /// <returns>Список (массив) записей с полями вида столбец=значение.</returns>
-        private SqlRows ExecSqlReturn(string query)
+        private SqlRows ExecSqlReturn()
         {
-            cmd.CommandText = query;
             SQLiteDataReader dr = cmd.ExecuteReader();
             SqlRows result = new SqlRows();
             while (dr.Read())
@@ -345,9 +391,12 @@ namespace simple_database
             {
                 rowid = SaveProperty(id, class_id, name, type, parent_id, description);
 
-                cmd.CommandText = $@"INSERT INTO attachments (property, filename, data)
-                                       VALUES({rowid}, '{Path.GetFileName(fileName)}', @data)";
+                cmd.CommandText = @"INSERT INTO attachments (property, filename, data)
+                                    VALUES(@rowid, @fileName, @data)";
+                cmd.Parameters["@rowid"].Value = rowid;
+                cmd.Parameters["@fileName"].Value = Path.GetFileName(fileName);
                 cmd.Parameters["@data"].Value = File.ReadAllBytes(fileName);
+
                 cmd.ExecuteNonQuery();
                 cmd.Parameters["@data"].Value = null;
                 trans.Commit();
@@ -368,7 +417,9 @@ namespace simple_database
         /// <returns>True, если файла распакован иначе False</returns>
         public bool AttachmentExtract(long property_id, string fileName)
         {
-            SqlRows rows = ExecSqlReturn("SELECT data FROM attachments WHERE property=" + property_id.ToString());
+            cmd.CommandText = "SELECT data FROM attachments WHERE property = @property_id";
+            cmd.Parameters["@property_id"].Value = property_id;
+            SqlRows rows = ExecSqlReturn();
             try
             {
                 File.WriteAllBytes(fileName, (byte[])rows[0]["data"]);
@@ -390,16 +441,15 @@ namespace simple_database
         /// <returns>Имя файла без пути или null, если вложения не существует</returns>
         public string AttachmentGetFilename(long property_id)
         {
-            SqlRows rows = ExecSqlReturn("SELECT filename, data FROM attachments WHERE property=" + property_id.ToString());
+            cmd.CommandText = "SELECT filename, data FROM attachments WHERE property = @property_id";
+            cmd.Parameters["@property_id"].Value = property_id;
+            SqlRows rows = ExecSqlReturn();
             if (rows.Count == 0) return null;
             return rows[0]["filename"].ToString();
         }
 
         /// <summary>
-        /// 
-        /// 
-        /// 
-        ///
+
         /// </summary>
         /// <param name="text">Тект для экранирования.</param>
         /// <returns>Текст для вставки в SQL запрос.</returns>
