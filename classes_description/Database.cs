@@ -361,31 +361,38 @@ namespace simple_database
         }
 
         /// <summary>
-        /// Копирует файл вложения в папку приложения TEMP и возвращает имя распакованного файла с путем,
-        /// или пустой строки если ошибка.
+        /// Сохраняет вложение по указанному пути
         /// </summary>
-        /// <param name="property_id">Связанное свойство.</param>
-        /// <returns>Имя распакованного файла с путем, или пустая строка если ошибка.</returns>
-        public string AttachmentExtract(long property_id)
+        /// <param name="property_id">ID вложения</param>
+        /// <param name="fileName">Полный путь для сохранения</param>
+        /// <returns>True, если файла распакован иначе False</returns>
+        public bool AttachmentExtract(long property_id, string fileName)
         {
-            SqlRows rows = ExecSqlReturn("SELECT filename, data FROM attachments WHERE property=" + property_id.ToString());
-            string fullFileName = $@"{Application.StartupPath}\temp\{rows[0]["filename"]}";
-            if (File.Exists(fullFileName))
-                if (MessageBox.Show("Файл с таким именем уже существует в папке TEMP, заменить?",
-                                    "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-                    return "";
+            SqlRows rows = ExecSqlReturn("SELECT data FROM attachments WHERE property=" + property_id.ToString());
             try
             {
-                File.WriteAllBytes(fullFileName, (byte[])rows[0]["data"]);
+                File.WriteAllBytes(fileName, (byte[])rows[0]["data"]);
             }
             catch
             {
                 MessageBox.Show("Ошибка при сохранении файла. Возможно существующий файл заблокирован для удаления.", "",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return "";
+                return false;
             }
 
-            return fullFileName;
+            return true;
+        }
+
+        /// <summary>
+        /// Возвращает имя файла вложения по его ID
+        /// </summary>
+        /// <param name="property_id">ID вложения</param>
+        /// <returns>Имя файла без пути или null, если вложения не существует</returns>
+        public string AttachmentGetFilename(long property_id)
+        {
+            SqlRows rows = ExecSqlReturn("SELECT filename, data FROM attachments WHERE property=" + property_id.ToString());
+            if (rows.Count == 0) return null;
+            return rows[0]["filename"].ToString();
         }
 
         /// <summary>

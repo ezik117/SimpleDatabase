@@ -65,6 +65,10 @@
             this.btnClassDescReload = new System.Windows.Forms.Button();
             this.btnClassDescSave = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.ctxMenuProps = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmSaveAttachmentToFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmSaveAndOpenAttachment = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmOpenAttachmentWith = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -75,6 +79,7 @@
             this.panel7.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel8.SuspendLayout();
+            this.ctxMenuProps.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -87,7 +92,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 358);
+            this.panel1.Size = new System.Drawing.Size(907, 358);
             this.panel1.TabIndex = 0;
             // 
             // panel5
@@ -97,7 +102,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(453, 0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(347, 358);
+            this.panel5.Size = new System.Drawing.Size(454, 358);
             this.panel5.TabIndex = 4;
             // 
             // pnlParamEditHolder
@@ -105,7 +110,7 @@
             this.pnlParamEditHolder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlParamEditHolder.Location = new System.Drawing.Point(0, 24);
             this.pnlParamEditHolder.Name = "pnlParamEditHolder";
-            this.pnlParamEditHolder.Size = new System.Drawing.Size(347, 334);
+            this.pnlParamEditHolder.Size = new System.Drawing.Size(454, 334);
             this.pnlParamEditHolder.TabIndex = 4;
             // 
             // panel6
@@ -118,7 +123,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(347, 24);
+            this.panel6.Size = new System.Drawing.Size(454, 24);
             this.panel6.TabIndex = 3;
             // 
             // btnDescReload
@@ -130,7 +135,7 @@
             this.btnDescReload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDescReload.ImageKey = "reload_grayed";
             this.btnDescReload.ImageList = this.imageList1;
-            this.btnDescReload.Location = new System.Drawing.Point(305, 0);
+            this.btnDescReload.Location = new System.Drawing.Point(412, 0);
             this.btnDescReload.Name = "btnDescReload";
             this.btnDescReload.Size = new System.Drawing.Size(20, 22);
             this.btnDescReload.TabIndex = 5;
@@ -172,7 +177,7 @@
             this.btnDescSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDescSave.ImageKey = "save";
             this.btnDescSave.ImageList = this.imageList1;
-            this.btnDescSave.Location = new System.Drawing.Point(325, 0);
+            this.btnDescSave.Location = new System.Drawing.Point(432, 0);
             this.btnDescSave.Name = "btnDescSave";
             this.btnDescSave.Size = new System.Drawing.Size(20, 22);
             this.btnDescSave.TabIndex = 4;
@@ -188,7 +193,7 @@
             this.label3.Location = new System.Drawing.Point(0, 0);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.label3.Size = new System.Drawing.Size(345, 22);
+            this.label3.Size = new System.Drawing.Size(452, 22);
             this.label3.TabIndex = 2;
             this.label3.Text = "Описание свойства";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -230,11 +235,11 @@
             this.tvProps.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tvProps_ItemDrag);
             this.tvProps.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvProps_BeforeSelect);
             this.tvProps.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvProps_AfterSelect);
-            this.tvProps.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvProps_NodeMouseDoubleClick);
             this.tvProps.DragDrop += new System.Windows.Forms.DragEventHandler(this.tvProps_DragDrop);
             this.tvProps.DragEnter += new System.Windows.Forms.DragEventHandler(this.tvProps_DragEnter);
             this.tvProps.DragOver += new System.Windows.Forms.DragEventHandler(this.tvProps_DragOver);
             this.tvProps.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tvProps_KeyDown);
+            this.tvProps.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tvProps_MouseClick);
             // 
             // imageList2
             // 
@@ -286,7 +291,7 @@
             this.btnPropCollapseExpand.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
             this.btnPropCollapseExpand.FlatAppearance.BorderSize = 0;
             this.btnPropCollapseExpand.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPropCollapseExpand.ImageKey = "collapse";
+            this.btnPropCollapseExpand.ImageKey = "expand";
             this.btnPropCollapseExpand.ImageList = this.imageList1;
             this.btnPropCollapseExpand.Location = new System.Drawing.Point(0, 0);
             this.btnPropCollapseExpand.Name = "btnPropCollapseExpand";
@@ -487,7 +492,7 @@
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter1.Location = new System.Drawing.Point(0, 358);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(800, 5);
+            this.splitter1.Size = new System.Drawing.Size(907, 5);
             this.splitter1.TabIndex = 1;
             this.splitter1.TabStop = false;
             // 
@@ -498,7 +503,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 363);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 87);
+            this.panel2.Size = new System.Drawing.Size(907, 87);
             this.panel2.TabIndex = 2;
             // 
             // pnlClassEditHolder
@@ -506,7 +511,7 @@
             this.pnlClassEditHolder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlClassEditHolder.Location = new System.Drawing.Point(0, 24);
             this.pnlClassEditHolder.Name = "pnlClassEditHolder";
-            this.pnlClassEditHolder.Size = new System.Drawing.Size(800, 63);
+            this.pnlClassEditHolder.Size = new System.Drawing.Size(907, 63);
             this.pnlClassEditHolder.TabIndex = 4;
             // 
             // panel8
@@ -519,7 +524,7 @@
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(0, 0);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(800, 24);
+            this.panel8.Size = new System.Drawing.Size(907, 24);
             this.panel8.TabIndex = 3;
             // 
             // btnClassDescReload
@@ -531,7 +536,7 @@
             this.btnClassDescReload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClassDescReload.ImageKey = "reload_grayed";
             this.btnClassDescReload.ImageList = this.imageList1;
-            this.btnClassDescReload.Location = new System.Drawing.Point(758, 0);
+            this.btnClassDescReload.Location = new System.Drawing.Point(865, 0);
             this.btnClassDescReload.Name = "btnClassDescReload";
             this.btnClassDescReload.Size = new System.Drawing.Size(20, 22);
             this.btnClassDescReload.TabIndex = 5;
@@ -547,7 +552,7 @@
             this.btnClassDescSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClassDescSave.ImageKey = "save";
             this.btnClassDescSave.ImageList = this.imageList1;
-            this.btnClassDescSave.Location = new System.Drawing.Point(778, 0);
+            this.btnClassDescSave.Location = new System.Drawing.Point(885, 0);
             this.btnClassDescSave.Name = "btnClassDescSave";
             this.btnClassDescSave.Size = new System.Drawing.Size(20, 22);
             this.btnClassDescSave.TabIndex = 4;
@@ -563,16 +568,47 @@
             this.label4.Location = new System.Drawing.Point(0, 0);
             this.label4.Name = "label4";
             this.label4.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.label4.Size = new System.Drawing.Size(798, 22);
+            this.label4.Size = new System.Drawing.Size(905, 22);
             this.label4.TabIndex = 2;
             this.label4.Text = "Описание категории";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ctxMenuProps
+            // 
+            this.ctxMenuProps.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmSaveAndOpenAttachment,
+            this.tsmOpenAttachmentWith,
+            this.tsmSaveAttachmentToFile});
+            this.ctxMenuProps.Name = "ctxMenuProps";
+            this.ctxMenuProps.Size = new System.Drawing.Size(200, 92);
+            // 
+            // tsmSaveAttachmentToFile
+            // 
+            this.tsmSaveAttachmentToFile.Name = "tsmSaveAttachmentToFile";
+            this.tsmSaveAttachmentToFile.Size = new System.Drawing.Size(199, 22);
+            this.tsmSaveAttachmentToFile.Text = "Сохранить в файл";
+            this.tsmSaveAttachmentToFile.Click += new System.EventHandler(this.tsmSaveAttachmentToFile_Click);
+            // 
+            // tsmSaveAndOpenAttachment
+            // 
+            this.tsmSaveAndOpenAttachment.Name = "tsmSaveAndOpenAttachment";
+            this.tsmSaveAndOpenAttachment.Size = new System.Drawing.Size(199, 22);
+            this.tsmSaveAndOpenAttachment.Text = "Открыть";
+            this.tsmSaveAndOpenAttachment.Click += new System.EventHandler(this.tsmSaveAndOpenAttachment_Click);
+            // 
+            // tsmOpenAttachmentWith
+            // 
+            this.tsmOpenAttachmentWith.Name = "tsmOpenAttachmentWith";
+            this.tsmOpenAttachmentWith.Size = new System.Drawing.Size(199, 22);
+            this.tsmOpenAttachmentWith.Text = "Открыть с помощью...";
+            this.tsmOpenAttachmentWith.Visible = false;
+            this.tsmOpenAttachmentWith.Click += new System.EventHandler(this.tsmOpenAttachmentWith_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(907, 450);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.panel1);
@@ -592,6 +628,7 @@
             this.panel7.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel8.ResumeLayout(false);
+            this.ctxMenuProps.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -633,6 +670,10 @@
         private System.Windows.Forms.ImageList imageList2;
         private System.Windows.Forms.Panel pnlClassEditHolder;
         private System.Windows.Forms.Panel pnlParamEditHolder;
+        private System.Windows.Forms.ContextMenuStrip ctxMenuProps;
+        private System.Windows.Forms.ToolStripMenuItem tsmSaveAttachmentToFile;
+        private System.Windows.Forms.ToolStripMenuItem tsmSaveAndOpenAttachment;
+        private System.Windows.Forms.ToolStripMenuItem tsmOpenAttachmentWith;
     }
 }
 

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,6 +24,30 @@ namespace simple_database
         private TreeNode DragDropSelectedNode = null;
         // используется для операций DragDrop, содержит индекс картинки узла (будет заменен на индекс выделения)
         private int DragDropSelectedNodeImageIndex = -1;
+
+        [Serializable]
+        public struct ShellExecuteInfo
+        {
+            public int Size;
+            public uint Mask;
+            public IntPtr hwnd;
+            public string Verb;
+            public string File;
+            public string Parameters;
+            public string Directory;
+            public uint Show;
+            public IntPtr InstApp;
+            public IntPtr IDList;
+            public string Class;
+            public IntPtr hkeyClass;
+            public uint HotKey;
+            public IntPtr Icon;
+            public IntPtr Monitor;
+        }
+
+        // для вызова функции "Open with.."
+        [DllImport("shell32.dll", SetLastError = true)]
+        extern public static bool ShellExecuteEx(ref ShellExecuteInfo lpExecInfo);
 
         public Form1()
         {
@@ -191,15 +216,20 @@ namespace simple_database
         // Свернуть / развернуть список
         private void btnPropCollapseExpand_Click(object sender, EventArgs e)
         {
-            if (btnPropCollapseExpand.ImageKey == "collapse")
+            if (tvProps.SelectedNode == null) return;
+
+            if (tvProps.SelectedNode.Nodes.Count != 0)
             {
-                btnPropCollapseExpand.ImageKey = "expand";
-                tvProps.CollapseAll();
-            }
-            else
-            {
-                btnPropCollapseExpand.ImageKey = "collapse";
-                tvProps.ExpandAll();
+                if (tvProps.SelectedNode.IsExpanded)
+                {
+                    btnPropCollapseExpand.ImageKey = "expand";
+                    tvProps.SelectedNode.Collapse();
+                }
+                else
+                {
+                    btnPropCollapseExpand.ImageKey = "collapse";
+                    tvProps.SelectedNode.ExpandAll();
+                }
             }
         }
 
@@ -207,6 +237,10 @@ namespace simple_database
         private void tvProps_AfterSelect(object sender, TreeViewEventArgs e)
         {
             PropertyItem.PropertyChanged(this);
+            if (tvProps.SelectedNode.IsExpanded)
+                btnPropCollapseExpand.ImageKey = "collapse";
+            else
+                btnPropCollapseExpand.ImageKey = "expand";
         }
 
         // Считать повторно описание класса.
@@ -353,17 +387,51 @@ namespace simple_database
             }
         }
 
-        // Двойной клик на свойстве. Открыть если вложение.
-        private void tvProps_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (e.Node.ImageIndex == (int)IconTypes.Attachment)
-                PropertyItem.ExtractAttachment(this);
-        }
-
         // уменьшаем панель описания категорий до 30% от высоты окна
         private void Form1_Resize(object sender, EventArgs e)
         {
             panel1.Height = (int)(this.Height * 0.7);
+        }
+
+        // Окно свойств. Вызов контекстного меню
+        private void tvProps_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                TreeNode targetNode = ((TreeView)sender).GetNodeAt(e.Location);
+
+                if (targetNode != null && targetNode.ImageIndex == (int)IconTypes.Attachment)
+                {
+                    tvProps.SelectedNode = targetNode;
+                    ctxMenuProps.Show(tvProps, e.Location);
+                }
+            }
+        }
+
+        // Окно свойств. Контекстное меню: открыть вложение
+        private void tsmSaveAndOpenAttachment_Click(object sender, EventArgs e)
+        {
+            PropertyItem.ExtractAndRunAttachment(this);
+        }
+
+        // Окно свойств. Контекстное меню: сохранить вложение
+        private void tsmSaveAttachmentToFile_Click(object sender, EventArgs e)
+        {
+            PropertyItem.ExtractAttachment(this);
+        }
+
+        // Окно свойств. Контекстное меню: открыть с помощью
+        private void tsmOpenAttachmentWith_Click(object sender, EventArgs e)
+        {
+            //const uint SW_NORMAL = 1;
+
+            //ShellExecuteInfo sei = new ShellExecuteInfo();
+            //sei.Size = Marshal.SizeOf(sei);
+            //sei.Verb = "openas";
+            //sei.File = "";
+            //sei.Show = SW_NORMAL;
+
+            //if (!ShellExecuteEx(ref sei)) ;
         }
     }
 

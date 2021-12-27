@@ -60,7 +60,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmSearcProperty";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Поиск";
+            this.Text = "Поиск свойства";
             this.ResumeLayout(false);
             this.PerformLayout();
 

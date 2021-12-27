@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -253,8 +254,34 @@ namespace simple_database
             TreeNode currentProperty = main.tvProps.SelectedNode;
             if (currentProperty == null) return;
 
-            string fileName = main.db.AttachmentExtract((long)currentProperty.Tag);
-            if (fileName != "") System.Diagnostics.Process.Start(fileName);
+            string fileName = main.db.AttachmentGetFilename((long)currentProperty.Tag);
+
+            SaveFileDialog sd = new SaveFileDialog();
+            sd.InitialDirectory = Path.Combine(Application.StartupPath, "temp");
+            sd.FileName = fileName;
+            sd.Filter = $"{Path.GetExtension(fileName).TrimStart('.')}|*{Path.GetExtension(fileName)}|*.*|*.*";
+            sd.AddExtension = true;
+            if (sd.ShowDialog() != DialogResult.OK) return;
+
+            bool result = main.db.AttachmentExtract((long)currentProperty.Tag, sd.FileName);
+            
+            //if (fileName != "") System.Diagnostics.Process.Start(fileName);
+        }
+
+        /// <summary>
+        /// Извлекает и запускает указанное вложение
+        /// </summary>
+        /// <param name="main">Ссылка на главную форму.</param>
+        public static void ExtractAndRunAttachment(Form1 main)
+        {
+            TreeNode currentProperty = main.tvProps.SelectedNode;
+            if (currentProperty == null) return;
+
+            string fileName = main.db.AttachmentGetFilename((long)currentProperty.Tag);
+            fileName = Path.Combine(Application.StartupPath, "temp", fileName);
+            bool result = main.db.AttachmentExtract((long)currentProperty.Tag, fileName);
+
+            if (result) System.Diagnostics.Process.Start(fileName);
         }
 
         /// <summary>
