@@ -580,7 +580,7 @@
             this.tsmOpenAttachmentWith,
             this.tsmSaveAttachmentToFile});
             this.ctxMenuProps.Name = "ctxMenuProps";
-            this.ctxMenuProps.Size = new System.Drawing.Size(200, 70);
+            this.ctxMenuProps.Size = new System.Drawing.Size(200, 92);
             // 
             // tsmSaveAndOpenAttachment
             // 
@@ -594,7 +594,6 @@
             this.tsmOpenAttachmentWith.Name = "tsmOpenAttachmentWith";
             this.tsmOpenAttachmentWith.Size = new System.Drawing.Size(199, 22);
             this.tsmOpenAttachmentWith.Text = "Открыть с помощью...";
-            this.tsmOpenAttachmentWith.Visible = false;
             this.tsmOpenAttachmentWith.Click += new System.EventHandler(this.tsmOpenAttachmentWith_Click);
             // 
             // tsmSaveAttachmentToFile

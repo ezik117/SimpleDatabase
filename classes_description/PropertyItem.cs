@@ -264,15 +264,13 @@ namespace simple_database
             if (sd.ShowDialog() != DialogResult.OK) return;
 
             bool result = main.db.AttachmentExtract((long)currentProperty.Tag, sd.FileName);
-            
-            //if (fileName != "") System.Diagnostics.Process.Start(fileName);
         }
 
         /// <summary>
         /// Извлекает и запускает указанное вложение
         /// </summary>
         /// <param name="main">Ссылка на главную форму.</param>
-        public static void ExtractAndRunAttachment(Form1 main)
+        public static void ExtractAndRunAttachment(Form1 main, bool openWith=false)
         {
             TreeNode currentProperty = main.tvProps.SelectedNode;
             if (currentProperty == null) return;
@@ -281,7 +279,13 @@ namespace simple_database
             fileName = Path.Combine(Application.StartupPath, "temp", fileName);
             bool result = main.db.AttachmentExtract((long)currentProperty.Tag, fileName);
 
-            if (result) System.Diagnostics.Process.Start(fileName);
+            if (result)
+            {
+                if (openWith)
+                    System.Diagnostics.Process.Start("rundll32.exe", $"shell32.dll,OpenAs_RunDLL {fileName} ");
+                else
+                    System.Diagnostics.Process.Start(fileName);
+            }
         }
 
         /// <summary>

@@ -33,30 +33,6 @@ namespace simple_database
         // используется для операций DragDrop, содержит индекс картинки узла (будет заменен на индекс выделения)
         private int DragDropSelectedNodeImageIndex = -1;
 
-        [Serializable]
-        public struct ShellExecuteInfo
-        {
-            public int Size;
-            public uint Mask;
-            public IntPtr hwnd;
-            public string Verb;
-            public string File;
-            public string Parameters;
-            public string Directory;
-            public uint Show;
-            public IntPtr InstApp;
-            public IntPtr IDList;
-            public string Class;
-            public IntPtr hkeyClass;
-            public uint HotKey;
-            public IntPtr Icon;
-            public IntPtr Monitor;
-        }
-
-        // для вызова функции "Open with.."
-        [DllImport("shell32.dll", SetLastError = true)]
-        extern public static bool ShellExecuteEx(ref ShellExecuteInfo lpExecInfo);
-
         public Form1()
         {
             InitializeComponent();
@@ -431,15 +407,7 @@ namespace simple_database
         // Окно свойств. Контекстное меню: открыть с помощью
         private void tsmOpenAttachmentWith_Click(object sender, EventArgs e)
         {
-            //const uint SW_NORMAL = 1;
-
-            //ShellExecuteInfo sei = new ShellExecuteInfo();
-            //sei.Size = Marshal.SizeOf(sei);
-            //sei.Verb = "openas";
-            //sei.File = "";
-            //sei.Show = SW_NORMAL;
-
-            //if (!ShellExecuteEx(ref sei)) ;
+            PropertyItem.ExtractAndRunAttachment(this, true);
         }
     }
 
