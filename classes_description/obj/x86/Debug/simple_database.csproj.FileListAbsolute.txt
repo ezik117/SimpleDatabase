@@ -35,7 +35,6 @@ D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\
 D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\System.Data.SQLite.xml
 D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\System.Data.SQLite.dll.config
 D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.csproj.CopyComplete
-D:\PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.csprojAssemblyReference.cache
 C:\SYSTEM\_PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\simple_database.exe.config
 C:\SYSTEM\_PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\simple_database.exe
 C:\SYSTEM\_PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\simple_database.pdb

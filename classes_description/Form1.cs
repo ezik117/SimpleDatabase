@@ -9,6 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/*
+ ТЕРМИНЫ:
+  Класс (Class) = Каталог
+  Свойство (Property) = Оглавление
+  Описание свойства (Property Description) =  Информация
+  Описание класса (Class Description) = Описание каталога
+     */
+
 namespace simple_database
 {
     using SqlRows = List<Dictionary<string, object>>;

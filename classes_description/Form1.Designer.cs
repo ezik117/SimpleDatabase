@@ -66,9 +66,9 @@
             this.btnClassDescSave = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.ctxMenuProps = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmSaveAttachmentToFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmSaveAndOpenAttachment = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmOpenAttachmentWith = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmSaveAttachmentToFile = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -195,7 +195,7 @@
             this.label3.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.label3.Size = new System.Drawing.Size(452, 22);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Описание свойства";
+            this.label3.Text = "Информация";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // splitter3
@@ -373,7 +373,7 @@
             this.label2.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.label2.Size = new System.Drawing.Size(241, 22);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Свойства";
+            this.label2.Text = "Оглавление";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // splitter2
@@ -483,7 +483,7 @@
             this.label1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.label1.Size = new System.Drawing.Size(198, 22);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Категории";
+            this.label1.Text = "Каталог";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // splitter1
@@ -570,7 +570,7 @@
             this.label4.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.label4.Size = new System.Drawing.Size(905, 22);
             this.label4.TabIndex = 2;
-            this.label4.Text = "Описание категории";
+            this.label4.Text = "Описание каталога";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ctxMenuProps
@@ -580,14 +580,7 @@
             this.tsmOpenAttachmentWith,
             this.tsmSaveAttachmentToFile});
             this.ctxMenuProps.Name = "ctxMenuProps";
-            this.ctxMenuProps.Size = new System.Drawing.Size(200, 92);
-            // 
-            // tsmSaveAttachmentToFile
-            // 
-            this.tsmSaveAttachmentToFile.Name = "tsmSaveAttachmentToFile";
-            this.tsmSaveAttachmentToFile.Size = new System.Drawing.Size(199, 22);
-            this.tsmSaveAttachmentToFile.Text = "Сохранить в файл";
-            this.tsmSaveAttachmentToFile.Click += new System.EventHandler(this.tsmSaveAttachmentToFile_Click);
+            this.ctxMenuProps.Size = new System.Drawing.Size(200, 70);
             // 
             // tsmSaveAndOpenAttachment
             // 
@@ -603,6 +596,13 @@
             this.tsmOpenAttachmentWith.Text = "Открыть с помощью...";
             this.tsmOpenAttachmentWith.Visible = false;
             this.tsmOpenAttachmentWith.Click += new System.EventHandler(this.tsmOpenAttachmentWith_Click);
+            // 
+            // tsmSaveAttachmentToFile
+            // 
+            this.tsmSaveAttachmentToFile.Name = "tsmSaveAttachmentToFile";
+            this.tsmSaveAttachmentToFile.Size = new System.Drawing.Size(199, 22);
+            this.tsmSaveAttachmentToFile.Text = "Сохранить в файл";
+            this.tsmSaveAttachmentToFile.Click += new System.EventHandler(this.tsmSaveAttachmentToFile_Click);
             // 
             // Form1
             // 

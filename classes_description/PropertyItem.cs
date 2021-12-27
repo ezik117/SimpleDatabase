@@ -56,7 +56,7 @@ namespace simple_database
 
             }
 
-            //main.tvProps.ExpandAll();
+            main.tvProps.Sort();
 
             stopEventProcessing = false;
 

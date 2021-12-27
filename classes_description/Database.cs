@@ -237,7 +237,7 @@ namespace simple_database
                                     SELECT properties.id, properties.parent, properties.name, properties.type
                                     FROM cte, properties on properties.parent = cte.id
                                   )
-                                  SELECT id, parent, name, type FROM cte ORDER BY type, name";
+                                  SELECT id, parent, name, type FROM cte";
             cmd.Parameters["@class_id"].Value = class_id;
 
             return ExecSqlReturn();
