@@ -43,7 +43,6 @@ C:\SYSTEM\_PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\
 C:\SYSTEM\_PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\System.Data.SQLite.pdb
 C:\SYSTEM\_PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\System.Data.SQLite.xml
 C:\SYSTEM\_PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\bin\x86\Debug\System.Data.SQLite.dll.config
-C:\SYSTEM\_PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.csprojAssemblyReference.cache
 C:\SYSTEM\_PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.Form1.resources
 C:\SYSTEM\_PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.frmClassEdit.resources
 C:\SYSTEM\_PROJECTS\CPP\033. Simple Database\SimpleDatabase\classes_description\obj\x86\Debug\simple_database.frmDbManager.resources

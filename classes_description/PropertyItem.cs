@@ -135,7 +135,7 @@ namespace simple_database
 
             long id = main.db.SaveProperty((long)currentProperty.Tag, (long)main.tvClasses.SelectedNode.Tag,
                                            frm.tbPropertyName.Text.Trim(), frm.PropertyType,
-                                           (long)currentProperty.Parent.Tag, main.db.Escape(main.paramTextEditor.txtBox.Rtf));
+                                           (long)currentProperty.Parent.Tag, main.paramTextEditor.txtBox.Rtf);
             main.paramTextEditor.userAction1();
 
             currentProperty.Text = frm.tbPropertyName.Text;
@@ -150,7 +150,7 @@ namespace simple_database
         {
             if (main.tvProps.SelectedNode == null) return;
 
-            main.db.UpdatePropertyDescription((long)main.tvProps.SelectedNode.Tag, main.db.Escape(main.paramTextEditor.txtBox.Rtf));
+            main.db.UpdatePropertyDescription((long)main.tvProps.SelectedNode.Tag, main.paramTextEditor.txtBox.Rtf);
             main.paramTextEditor.userAction1();
         }
 

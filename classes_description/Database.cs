@@ -447,15 +447,5 @@ namespace simple_database
             if (rows.Count == 0) return null;
             return rows[0]["filename"].ToString();
         }
-
-        /// <summary>
-
-        /// </summary>
-        /// <param name="text">Тект для экранирования.</param>
-        /// <returns>Текст для вставки в SQL запрос.</returns>
-        public string Escape(string text)
-        {
-            return text.Replace("'", "''");
-        }
     }
 }
