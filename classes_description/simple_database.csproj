@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EC0315F3-D28F-4F9F-910D-AF38A62F0990}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>simple_database</RootNamespace>
+    <AssemblyName>simple_database</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>main_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\SQLite\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Database.cs" />
+    <Compile Include="Classes\PropertyInfo.cs" />
+    <Compile Include="Classes\ClassItem.cs" />
+    <Compile Include="Forms\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAbout.Designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmBookmarks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmBookmarks.Designer.cs">
+      <DependentUpon>frmBookmarks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmClassEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmClassEdit.Designer.cs">
+      <DependentUpon>frmClassEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDbManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDbManager.Designer.cs">
+      <DependentUpon>frmDbManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPropertyEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmPropertyEdit.Designer.cs">
+      <DependentUpon>frmPropertyEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSearchProperty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSearchProperty.Designer.cs">
+      <DependentUpon>frmSearchProperty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\HelperClasses.cs" />
+    <Compile Include="Forms\frmFavourites.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmFavourites.designer.cs">
+      <DependentUpon>frmFavourites.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDetachedWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDetachedWindow.Designer.cs">
+      <DependentUpon>frmDetachedWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmKeywords.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmKeywords.Designer.cs">
+      <DependentUpon>frmKeywords.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmHistory.Designer.cs">
+      <DependentUpon>frmHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Classes\PropertyItem.cs" />
+    <Compile Include="Classes\SystemMenu.cs" />
+    <Compile Include="TextEditor\TextEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Classes\Variables.cs" />
+    <EmbeddedResource Include="Forms\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBookmarks.resx">
+      <DependentUpon>frmBookmarks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmClassEdit.resx">
+      <DependentUpon>frmClassEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDbManager.resx">
+      <DependentUpon>frmDbManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmKeywords.resx">
+      <DependentUpon>frmKeywords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPropertyEdit.resx">
+      <DependentUpon>frmPropertyEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSearchProperty.resx">
+      <DependentUpon>frmSearchProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmFavourites.resx">
+      <DependentUpon>frmFavourites.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDetachedWindow.resx">
+      <DependentUpon>frmDetachedWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmHistory.resx">
+      <DependentUpon>frmHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="main_icon.ico" />
+    <None Include="Resources\database_deny-16-grayed.png" />
+    <None Include="Resources\database-16-grayed.png" />
+    <None Include="Resources\clear_2_16_grayed.png" />
+    <None Include="Resources\Button-Close-icon-16-grayed.png" />
+    <None Include="Resources\Gear-icon-16-grayed.png" />
+    <None Include="Resources\Button-Add-icon-16-grayed.png" />
+    <None Include="Resources\up-16.png" />
+    <None Include="Resources\database-24.png" />
+    <None Include="Resources\database.png" />
+    <None Include="Resources\arrow_up-16.png" />
+    <None Include="Resources\arrow_down-16.png" />
+    <None Include="Resources\Button-Add-icon-16.png" />
+    <None Include="Resources\hashtag-16.png" />
+    <None Include="Resources\denumbering-16.png" />
+    <None Include="Resources\bookmarks-16-colored.png" />
+    <None Include="Resources\attachment.png" />
+    <None Include="Resources\tools-16.png" />
+    <None Include="Resources\renumbering-16.png" />
+    <None Include="Resources\renumbering.png" />
+    <None Include="Resources\down-16.png" />
+    <None Include="Resources\search-16.png" />
+    <None Include="Resources\favourites-16-colored.png" />
+    <None Include="Resources\bookmark-16-colored.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
