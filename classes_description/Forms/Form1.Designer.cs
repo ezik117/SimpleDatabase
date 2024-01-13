@@ -265,7 +265,7 @@
             this.tsmiAttachments,
             this.tsmiPlugin});
             this.ctxMenuCharters.Name = "ctxMenuCharters";
-            this.ctxMenuCharters.Size = new System.Drawing.Size(181, 192);
+            this.ctxMenuCharters.Size = new System.Drawing.Size(154, 170);
             this.ctxMenuCharters.Opening += new System.ComponentModel.CancelEventHandler(this.ctxMenuCharters_Opening);
             // 
             // toolStripSeparator1
@@ -890,6 +890,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Справочник";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
