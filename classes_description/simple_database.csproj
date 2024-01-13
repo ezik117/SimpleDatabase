@@ -150,6 +150,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Classes\Variables.cs" />
+    <Compile Include="Classes\WinAPI_SystemMenu.cs" />
     <EmbeddedResource Include="Forms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -208,6 +209,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="main_icon.ico" />
+    <None Include="Resources\about-16.png" />
+    <None Include="Resources\vacuum-16.png" />
+    <None Include="Resources\db_manager3-16.png" />
+    <None Include="Resources\history-16.png" />
+    <None Include="Resources\db_manager2-16.png" />
+    <None Include="Resources\db_manager-16.png" />
     <None Include="Resources\database_deny-16-grayed.png" />
     <None Include="Resources\database-16-grayed.png" />
     <None Include="Resources\clear_2_16_grayed.png" />

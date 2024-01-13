@@ -317,6 +317,7 @@
             this.tvProps.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tvProps_ItemDrag);
             this.tvProps.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvProps_BeforeSelect);
             this.tvProps.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvProps_AfterSelect);
+            this.tvProps.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvProps_NodeMouseDoubleClick);
             this.tvProps.DragDrop += new System.Windows.Forms.DragEventHandler(this.tvProps_DragDrop);
             this.tvProps.DragEnter += new System.Windows.Forms.DragEventHandler(this.tvProps_DragEnter);
             this.tvProps.DragOver += new System.Windows.Forms.DragEventHandler(this.tvProps_DragOver);
@@ -508,6 +509,7 @@
             this.imageList2.Images.SetKeyName(12, "folder_grey");
             this.imageList2.Images.SetKeyName(13, "class");
             this.imageList2.Images.SetKeyName(14, "file_important");
+            this.imageList2.Images.SetKeyName(15, "plugin");
             // 
             // panel11
             // 

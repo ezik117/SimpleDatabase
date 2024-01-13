@@ -49,6 +49,7 @@
             this.gbStandardItems = new System.Windows.Forms.GroupBox();
             this.gbSpecialItems = new System.Windows.Forms.GroupBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.rbPlugin = new System.Windows.Forms.RadioButton();
             this.gbStandardItems.SuspendLayout();
             this.gbSpecialItems.SuspendLayout();
             this.SuspendLayout();
@@ -103,6 +104,7 @@
             this.imageList1.Images.SetKeyName(12, "folder_grey");
             this.imageList1.Images.SetKeyName(13, "class");
             this.imageList1.Images.SetKeyName(14, "file_important");
+            this.imageList1.Images.SetKeyName(15, "plugin");
             // 
             // rbSquare
             // 
@@ -298,6 +300,7 @@
             // 
             // gbSpecialItems
             // 
+            this.gbSpecialItems.Controls.Add(this.rbPlugin);
             this.gbSpecialItems.Controls.Add(this.rbAttachment);
             this.gbSpecialItems.Location = new System.Drawing.Point(285, 68);
             this.gbSpecialItems.Name = "gbSpecialItems";
@@ -306,6 +309,23 @@
             this.gbSpecialItems.TabStop = false;
             this.gbSpecialItems.Text = "Специальные";
             this.gbSpecialItems.Enter += new System.EventHandler(this.gbSpecialItems_Enter);
+            // 
+            // rbPlugin
+            // 
+            this.rbPlugin.Cursor = System.Windows.Forms.Cursors.Default;
+            this.rbPlugin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rbPlugin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.rbPlugin.ImageIndex = 15;
+            this.rbPlugin.ImageList = this.imageList1;
+            this.rbPlugin.Location = new System.Drawing.Point(16, 49);
+            this.rbPlugin.Name = "rbPlugin";
+            this.rbPlugin.Size = new System.Drawing.Size(50, 24);
+            this.rbPlugin.TabIndex = 14;
+            this.rbPlugin.TabStop = true;
+            this.rbPlugin.Tag = "6";
+            this.toolTip1.SetToolTip(this.rbPlugin, "Добавить плагин (файл со скриптом C#)");
+            this.rbPlugin.UseVisualStyleBackColor = true;
+            this.rbPlugin.CheckedChanged += new System.EventHandler(this.rbAttachment_CheckedChanged);
             // 
             // frmPropertyEdit
             // 
@@ -355,5 +375,6 @@
         private System.Windows.Forms.GroupBox gbStandardItems;
         private System.Windows.Forms.GroupBox gbSpecialItems;
         private System.Windows.Forms.ToolTip toolTip1;
+        public System.Windows.Forms.RadioButton rbPlugin;
     }
 }

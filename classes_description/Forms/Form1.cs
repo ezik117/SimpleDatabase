@@ -296,7 +296,7 @@ namespace simple_database
         private void Form1_Load(object sender, EventArgs e)
         {
             // Добавим пункты в системное меню
-            SystemMenu.AddItem(this);
+            SystemMenu.AddItems(this);
         }
 
         /// <summary>
@@ -633,6 +633,16 @@ namespace simple_database
             }
         }
 
+        /// <summary>
+        /// Открытие вложения по двойному щелчку мыши
+        /// </summary>
+        private void tvProps_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.ImageIndex == (int)IconTypes.Attachment)
+            {
+                tsmiAttachmentOpen.PerformClick();
+            }
+        }
     }
 
 

@@ -14,31 +14,20 @@ namespace simple_database
     /// </summary>
     public static class SystemMenu
     {
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
-
-        [DllImport("user32.dll")]
-        private static extern bool InsertMenu(IntPtr hMenu, Int32 wPosition, Int32 wFlags, Int32 wIDNewItem, string lpNewItem);
-
         public const Int32 WM_SYSCOMMAND = 0x112;
-        public const Int32 MF_SEPARATOR = 0x800;
-        public const Int32 MF_BYPOSITION = 0x400;
-        public const Int32 MF_STRING = 0x0;
 
         public const Int32 _OpenOrCreateDatabaseSysMenuID = 1000;
         public const Int32 _VacuumDatabaseSysMenuID = 1001;
         public const Int32 _AbouteSysMenuID = 1002;
         public const Int32 _ChangeHistory = 1003;
 
-        public static void AddItem(Form1 main)
+        public static void AddItems(Form1 main)
         {
-            IntPtr systemMenuHandle = GetSystemMenu(main.Handle, false);
-            InsertMenu(systemMenuHandle, 10, MF_BYPOSITION | MF_SEPARATOR, 0, string.Empty);
-            InsertMenu(systemMenuHandle, 11, MF_BYPOSITION, _OpenOrCreateDatabaseSysMenuID, "Менеджер баз данных");
-            InsertMenu(systemMenuHandle, 12, MF_BYPOSITION, _VacuumDatabaseSysMenuID, "Уплотнить базу данных");
-            InsertMenu(systemMenuHandle, 14, MF_BYPOSITION, _ChangeHistory, "История изменений");
-            InsertMenu(systemMenuHandle, 13, MF_BYPOSITION, _AbouteSysMenuID, "О программе");
-
+            WinAPI.SystemMenu.InsertSystemMenu_Separator(main, 10);
+            WinAPI.SystemMenu.InsertSystemMenu_TextWithImage(main, _OpenOrCreateDatabaseSysMenuID, 11, "Менеджер баз данных", Properties.Resources.db_manager3_16);
+            WinAPI.SystemMenu.InsertSystemMenu_TextWithImage(main, _VacuumDatabaseSysMenuID, 12, "Уплотнить базу данных", Properties.Resources.vacuum_16);
+            WinAPI.SystemMenu.InsertSystemMenu_TextWithImage(main, _ChangeHistory, 13, "История изменений", Properties.Resources.history_16);
+            WinAPI.SystemMenu.InsertSystemMenu_TextWithImage(main, _AbouteSysMenuID, 14, "О программе", Properties.Resources.about_16);
         }
     }
 
@@ -70,6 +59,7 @@ namespace simple_database
 
                     case SystemMenu._VacuumDatabaseSysMenuID:
                         DATABASE.Vacuum();
+                        MessageBox.Show("Выполнено.");
                         break;
 
                     case SystemMenu._ChangeHistory:

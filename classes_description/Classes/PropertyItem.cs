@@ -48,6 +48,7 @@ namespace simple_database
             FolderGrey = 12,
             Class = 13,
             DocumentImportant = 14,
+            Plugin = 15,
         }
 
         /// <summary>
@@ -140,6 +141,22 @@ namespace simple_database
             {
                 // выбрано вложение.
                 OpenFileDialog of = new OpenFileDialog();
+                if (of.ShowDialog() == DialogResult.OK)
+                {
+                    if (propName == "") propName = Path.GetFileName(of.FileName);
+
+                    id = DATABASE.AttachmentInsert(-1, (long)main.tvClasses.SelectedNode.Tag,
+                                                   propName, frm.PropertyType,
+                                                   (long)currentProperty.Tag, "", of.FileName);
+                }
+                else
+                    return;
+            }
+            else if (frm.rbPlugin.Checked)
+            {
+                // выбран плагин
+                OpenFileDialog of = new OpenFileDialog();
+                of.Filter = "C# файлы (*.cs) | *.cs";
                 if (of.ShowDialog() == DialogResult.OK)
                 {
                     if (propName == "") propName = Path.GetFileName(of.FileName);

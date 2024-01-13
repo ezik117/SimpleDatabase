@@ -105,7 +105,8 @@ namespace simple_database
         FolderMagenta = 11,
         FolderGrey = 12,
         Class = 13,
-        FileImportant = 14
+        FileImportant = 14,
+        Plugin = 15
     }
 
     /// <summary>

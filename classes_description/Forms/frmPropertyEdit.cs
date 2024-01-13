@@ -63,8 +63,7 @@ namespace simple_database
             }
 
             if (tbPropertyName.Text.Trim() == string.Empty &&
-                PropertyType != (int)IconTypes.Attachment
-            )
+                (PropertyType != (int)IconTypes.Attachment && PropertyType != (int)IconTypes.Plugin))
             {
                 MessageBox.Show("Название элемента не может быть пустым", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 canCloseForm = false;
@@ -159,12 +158,12 @@ namespace simple_database
         }
 
         /// <summary>
-        /// Выбран тип - вложение
+        /// Выбран тип - вложение или плагин
         /// Сбрасываем название
         /// </summary>
         private void rbAttachment_CheckedChanged(object sender, EventArgs e)
         {
-            if (rbAttachment.Checked)
+            if (((RadioButton)sender).Checked)
             {
                 tbPropertyName.Text = "";
             }

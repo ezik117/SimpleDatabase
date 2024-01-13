@@ -63,6 +63,16 @@ namespace simple_database.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap about_16 {
+            get {
+                object obj = ResourceManager.GetObject("about_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap arrow_down_16 {
             get {
                 object obj = ResourceManager.GetObject("arrow_down_16", resourceCulture);
@@ -173,6 +183,16 @@ namespace simple_database.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap db_manager3_16 {
+            get {
+                object obj = ResourceManager.GetObject("db_manager3_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap denumbering_16 {
             get {
                 object obj = ResourceManager.GetObject("denumbering_16", resourceCulture);
@@ -223,6 +243,16 @@ namespace simple_database.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap history_16 {
+            get {
+                object obj = ResourceManager.GetObject("history_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap renumbering_16 {
             get {
                 object obj = ResourceManager.GetObject("renumbering_16", resourceCulture);
@@ -256,6 +286,16 @@ namespace simple_database.Properties {
         internal static System.Drawing.Bitmap up_16 {
             get {
                 object obj = ResourceManager.GetObject("up_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap vacuum_16 {
+            get {
+                object obj = ResourceManager.GetObject("vacuum_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
