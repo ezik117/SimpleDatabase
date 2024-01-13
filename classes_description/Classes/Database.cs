@@ -649,7 +649,15 @@ namespace simple_database
         /// <summary>
         /// Добавляет вложение в БД в виде бинарных данных. В качестве имени файла будет сохранено только имя и расширение.
         /// Путь будет удален.
+        /// Вложение может быть файлом вложения или плагином. В случае плагина считывается текст, который должен быть в 
+        /// кодировке UTF-8 и сохраняется как массив байтов.
         /// </summary>
+        /// <param name="id">В данном контексте всегда равно -1</param>
+        /// <param name="class_id">ID элемента каталога</param>
+        /// <param name="name">Пользовательское название вложения (или имя файла)</param>
+        /// <param name="type">Тип вложения (индекс иконки в структуре IconTypes</param>
+        /// <param name="parent_id">ID элемента оглавления</param>
+        /// <param name="description">Текст содержимого</param>
         /// <param name="fileName">Полное имя файла с путем.</param>
         /// <returns>ROWID созданного свойства.</returns>
         public static long AttachmentInsert(long id, long class_id, string name, long type, long parent_id, string description, string fileName)
@@ -665,7 +673,15 @@ namespace simple_database
                                     VALUES(@rowid, @fileName, @data)";
                 cmd.Parameters["@rowid"].Value = rowid;
                 cmd.Parameters["@fileName"].Value = Path.GetFileName(fileName);
-                cmd.Parameters["@data"].Value = File.ReadAllBytes(fileName);
+
+                if (type == (int)IconTypes.Attachment)
+                {
+                    cmd.Parameters["@data"].Value = File.ReadAllBytes(fileName);
+                }
+                else if (type == (int)IconTypes.Plugin)
+                {
+                    cmd.Parameters["@data"].Value = Encoding.UTF8.GetBytes(File.ReadAllText(fileName));
+                }
 
                 cmd.ExecuteNonQuery();
                 cmd.Parameters["@data"].Value = null;
@@ -700,7 +716,14 @@ namespace simple_database
                                     WHERE property=@rowid";
                 cmd.Parameters["@rowid"].Value = id;
                 cmd.Parameters["@fileName"].Value = Path.GetFileName(fileName);
-                cmd.Parameters["@data"].Value = File.ReadAllBytes(fileName);
+                if (type == (int)IconTypes.Attachment)
+                {
+                    cmd.Parameters["@data"].Value = File.ReadAllBytes(fileName);
+                }
+                else if (type == (int)IconTypes.Plugin)
+                {
+                    cmd.Parameters["@data"].Value = Encoding.UTF8.GetBytes(File.ReadAllText(fileName));
+                }
 
                 cmd.ExecuteNonQuery();
                 cmd.Parameters["@data"].Value = null;
@@ -1242,6 +1265,39 @@ namespace simple_database
             filename = ret2;
 
             return ret1;
+        }
+
+        /// <summary>
+        /// Загружает текст плагина
+        /// </summary>
+        /// <param name="property_id">ID оглавления</param>
+        /// <returns>Текст кода</returns>
+        public static string Plugin_Read(long property_id)
+        {
+            string ret = "";
+            cmd.CommandText = "SELECT data FROM attachments WHERE property = @property_id";
+            cmd.Parameters["@property_id"].Value = property_id;
+            object o = cmd.ExecuteScalar();
+            if (o != null && !DBNull.Value.Equals(o))
+            {
+                ret = Encoding.UTF8.GetString((byte[])o);
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Обновляет текст кода плагина. Вызывается из редактора плагина.
+        /// </summary>
+        /// <param name="property_id">ID оглавления</param>
+        /// <param name="text">Программный код</param>
+        /// <returns>Если False, то обновление не произошло</returns>
+        public static bool Plugin_Update(long property_id, string text)
+        {
+            cmd.Parameters["@property_id"].Value = property_id;
+            cmd.Parameters["@data"].Value = Encoding.UTF8.GetBytes(text);
+            cmd.CommandText = "UPDATE attachments SET data=@data WHERE property = @property_id";
+            return cmd.ExecuteNonQuery() == 1;
         }
     }
 }

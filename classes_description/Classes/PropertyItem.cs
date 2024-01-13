@@ -211,9 +211,25 @@ namespace simple_database
 
             if (frm.rbAttachment.Checked)
             {
-                // выбрано вложение.
+                // выбрано вложение
                 
                 OpenFileDialog of = new OpenFileDialog();
+                if (of.ShowDialog() == DialogResult.OK)
+                {
+                    if (propName == "") propName = Path.GetFileName(of.FileName);
+
+                    DATABASE.AttachmentUpdate((long)currentProperty.Tag, (long)main.tvClasses.SelectedNode.Tag,
+                                                propName, frm.PropertyType,
+                                                (long)currentProperty.Parent.Tag, "", of.FileName);
+                }
+                else
+                    return;
+            }
+            else if (frm.rbPlugin.Checked)
+            {
+                // выбран плагин
+                OpenFileDialog of = new OpenFileDialog();
+                of.Filter = "C# файлы (*.cs) | *.cs";
                 if (of.ShowDialog() == DialogResult.OK)
                 {
                     if (propName == "") propName = Path.GetFileName(of.FileName);
@@ -375,7 +391,7 @@ namespace simple_database
             string fileName = DATABASE.AttachmentGetFilename((long)currentProperty.Tag);
 
             SaveFileDialog sd = new SaveFileDialog();
-            sd.InitialDirectory = Path.Combine(Application.StartupPath, "temp");
+            sd.InitialDirectory = VARS.temp_folder;
             sd.FileName = fileName;
             sd.Filter = $"{Path.GetExtension(fileName).TrimStart('.')}|*{Path.GetExtension(fileName)}|*.*|*.*";
             sd.AddExtension = true;
@@ -394,7 +410,7 @@ namespace simple_database
             if (currentProperty == null) return;
 
             string fileName = DATABASE.AttachmentGetFilename((long)currentProperty.Tag);
-            fileName = Path.Combine(Application.StartupPath, "temp", fileName);
+            fileName = Path.Combine(VARS.temp_folder, fileName);
             bool result = DATABASE.AttachmentExtract((long)currentProperty.Tag, fileName);
 
             if (result)
@@ -681,6 +697,55 @@ namespace simple_database
                 ret = BuildFullNodePath(node.Parent) + ret;
 
             return ret;
+        }
+
+        /// <summary>
+        /// Запускает плагин
+        /// </summary>
+        /// <param name="node">Элемент оглавления (плагин)</param>
+        public static void PluginExecute(TreeNode node)
+        {
+            if (node == null) return;
+
+            PluginsManager.Open((long)node.Tag);
+        }
+
+        /// <summary>
+        /// Сохраняет плагин в файл
+        /// </summary>
+        /// <param name="node">Элемент оглавления (плагин)</param>
+        public static void PluginSaveTo(TreeNode node)
+        {
+            if (node == null) return;
+
+            string fileName = DATABASE.AttachmentGetFilename((long)node.Tag);
+
+            SaveFileDialog sd = new SaveFileDialog();
+            sd.InitialDirectory = VARS.temp_folder;
+            sd.FileName = fileName;
+            sd.Filter = $"{Path.GetExtension(fileName).TrimStart('.')}|*{Path.GetExtension(fileName)}|*.*|*.*";
+            sd.AddExtension = true;
+            if (sd.ShowDialog() != DialogResult.OK) return;
+
+            bool result = DATABASE.AttachmentExtract((long)node.Tag, sd.FileName);
+        }
+
+        /// <summary>
+        /// Редактирует плагин
+        /// </summary>
+        /// <param name="node">Элемент оглавления (плагин)</param>
+        public static void PluginEdit(TreeNode node)
+        {
+            if (node == null) return;
+
+            frmPluginEditor frm = new frmPluginEditor();
+
+            string plugin_code = DATABASE.Plugin_Read((long)node.Tag);
+
+            frm.property_id = (long)node.Tag;
+            frm.LoadText(plugin_code);
+            frm.ShowDialog();
+
         }
     }
 }

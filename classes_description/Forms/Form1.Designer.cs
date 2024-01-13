@@ -34,22 +34,37 @@
             this.panelDescriptionHolder = new System.Windows.Forms.Panel();
             this.pnlParamEditHolder = new System.Windows.Forms.Panel();
             this.pnlDescriptionHeader = new System.Windows.Forms.Panel();
-            this.pbMarks = new System.Windows.Forms.PictureBox();
-            this.btnDescExpandShrinkWindow = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.btnDescOpenInNewWindow = new System.Windows.Forms.Button();
-            this.btnDescReload = new System.Windows.Forms.Button();
-            this.btnDescSave = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.splitter3 = new System.Windows.Forms.Splitter();
             this.panelContentHolder = new System.Windows.Forms.Panel();
             this.tvProps = new System.Windows.Forms.TreeView();
             this.ctxMenuCharters = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.imageList2 = new System.Windows.Forms.ImageList(this.components);
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.panelPropCaption = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.splitter2 = new System.Windows.Forms.Splitter();
+            this.panelCatalogHolder = new System.Windows.Forms.Panel();
+            this.tvClasses = new System.Windows.Forms.TreeView();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.slblLastUpdate = new System.Windows.Forms.ToolStripStatusLabel();
+            this.slblEmpty = new System.Windows.Forms.ToolStripStatusLabel();
+            this.slblVersion = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.pbMarks = new System.Windows.Forms.PictureBox();
+            this.btnDescExpandShrinkWindow = new System.Windows.Forms.Button();
+            this.btnDescOpenInNewWindow = new System.Windows.Forms.Button();
+            this.btnDescReload = new System.Windows.Forms.Button();
+            this.btnDescSave = new System.Windows.Forms.Button();
             this.tsmiMoveUp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiMoveDown = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiRenumering = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDenumering = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.инструментыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSearch = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -60,40 +75,29 @@
             this.tsmiFavouritesManagement = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiHashtags = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiAttachments = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAttachmentOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAttachmentOpenWith = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAttachmentSaveAs = new System.Windows.Forms.ToolStripMenuItem();
-            this.imageList2 = new System.Windows.Forms.ImageList(this.components);
-            this.panel11 = new System.Windows.Forms.Panel();
+            this.tsmiPlugin = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiPluginExecute = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiPluginEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiPluginSaveTo = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPropFavourites = new System.Windows.Forms.Button();
             this.btnPropBookmark = new System.Windows.Forms.Button();
             this.btnPropFavouritesAdd = new System.Windows.Forms.Button();
             this.btnPropSearch = new System.Windows.Forms.Button();
             this.btnPropCollapseExpand = new System.Windows.Forms.Button();
-            this.panelPropCaption = new System.Windows.Forms.Panel();
             this.btnPropAdd = new System.Windows.Forms.Button();
             this.btnPropEdit = new System.Windows.Forms.Button();
             this.btnPropDel = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.splitter2 = new System.Windows.Forms.Splitter();
-            this.panelCatalogHolder = new System.Windows.Forms.Panel();
-            this.tvClasses = new System.Windows.Forms.TreeView();
-            this.panel7 = new System.Windows.Forms.Panel();
             this.btnClassAdd = new System.Windows.Forms.Button();
             this.btnClassEdit = new System.Windows.Forms.Button();
             this.btnClassDel = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.slblLastUpdate = new System.Windows.Forms.ToolStripStatusLabel();
-            this.slblEmpty = new System.Windows.Forms.ToolStripStatusLabel();
-            this.slblVersion = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.tsmiPluginCreate = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panelDescriptionHolder.SuspendLayout();
             this.pnlDescriptionHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbMarks)).BeginInit();
             this.panelContentHolder.SuspendLayout();
             this.ctxMenuCharters.SuspendLayout();
             this.panel11.SuspendLayout();
@@ -101,6 +105,7 @@
             this.panelCatalogHolder.SuspendLayout();
             this.panel7.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMarks)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -150,32 +155,6 @@
             this.pnlDescriptionHeader.Size = new System.Drawing.Size(454, 24);
             this.pnlDescriptionHeader.TabIndex = 3;
             // 
-            // pbMarks
-            // 
-            this.pbMarks.Location = new System.Drawing.Point(99, 3);
-            this.pbMarks.Name = "pbMarks";
-            this.pbMarks.Size = new System.Drawing.Size(100, 16);
-            this.pbMarks.TabIndex = 8;
-            this.pbMarks.TabStop = false;
-            this.pbMarks.Paint += new System.Windows.Forms.PaintEventHandler(this.pbMarks_Paint);
-            // 
-            // btnDescExpandShrinkWindow
-            // 
-            this.btnDescExpandShrinkWindow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnDescExpandShrinkWindow.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnDescExpandShrinkWindow.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnDescExpandShrinkWindow.FlatAppearance.BorderSize = 0;
-            this.btnDescExpandShrinkWindow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDescExpandShrinkWindow.ImageKey = "go_left";
-            this.btnDescExpandShrinkWindow.ImageList = this.imageList1;
-            this.btnDescExpandShrinkWindow.Location = new System.Drawing.Point(372, 0);
-            this.btnDescExpandShrinkWindow.Name = "btnDescExpandShrinkWindow";
-            this.btnDescExpandShrinkWindow.Size = new System.Drawing.Size(20, 22);
-            this.btnDescExpandShrinkWindow.TabIndex = 7;
-            this.toolTip1.SetToolTip(this.btnDescExpandShrinkWindow, "Увеличить\\уменьшить ширину");
-            this.btnDescExpandShrinkWindow.UseVisualStyleBackColor = false;
-            this.btnDescExpandShrinkWindow.Click += new System.EventHandler(this.btnDescExpandShrinkWindow_Click);
-            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -213,57 +192,7 @@
             this.imageList1.Images.SetKeyName(30, "bookmark_mark");
             this.imageList1.Images.SetKeyName(31, "favourites_mark");
             this.imageList1.Images.SetKeyName(32, "hashtag_mark");
-            // 
-            // btnDescOpenInNewWindow
-            // 
-            this.btnDescOpenInNewWindow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnDescOpenInNewWindow.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnDescOpenInNewWindow.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnDescOpenInNewWindow.FlatAppearance.BorderSize = 0;
-            this.btnDescOpenInNewWindow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDescOpenInNewWindow.ImageKey = "window_duplicate";
-            this.btnDescOpenInNewWindow.ImageList = this.imageList1;
-            this.btnDescOpenInNewWindow.Location = new System.Drawing.Point(392, 0);
-            this.btnDescOpenInNewWindow.Name = "btnDescOpenInNewWindow";
-            this.btnDescOpenInNewWindow.Size = new System.Drawing.Size(20, 22);
-            this.btnDescOpenInNewWindow.TabIndex = 6;
-            this.toolTip1.SetToolTip(this.btnDescOpenInNewWindow, "Открыть в новом окне");
-            this.btnDescOpenInNewWindow.UseVisualStyleBackColor = false;
-            this.btnDescOpenInNewWindow.Click += new System.EventHandler(this.btnDeskOpenInNewWindow_Click);
-            // 
-            // btnDescReload
-            // 
-            this.btnDescReload.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnDescReload.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnDescReload.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnDescReload.FlatAppearance.BorderSize = 0;
-            this.btnDescReload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDescReload.ImageKey = "reload_grayed";
-            this.btnDescReload.ImageList = this.imageList1;
-            this.btnDescReload.Location = new System.Drawing.Point(412, 0);
-            this.btnDescReload.Name = "btnDescReload";
-            this.btnDescReload.Size = new System.Drawing.Size(20, 22);
-            this.btnDescReload.TabIndex = 5;
-            this.toolTip1.SetToolTip(this.btnDescReload, "Отменить все изменения");
-            this.btnDescReload.UseVisualStyleBackColor = false;
-            this.btnDescReload.Click += new System.EventHandler(this.btnDescReload_Click);
-            // 
-            // btnDescSave
-            // 
-            this.btnDescSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnDescSave.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnDescSave.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnDescSave.FlatAppearance.BorderSize = 0;
-            this.btnDescSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDescSave.ImageKey = "save";
-            this.btnDescSave.ImageList = this.imageList1;
-            this.btnDescSave.Location = new System.Drawing.Point(432, 0);
-            this.btnDescSave.Name = "btnDescSave";
-            this.btnDescSave.Size = new System.Drawing.Size(20, 22);
-            this.btnDescSave.TabIndex = 4;
-            this.toolTip1.SetToolTip(this.btnDescSave, "Сохранить изменения");
-            this.btnDescSave.UseVisualStyleBackColor = false;
-            this.btnDescSave.Click += new System.EventHandler(this.btnDescSave_Click);
+            this.imageList1.Images.SetKeyName(33, "plugin");
             // 
             // label3
             // 
@@ -333,16 +262,260 @@
             this.toolStripSeparator1,
             this.инструментыToolStripMenuItem,
             this.toolStripMenuItem3,
-            this.tsmiAttachments});
+            this.tsmiAttachments,
+            this.tsmiPlugin});
             this.ctxMenuCharters.Name = "ctxMenuCharters";
-            this.ctxMenuCharters.Size = new System.Drawing.Size(154, 148);
+            this.ctxMenuCharters.Size = new System.Drawing.Size(181, 192);
             this.ctxMenuCharters.Opening += new System.ComponentModel.CancelEventHandler(this.ctxMenuCharters_Opening);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            // 
+            // imageList2
+            // 
+            this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
+            this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList2.Images.SetKeyName(0, "book");
+            this.imageList2.Images.SetKeyName(1, "triangle");
+            this.imageList2.Images.SetKeyName(2, "square");
+            this.imageList2.Images.SetKeyName(3, "circle");
+            this.imageList2.Images.SetKeyName(4, "folder");
+            this.imageList2.Images.SetKeyName(5, "folder_blue");
+            this.imageList2.Images.SetKeyName(6, "folder_green");
+            this.imageList2.Images.SetKeyName(7, "file");
+            this.imageList2.Images.SetKeyName(8, "selected");
+            this.imageList2.Images.SetKeyName(9, "attachment");
+            this.imageList2.Images.SetKeyName(10, "folder_red");
+            this.imageList2.Images.SetKeyName(11, "folder_magenta");
+            this.imageList2.Images.SetKeyName(12, "folder_grey");
+            this.imageList2.Images.SetKeyName(13, "class");
+            this.imageList2.Images.SetKeyName(14, "file_important");
+            this.imageList2.Images.SetKeyName(15, "plugin");
+            // 
+            // panel11
+            // 
+            this.panel11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel11.Controls.Add(this.btnPropFavourites);
+            this.panel11.Controls.Add(this.btnPropBookmark);
+            this.panel11.Controls.Add(this.btnPropFavouritesAdd);
+            this.panel11.Controls.Add(this.btnPropSearch);
+            this.panel11.Controls.Add(this.btnPropCollapseExpand);
+            this.panel11.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel11.Location = new System.Drawing.Point(0, 406);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(243, 22);
+            this.panel11.TabIndex = 6;
+            // 
+            // panelPropCaption
+            // 
+            this.panelPropCaption.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panelPropCaption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelPropCaption.Controls.Add(this.btnPropAdd);
+            this.panelPropCaption.Controls.Add(this.btnPropEdit);
+            this.panelPropCaption.Controls.Add(this.btnPropDel);
+            this.panelPropCaption.Controls.Add(this.label2);
+            this.panelPropCaption.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelPropCaption.Location = new System.Drawing.Point(0, 0);
+            this.panelPropCaption.Name = "panelPropCaption";
+            this.panelPropCaption.Size = new System.Drawing.Size(243, 24);
+            this.panelPropCaption.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.label2.Size = new System.Drawing.Size(241, 22);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Оглавление";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // splitter2
+            // 
+            this.splitter2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitter2.Location = new System.Drawing.Point(200, 0);
+            this.splitter2.Name = "splitter2";
+            this.splitter2.Size = new System.Drawing.Size(5, 428);
+            this.splitter2.TabIndex = 1;
+            this.splitter2.TabStop = false;
+            // 
+            // panelCatalogHolder
+            // 
+            this.panelCatalogHolder.Controls.Add(this.tvClasses);
+            this.panelCatalogHolder.Controls.Add(this.panel7);
+            this.panelCatalogHolder.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelCatalogHolder.Location = new System.Drawing.Point(0, 0);
+            this.panelCatalogHolder.Name = "panelCatalogHolder";
+            this.panelCatalogHolder.Size = new System.Drawing.Size(200, 428);
+            this.panelCatalogHolder.TabIndex = 0;
+            // 
+            // tvClasses
+            // 
+            this.tvClasses.BackColor = System.Drawing.Color.White;
+            this.tvClasses.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvClasses.FullRowSelect = true;
+            this.tvClasses.HideSelection = false;
+            this.tvClasses.Location = new System.Drawing.Point(0, 24);
+            this.tvClasses.Name = "tvClasses";
+            this.tvClasses.ShowLines = false;
+            this.tvClasses.ShowRootLines = false;
+            this.tvClasses.Size = new System.Drawing.Size(200, 404);
+            this.tvClasses.TabIndex = 1;
+            this.tvClasses.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvClasses_BeforeSelect);
+            this.tvClasses.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvClasses_AfterSelect);
+            // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel7.Controls.Add(this.btnClassAdd);
+            this.panel7.Controls.Add(this.btnClassEdit);
+            this.panel7.Controls.Add(this.btnClassDel);
+            this.panel7.Controls.Add(this.label1);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel7.Location = new System.Drawing.Point(0, 0);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(200, 24);
+            this.panel7.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.label1.Size = new System.Drawing.Size(198, 22);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Каталог";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.slblLastUpdate,
+            this.slblEmpty,
+            this.slblVersion});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(907, 22);
+            this.statusStrip1.TabIndex = 0;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // slblLastUpdate
+            // 
+            this.slblLastUpdate.Name = "slblLastUpdate";
+            this.slblLastUpdate.Size = new System.Drawing.Size(84, 17);
+            this.slblLastUpdate.Text = "slblLastUpdate";
+            // 
+            // slblEmpty
+            // 
+            this.slblEmpty.Name = "slblEmpty";
+            this.slblEmpty.Size = new System.Drawing.Size(59, 17);
+            this.slblEmpty.Text = "slblEmpty";
+            // 
+            // slblVersion
+            // 
+            this.slblVersion.Name = "slblVersion";
+            this.slblVersion.Size = new System.Drawing.Size(64, 17);
+            this.slblVersion.Text = "slblVersion";
+            // 
+            // pbMarks
+            // 
+            this.pbMarks.Location = new System.Drawing.Point(99, 3);
+            this.pbMarks.Name = "pbMarks";
+            this.pbMarks.Size = new System.Drawing.Size(100, 16);
+            this.pbMarks.TabIndex = 8;
+            this.pbMarks.TabStop = false;
+            this.pbMarks.Paint += new System.Windows.Forms.PaintEventHandler(this.pbMarks_Paint);
+            // 
+            // btnDescExpandShrinkWindow
+            // 
+            this.btnDescExpandShrinkWindow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnDescExpandShrinkWindow.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnDescExpandShrinkWindow.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnDescExpandShrinkWindow.FlatAppearance.BorderSize = 0;
+            this.btnDescExpandShrinkWindow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDescExpandShrinkWindow.ImageKey = "go_left";
+            this.btnDescExpandShrinkWindow.ImageList = this.imageList1;
+            this.btnDescExpandShrinkWindow.Location = new System.Drawing.Point(372, 0);
+            this.btnDescExpandShrinkWindow.Name = "btnDescExpandShrinkWindow";
+            this.btnDescExpandShrinkWindow.Size = new System.Drawing.Size(20, 22);
+            this.btnDescExpandShrinkWindow.TabIndex = 7;
+            this.toolTip1.SetToolTip(this.btnDescExpandShrinkWindow, "Увеличить\\уменьшить ширину");
+            this.btnDescExpandShrinkWindow.UseVisualStyleBackColor = false;
+            this.btnDescExpandShrinkWindow.Click += new System.EventHandler(this.btnDescExpandShrinkWindow_Click);
+            // 
+            // btnDescOpenInNewWindow
+            // 
+            this.btnDescOpenInNewWindow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnDescOpenInNewWindow.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnDescOpenInNewWindow.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnDescOpenInNewWindow.FlatAppearance.BorderSize = 0;
+            this.btnDescOpenInNewWindow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDescOpenInNewWindow.ImageKey = "window_duplicate";
+            this.btnDescOpenInNewWindow.ImageList = this.imageList1;
+            this.btnDescOpenInNewWindow.Location = new System.Drawing.Point(392, 0);
+            this.btnDescOpenInNewWindow.Name = "btnDescOpenInNewWindow";
+            this.btnDescOpenInNewWindow.Size = new System.Drawing.Size(20, 22);
+            this.btnDescOpenInNewWindow.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.btnDescOpenInNewWindow, "Открыть в новом окне");
+            this.btnDescOpenInNewWindow.UseVisualStyleBackColor = false;
+            this.btnDescOpenInNewWindow.Click += new System.EventHandler(this.btnDeskOpenInNewWindow_Click);
+            // 
+            // btnDescReload
+            // 
+            this.btnDescReload.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnDescReload.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnDescReload.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnDescReload.FlatAppearance.BorderSize = 0;
+            this.btnDescReload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDescReload.ImageKey = "reload_grayed";
+            this.btnDescReload.ImageList = this.imageList1;
+            this.btnDescReload.Location = new System.Drawing.Point(412, 0);
+            this.btnDescReload.Name = "btnDescReload";
+            this.btnDescReload.Size = new System.Drawing.Size(20, 22);
+            this.btnDescReload.TabIndex = 5;
+            this.toolTip1.SetToolTip(this.btnDescReload, "Отменить все изменения");
+            this.btnDescReload.UseVisualStyleBackColor = false;
+            this.btnDescReload.Click += new System.EventHandler(this.btnDescReload_Click);
+            // 
+            // btnDescSave
+            // 
+            this.btnDescSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnDescSave.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnDescSave.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnDescSave.FlatAppearance.BorderSize = 0;
+            this.btnDescSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDescSave.ImageKey = "save";
+            this.btnDescSave.ImageList = this.imageList1;
+            this.btnDescSave.Location = new System.Drawing.Point(432, 0);
+            this.btnDescSave.Name = "btnDescSave";
+            this.btnDescSave.Size = new System.Drawing.Size(20, 22);
+            this.btnDescSave.TabIndex = 4;
+            this.toolTip1.SetToolTip(this.btnDescSave, "Сохранить изменения");
+            this.btnDescSave.UseVisualStyleBackColor = false;
+            this.btnDescSave.Click += new System.EventHandler(this.btnDescSave_Click);
             // 
             // tsmiMoveUp
             // 
             this.tsmiMoveUp.Image = global::simple_database.Properties.Resources.up_16;
             this.tsmiMoveUp.Name = "tsmiMoveUp";
-            this.tsmiMoveUp.Size = new System.Drawing.Size(153, 22);
+            this.tsmiMoveUp.Size = new System.Drawing.Size(180, 22);
             this.tsmiMoveUp.Text = "Поднять вверх";
             this.tsmiMoveUp.Click += new System.EventHandler(this.tsmiMoveUp_Click);
             // 
@@ -350,7 +523,7 @@
             // 
             this.tsmiMoveDown.Image = global::simple_database.Properties.Resources.down_16;
             this.tsmiMoveDown.Name = "tsmiMoveDown";
-            this.tsmiMoveDown.Size = new System.Drawing.Size(153, 22);
+            this.tsmiMoveDown.Size = new System.Drawing.Size(180, 22);
             this.tsmiMoveDown.Text = "Опустить вниз";
             this.tsmiMoveDown.Click += new System.EventHandler(this.tsmiMoveDown_Click);
             // 
@@ -358,7 +531,7 @@
             // 
             this.tsmiRenumering.Image = global::simple_database.Properties.Resources.renumbering_16;
             this.tsmiRenumering.Name = "tsmiRenumering";
-            this.tsmiRenumering.Size = new System.Drawing.Size(153, 22);
+            this.tsmiRenumering.Size = new System.Drawing.Size(180, 22);
             this.tsmiRenumering.Text = "Нумеровать";
             this.tsmiRenumering.Click += new System.EventHandler(this.tsmiRenumering_Click);
             // 
@@ -366,14 +539,9 @@
             // 
             this.tsmiDenumering.Image = global::simple_database.Properties.Resources.denumbering_16;
             this.tsmiDenumering.Name = "tsmiDenumering";
-            this.tsmiDenumering.Size = new System.Drawing.Size(153, 22);
+            this.tsmiDenumering.Size = new System.Drawing.Size(180, 22);
             this.tsmiDenumering.Text = "Денумеровать";
             this.tsmiDenumering.Click += new System.EventHandler(this.tsmiDenumering_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(150, 6);
             // 
             // инструментыToolStripMenuItem
             // 
@@ -389,7 +557,7 @@
             this.tsmiHashtags});
             this.инструментыToolStripMenuItem.Image = global::simple_database.Properties.Resources.tools_16;
             this.инструментыToolStripMenuItem.Name = "инструментыToolStripMenuItem";
-            this.инструментыToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.инструментыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.инструментыToolStripMenuItem.Text = "Инструменты";
             // 
             // tsmiSearch
@@ -453,11 +621,6 @@
             this.tsmiHashtags.Text = "Ключевые слова";
             this.tsmiHashtags.Click += new System.EventHandler(this.tsmiHashtags_Click);
             // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(150, 6);
-            // 
             // tsmiAttachments
             // 
             this.tsmiAttachments.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -466,7 +629,7 @@
             this.tsmiAttachmentSaveAs});
             this.tsmiAttachments.Image = global::simple_database.Properties.Resources.attachment;
             this.tsmiAttachments.Name = "tsmiAttachments";
-            this.tsmiAttachments.Size = new System.Drawing.Size(153, 22);
+            this.tsmiAttachments.Size = new System.Drawing.Size(180, 22);
             this.tsmiAttachments.Text = "Вложение";
             // 
             // tsmiAttachmentOpen
@@ -490,41 +653,38 @@
             this.tsmiAttachmentSaveAs.Text = "Сохранить в файл";
             this.tsmiAttachmentSaveAs.Click += new System.EventHandler(this.tsmSaveAttachmentToFile_Click);
             // 
-            // imageList2
+            // tsmiPlugin
             // 
-            this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
-            this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList2.Images.SetKeyName(0, "book");
-            this.imageList2.Images.SetKeyName(1, "triangle");
-            this.imageList2.Images.SetKeyName(2, "square");
-            this.imageList2.Images.SetKeyName(3, "circle");
-            this.imageList2.Images.SetKeyName(4, "folder");
-            this.imageList2.Images.SetKeyName(5, "folder_blue");
-            this.imageList2.Images.SetKeyName(6, "folder_green");
-            this.imageList2.Images.SetKeyName(7, "file");
-            this.imageList2.Images.SetKeyName(8, "selected");
-            this.imageList2.Images.SetKeyName(9, "attachment");
-            this.imageList2.Images.SetKeyName(10, "folder_red");
-            this.imageList2.Images.SetKeyName(11, "folder_magenta");
-            this.imageList2.Images.SetKeyName(12, "folder_grey");
-            this.imageList2.Images.SetKeyName(13, "class");
-            this.imageList2.Images.SetKeyName(14, "file_important");
-            this.imageList2.Images.SetKeyName(15, "plugin");
+            this.tsmiPlugin.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiPluginExecute,
+            this.tsmiPluginEdit,
+            this.tsmiPluginSaveTo,
+            this.tsmiPluginCreate});
+            this.tsmiPlugin.Image = global::simple_database.Properties.Resources.plugin_16;
+            this.tsmiPlugin.Name = "tsmiPlugin";
+            this.tsmiPlugin.Size = new System.Drawing.Size(180, 22);
+            this.tsmiPlugin.Text = "Плагин";
             // 
-            // panel11
+            // tsmiPluginExecute
             // 
-            this.panel11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel11.Controls.Add(this.btnPropFavourites);
-            this.panel11.Controls.Add(this.btnPropBookmark);
-            this.panel11.Controls.Add(this.btnPropFavouritesAdd);
-            this.panel11.Controls.Add(this.btnPropSearch);
-            this.panel11.Controls.Add(this.btnPropCollapseExpand);
-            this.panel11.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel11.Location = new System.Drawing.Point(0, 406);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(243, 22);
-            this.panel11.TabIndex = 6;
+            this.tsmiPluginExecute.Name = "tsmiPluginExecute";
+            this.tsmiPluginExecute.Size = new System.Drawing.Size(182, 22);
+            this.tsmiPluginExecute.Text = "Запустить";
+            this.tsmiPluginExecute.Click += new System.EventHandler(this.tsmiPluginExecute_Click);
+            // 
+            // tsmiPluginEdit
+            // 
+            this.tsmiPluginEdit.Name = "tsmiPluginEdit";
+            this.tsmiPluginEdit.Size = new System.Drawing.Size(182, 22);
+            this.tsmiPluginEdit.Text = "Редактировать";
+            this.tsmiPluginEdit.Click += new System.EventHandler(this.tsmiPluginEdit_Click);
+            // 
+            // tsmiPluginSaveTo
+            // 
+            this.tsmiPluginSaveTo.Name = "tsmiPluginSaveTo";
+            this.tsmiPluginSaveTo.Size = new System.Drawing.Size(182, 22);
+            this.tsmiPluginSaveTo.Text = "Сохранить в файл...";
+            this.tsmiPluginSaveTo.Click += new System.EventHandler(this.tsmiPluginSaveTo_Click);
             // 
             // btnPropFavourites
             // 
@@ -611,20 +771,6 @@
             this.btnPropCollapseExpand.UseVisualStyleBackColor = false;
             this.btnPropCollapseExpand.Click += new System.EventHandler(this.btnPropCollapseExpand_Click);
             // 
-            // panelPropCaption
-            // 
-            this.panelPropCaption.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.panelPropCaption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelPropCaption.Controls.Add(this.btnPropAdd);
-            this.panelPropCaption.Controls.Add(this.btnPropEdit);
-            this.panelPropCaption.Controls.Add(this.btnPropDel);
-            this.panelPropCaption.Controls.Add(this.label2);
-            this.panelPropCaption.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelPropCaption.Location = new System.Drawing.Point(0, 0);
-            this.panelPropCaption.Name = "panelPropCaption";
-            this.panelPropCaption.Size = new System.Drawing.Size(243, 24);
-            this.panelPropCaption.TabIndex = 2;
-            // 
             // btnPropAdd
             // 
             this.btnPropAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -675,68 +821,6 @@
             this.toolTip1.SetToolTip(this.btnPropDel, "Удалить");
             this.btnPropDel.UseVisualStyleBackColor = false;
             this.btnPropDel.Click += new System.EventHandler(this.btnPropDel_Click);
-            // 
-            // label2
-            // 
-            this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.label2.Location = new System.Drawing.Point(0, 0);
-            this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.label2.Size = new System.Drawing.Size(241, 22);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Оглавление";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // splitter2
-            // 
-            this.splitter2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitter2.Location = new System.Drawing.Point(200, 0);
-            this.splitter2.Name = "splitter2";
-            this.splitter2.Size = new System.Drawing.Size(5, 428);
-            this.splitter2.TabIndex = 1;
-            this.splitter2.TabStop = false;
-            // 
-            // panelCatalogHolder
-            // 
-            this.panelCatalogHolder.Controls.Add(this.tvClasses);
-            this.panelCatalogHolder.Controls.Add(this.panel7);
-            this.panelCatalogHolder.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelCatalogHolder.Location = new System.Drawing.Point(0, 0);
-            this.panelCatalogHolder.Name = "panelCatalogHolder";
-            this.panelCatalogHolder.Size = new System.Drawing.Size(200, 428);
-            this.panelCatalogHolder.TabIndex = 0;
-            // 
-            // tvClasses
-            // 
-            this.tvClasses.BackColor = System.Drawing.Color.White;
-            this.tvClasses.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tvClasses.FullRowSelect = true;
-            this.tvClasses.HideSelection = false;
-            this.tvClasses.Location = new System.Drawing.Point(0, 24);
-            this.tvClasses.Name = "tvClasses";
-            this.tvClasses.ShowLines = false;
-            this.tvClasses.ShowRootLines = false;
-            this.tvClasses.Size = new System.Drawing.Size(200, 404);
-            this.tvClasses.TabIndex = 1;
-            this.tvClasses.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvClasses_BeforeSelect);
-            this.tvClasses.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvClasses_AfterSelect);
-            // 
-            // panel7
-            // 
-            this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel7.Controls.Add(this.btnClassAdd);
-            this.panel7.Controls.Add(this.btnClassEdit);
-            this.panel7.Controls.Add(this.btnClassDel);
-            this.panel7.Controls.Add(this.label1);
-            this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel7.Location = new System.Drawing.Point(0, 0);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(200, 24);
-            this.panel7.TabIndex = 3;
             // 
             // btnClassAdd
             // 
@@ -789,49 +873,13 @@
             this.btnClassDel.UseVisualStyleBackColor = false;
             this.btnClassDel.Click += new System.EventHandler(this.btnClassDel_Click);
             // 
-            // label1
+            // tsmiPluginCreate
             // 
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.label1.Size = new System.Drawing.Size(198, 22);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Каталог";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.slblLastUpdate,
-            this.slblEmpty,
-            this.slblVersion});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(907, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // slblLastUpdate
-            // 
-            this.slblLastUpdate.Name = "slblLastUpdate";
-            this.slblLastUpdate.Size = new System.Drawing.Size(84, 17);
-            this.slblLastUpdate.Text = "slblLastUpdate";
-            // 
-            // slblEmpty
-            // 
-            this.slblEmpty.Name = "slblEmpty";
-            this.slblEmpty.Size = new System.Drawing.Size(59, 17);
-            this.slblEmpty.Text = "slblEmpty";
-            // 
-            // slblVersion
-            // 
-            this.slblVersion.Name = "slblVersion";
-            this.slblVersion.Size = new System.Drawing.Size(64, 17);
-            this.slblVersion.Text = "slblVersion";
+            this.tsmiPluginCreate.Name = "tsmiPluginCreate";
+            this.tsmiPluginCreate.Size = new System.Drawing.Size(182, 22);
+            this.tsmiPluginCreate.Text = "Создать";
+            this.tsmiPluginCreate.Visible = false;
+            this.tsmiPluginCreate.Click += new System.EventHandler(this.tsmiPluginCreate_Click);
             // 
             // Form1
             // 
@@ -849,7 +897,6 @@
             this.panel1.ResumeLayout(false);
             this.panelDescriptionHolder.ResumeLayout(false);
             this.pnlDescriptionHeader.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbMarks)).EndInit();
             this.panelContentHolder.ResumeLayout(false);
             this.ctxMenuCharters.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
@@ -858,6 +905,7 @@
             this.panel7.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMarks)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -925,6 +973,11 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiHashtags;
         public System.Windows.Forms.PictureBox pbMarks;
         private System.Windows.Forms.Button btnPropFavouritesAdd;
+        private System.Windows.Forms.ToolStripMenuItem tsmiPlugin;
+        private System.Windows.Forms.ToolStripMenuItem tsmiPluginExecute;
+        private System.Windows.Forms.ToolStripMenuItem tsmiPluginEdit;
+        private System.Windows.Forms.ToolStripMenuItem tsmiPluginSaveTo;
+        private System.Windows.Forms.ToolStripMenuItem tsmiPluginCreate;
     }
 }
 

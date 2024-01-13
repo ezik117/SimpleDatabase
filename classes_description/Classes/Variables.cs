@@ -27,5 +27,10 @@ namespace simple_database
         /// Требует ручного сброса.
         /// </summary>
         public static bool property_update_finished;
+
+        /// <summary>
+        /// Папка temp программы
+        /// </summary>
+        public static string temp_folder;
     }
 }

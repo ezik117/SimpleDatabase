@@ -38,6 +38,7 @@ namespace simple_database
             InitializeComponent();
 
             VARS.main_form = this;
+            VARS.temp_folder = Path.Combine(Application.StartupPath, "temp");
 
             slblEmpty.Text = "";
             slblEmpty.Spring = true;
@@ -114,7 +115,7 @@ namespace simple_database
         {
             try
             {
-                string[] files = System.IO.Directory.GetFiles($@"{Application.StartupPath}\temp");
+                string[] files = System.IO.Directory.GetFiles(VARS.temp_folder);
                 foreach (string file in files)
                 {
                     try
@@ -554,13 +555,17 @@ namespace simple_database
         private void ctxMenuCharters_Opening(object sender, CancelEventArgs e)
         {
             TreeNode node = tvProps.SelectedNode;
+
+            tsmiAttachments.Visible = false;
+            tsmiPlugin.Visible = false;
+
             if (node.ImageIndex == (int)IconTypes.Attachment)
             {
                 tsmiAttachments.Visible = true;
             }
-            else
+            else if (node.ImageIndex == (int)IconTypes.Plugin)
             {
-                tsmiAttachments.Visible = false;
+                tsmiPlugin.Visible = true;
             }
         }
 
@@ -641,6 +646,49 @@ namespace simple_database
             if (e.Node.ImageIndex == (int)IconTypes.Attachment)
             {
                 tsmiAttachmentOpen.PerformClick();
+            }
+            else if (e.Node.ImageIndex == (int)IconTypes.Plugin)
+            {
+                PROPERTY.PluginExecute(e.Node);
+            }
+        }
+
+        /// <summary>
+        /// Контекстное меню: Плагин - Запустить
+        /// </summary>
+        private void tsmiPluginExecute_Click(object sender, EventArgs e)
+        {
+            PROPERTY.PluginExecute(tvProps.SelectedNode);
+        }
+
+        /// <summary>
+        /// Контекстное меню: Плагин - Сохранить в файл...
+        /// </summary>
+        private void tsmiPluginSaveTo_Click(object sender, EventArgs e)
+        {
+            PROPERTY.PluginSaveTo(tvProps.SelectedNode);
+        }
+
+        /// <summary>
+        /// Контекстное меню: Плагин - Редактировать
+        /// </summary>
+        private void tsmiPluginEdit_Click(object sender, EventArgs e)
+        {
+            PROPERTY.PluginEdit(tvProps.SelectedNode);
+        }
+
+        /// <summary>
+        /// Контекстное меню: Плагин - Создать
+        /// </summary>
+        private void tsmiPluginCreate_Click(object sender, EventArgs e)
+        {
+            frmClassEdit frm = new frmClassEdit();
+            frm.Text = "Название плагина";
+            frm.ShowDialog();
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                string plugin_name = frm.tbClassName.Text.Trim();
+
             }
         }
     }

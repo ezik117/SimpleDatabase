@@ -91,7 +91,7 @@ namespace simple_database
                 gbSpecialItems.Enabled = false;
 
                 // если это редактирование и это не специальный тип, то можно менять вид значка
-                if (PropertyType != (int)IconTypes.Attachment)
+                if (PropertyType != (int)IconTypes.Attachment && PropertyType != (int)IconTypes.Plugin)
                 {
                     gbStandardItems.Enabled = true;
                 }
