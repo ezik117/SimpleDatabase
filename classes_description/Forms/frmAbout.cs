@@ -16,7 +16,7 @@ namespace simple_database
         {
             InitializeComponent();
 
-            lblAbout.Text = "Универсальный справочник.\n(c)2020-2023. Ермолаев Андрей.";
+            lblAbout.Text = "Универсальный справочник.\n(c)2020-2024. Ермолаев Андрей.";
             lblVersion.Text = $"Версия: {Application.ProductVersion}";
         }
     }
