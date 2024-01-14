@@ -403,6 +403,16 @@ namespace simple_database
                         lbl.TextAlign = ContentAlignment.MiddleCenter;
                         lbl.Parent = frm;
                         break;
+
+                    case "ComboBox":
+                        ComboBox cb = new ComboBox();
+                        cb.Dock = DockStyle.Top;
+                        cb.Items.AddRange(input.Value.Value.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
+                        cb.DropDownStyle = ComboBoxStyle.DropDownList;
+                        if (cb.Items.Count > 0) cb.SelectedIndex = 0;
+                        cb.Tag = input.Key;
+                        cb.Parent = frm;
+                        break;
                 }
 
                 if (input.Value.Type != "Button" && input.Value.Type != "Label")
@@ -450,6 +460,10 @@ namespace simple_database
                 else if (c.GetType() == typeof(DateTimePicker))
                 {
                     user_data[(string)c.Tag].Value = ((DateTimePicker)c).Value.ToString();
+                }
+                else if (c.GetType() == typeof(ComboBox))
+                {
+                    user_data[(string)c.Tag].Value = ((ComboBox)c).SelectedItem.ToString().Trim();
                 }
             }
 

@@ -177,6 +177,7 @@ namespace simple_database
                 "{#ASK NAME=\"\" TYPE=\"Label\" TEXT=\"Пример запроса данных у пользователя\\n и принцип обработки чисел с плавающей точкой.\" VALUE=\"\" #}" + Environment.NewLine +
                 "{#ASK NAME=\"message1\" TYPE=\"TextBox\" TEXT=\"Сообщение для вывода на экран:\" VALUE=\"Hello World!\" #}" + Environment.NewLine +
                 "{#ASK NAME=\"числоСПлавающейТочкой\" TYPE=\"TextBox\" TEXT=\"Число с плавающей точкой:\" VALUE=\"0,4\" #}" + Environment.NewLine +
+                "{#ASK NAME=\"приставка\" TYPE=\"ComboBox\" TEXT=\"Приставка\" VALUE=\"кило; мега; гига\" #}" + Environment.NewLine +
                 "{#ASK NAME=\"btnOK\" TYPE=\"Button\" TEXT=\"OK\" VALUE=\"\" #}" + Environment.NewLine +
                 "*/" + Environment.NewLine +
                 "" + Environment.NewLine +
@@ -192,7 +193,7 @@ namespace simple_database
                 "        double.TryParse(\"{#VALUE числоСПлавающейТочкой #}\".Replace(',','.'), NumberStyles.Any, CultureInfo.InvariantCulture, out x);" + Environment.NewLine +
                 "        " + Environment.NewLine +
                 "        if (\"pressed\" == \"{#VALUE btnOK #}\") {" + Environment.NewLine +
-                "            MessageBox.Show(String.Format(\"Введенное число={0:f2}\", x));" + Environment.NewLine +
+                "            MessageBox.Show(String.Format(\"Введенное число={0:f2} с приставкой: '{1}'\", x, \"{#VALUE приставка #}\"));" + Environment.NewLine +
                 "            MessageBox.Show(\"{#VALUE message1 #}\");" + Environment.NewLine +
                 "        } else {" + Environment.NewLine +
                 "            MessageBox.Show(\"Button was not pressed\");" + Environment.NewLine +
