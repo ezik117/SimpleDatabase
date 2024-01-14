@@ -28,6 +28,7 @@ namespace simple_database
             InitializeComponent();
             rtb.AcceptsTab = true;
             rtb.WordWrap = false;
+            rtb.AutoWordSelection = false;
             lblCaretInfo.Text = $"Позиция 0    Строка 0    Столбец 0";
         }
 
@@ -187,8 +188,8 @@ namespace simple_database
                 "{" + Environment.NewLine +
                 "    public void Start()" + Environment.NewLine +
                 "    {" + Environment.NewLine +
-                "        double x = 0.0;" + Environment.NewLine +
-                "        x = double.Parse(\"{#VALUE числоСПлавающейТочкой #}\".Replace(\",\", \".\"), CultureInfo.InvariantCulture);" + Environment.NewLine +
+                "        double x;" + Environment.NewLine +
+                "        double.TryParse(\"{#VALUE числоСПлавающейТочкой #}\".Replace(',','.'), NumberStyles.Any, CultureInfo.InvariantCulture, out x);" + Environment.NewLine +
                 "        " + Environment.NewLine +
                 "        if (\"pressed\" == \"{#VALUE btnOK #}\") {" + Environment.NewLine +
                 "            MessageBox.Show(String.Format(\"Введенное число={0:f2}\", x));" + Environment.NewLine +
