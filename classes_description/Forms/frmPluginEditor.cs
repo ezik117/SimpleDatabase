@@ -174,6 +174,7 @@ namespace simple_database
                 "{#ASK NAME=\"btnOK\" TYPE=\"Button\" TEXT=\"OK\" VALUE=\"\" #}" + Environment.NewLine +
                 "*/" + Environment.NewLine +
                 "" + Environment.NewLine +
+                "using System;" + Environment.NewLine +
                 "using System.Windows.Forms;" + Environment.NewLine +
                 "" + Environment.NewLine +
                 "class Plugin" + Environment.NewLine +

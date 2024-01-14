@@ -262,24 +262,33 @@ namespace simple_database
                 }
                 else if (parameters["TYPE"] == "CLASS")
                 {
-                    object o = cr.CompiledAssembly.CreateInstance(parameters["CLASS"]);
-                    if (o != null)
+                    try
                     {
-                        System.Reflection.MethodInfo mi = o.GetType().GetMethod(parameters["RUN"]);
-                        if (mi != null)
+                        object o = cr.CompiledAssembly.CreateInstance(parameters["CLASS"]);
+                        if (o != null)
                         {
-                            mi.Invoke(o, null);
+                            System.Reflection.MethodInfo mi = o.GetType().GetMethod(parameters["RUN"]);
+                            if (mi != null)
+                            {
+                                mi.Invoke(o, null);
+                            }
+                            else
+                            {
+                                errors.Add($"Метод '{parameters["RUN"]}()' не определен в классе '{parameters["CLASS"]}' исходного кода");
+                                ShowErrors();
+                                return;
+                            }
                         }
                         else
                         {
-                            errors.Add($"Метод '{parameters["RUN"]}()' не определен в классе '{parameters["CLASS"]}' исходного кода");
+                            errors.Add($"Класс '{parameters["CLASS"]}' не найден в исходном коде");
                             ShowErrors();
                             return;
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        errors.Add($"Класс '{parameters["CLASS"]}' не найден в исходном коде");
+                        errors.Add(ex.Message);
                         ShowErrors();
                         return;
                     }
