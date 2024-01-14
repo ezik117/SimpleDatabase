@@ -712,10 +712,10 @@ namespace simple_database
             {
                 SaveProperty(id, class_id, name, type, parent_id, description);
 
-                cmd.CommandText = @"UPDATE attachments SET filename=@fileName, data=@data
-                                    WHERE property=@rowid";
                 cmd.Parameters["@rowid"].Value = id;
                 cmd.Parameters["@fileName"].Value = Path.GetFileName(fileName);
+                cmd.CommandText = @"UPDATE attachments SET filename=@fileName, data=@data
+                                    WHERE property=@rowid";
                 if (type == (int)IconTypes.Attachment)
                 {
                     cmd.Parameters["@data"].Value = File.ReadAllBytes(fileName);
@@ -740,7 +740,7 @@ namespace simple_database
         }
 
         /// <summary>
-        /// Удалить вложение.
+        /// Удалить вложение. Не используется, т.к. используется каскадное удаление
         /// </summary>
         /// <param name="id">ROWID вложения</param>
         /// <remarks>Не используется, т.к. используется каскадное удаление</remarks>
@@ -1067,7 +1067,7 @@ namespace simple_database
         /// <param name="class_id">ROWID каталога</param>
         /// <param name="property_id">ROWID оглавления</param>
         /// <param name="tablename">Имя изменяемой таблицы</param>
-        /// <param name="change_type">Тип изменения</param>
+        /// <param name="change_type">Текст типа изменения. Должно начинаться с "Изменение, Обновление, Удаление, Создание"</param>
         /// <param name="name">Новое название изменяемого элемента</param>
         public static void SaveHistory(long class_id, long property_id, string tablename, string change_type, string name)
         {
@@ -1294,10 +1294,56 @@ namespace simple_database
         /// <returns>Если False, то обновление не произошло</returns>
         public static bool Plugin_Update(long property_id, string text)
         {
+            long rowsAffected = 0;
             cmd.Parameters["@property_id"].Value = property_id;
             cmd.Parameters["@data"].Value = Encoding.UTF8.GetBytes(text);
             cmd.CommandText = "UPDATE attachments SET data=@data WHERE property = @property_id";
-            return cmd.ExecuteNonQuery() == 1;
+            rowsAffected = cmd.ExecuteNonQuery();
+            if (rowsAffected > 0)
+            {
+                // сохраним в истории
+                string name = VARS.main_form.tvProps.SelectedNode.Text;
+                SaveHistory((long)VARS.main_form.tvClasses.SelectedNode.Tag, property_id, "properties", "Обновление кода плагина", name);
+            }
+            return rowsAffected != 0;
+        }
+
+        /// <summary>
+        /// Изменяет название плагина.
+        /// </summary>
+        /// <param name="property_id">ID оглавления</param>
+        /// <param name="newname">Новое название плагина</param>
+        /// <returns>Если False, то обновление не произошло</returns>
+        public static bool Plugin_Rename(long property_id, string newname)
+        {
+            long rowsAffected = 0;
+
+            SQLiteTransaction trans = conn.BeginTransaction();
+
+            try
+            {
+                cmd.Parameters["@property_id"].Value = property_id;
+                cmd.Parameters["@fileName"].Value = newname;
+                cmd.CommandText = "UPDATE attachments SET fileName=@fileName WHERE property = @property_id";
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = "UPDATE properties SET name = @fileName WHERE id=@property_id";
+                cmd.ExecuteNonQuery();
+
+                rowsAffected = cmd.ExecuteNonQuery();
+                if (rowsAffected > 0)
+                    // сохраним в истории
+                    SaveHistory((long)VARS.main_form.tvClasses.SelectedNode.Tag, property_id, "properties", "Изменение названия плагина", newname);
+
+                trans.Commit();
+            }
+            catch
+            {
+                trans.Rollback();
+                rowsAffected = 0;
+            }
+
+            return rowsAffected != 0;
         }
 
         /// <summary>
@@ -1327,7 +1373,7 @@ namespace simple_database
                 cmd.ExecuteNonQuery();
 
                 // сохраним в истории
-                SaveHistory(class_id, conn.LastInsertRowId, "attachments", "Создание плагина", name);
+                SaveHistory(class_id, conn.LastInsertRowId, "properties", "Создание плагина", name);
 
                 trans.Commit();
             }

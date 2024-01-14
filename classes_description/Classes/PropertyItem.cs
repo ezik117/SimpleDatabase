@@ -115,7 +115,7 @@ namespace simple_database
             else
             {
                 int max = 0;
-                foreach(TreeNode n in currentProperty.Nodes)
+                foreach (TreeNode n in currentProperty.Nodes)
                 {
                     if (Regex.IsMatch(n.Text, @"^\d+\. +"))
                     {
@@ -212,7 +212,7 @@ namespace simple_database
             if (frm.rbAttachment.Checked)
             {
                 // выбрано вложение
-                
+
                 OpenFileDialog of = new OpenFileDialog();
                 if (of.ShowDialog() == DialogResult.OK)
                 {
@@ -404,7 +404,7 @@ namespace simple_database
         /// Извлекает и запускает указанное вложение
         /// </summary>
         /// <param name="main">Ссылка на главную форму.</param>
-        public static void ExtractAndRunAttachment(Form1 main, bool openWith=false)
+        public static void ExtractAndRunAttachment(Form1 main, bool openWith = false)
         {
             TreeNode currentProperty = main.tvProps.SelectedNode;
             if (currentProperty == null) return;
@@ -620,7 +620,7 @@ namespace simple_database
 
             // проверим, если такая закладка уже есть
             bool alreadyExists = false;
-            foreach(DataRow dr in DATABASE.bookmarks.Rows)
+            foreach (DataRow dr in DATABASE.bookmarks.Rows)
             {
                 if ((string)dr["database"] == dbname &&
                     (long)dr["class_id"] == (long)class_node.Tag &&
@@ -628,7 +628,7 @@ namespace simple_database
                 {
                     alreadyExists = true;
                     break;
-                } 
+                }
             }
 
             if (!alreadyExists)
@@ -663,7 +663,7 @@ namespace simple_database
                 if ((long)dr["class_id"] == (long)class_node.Tag &&
                     (long)dr["property_id"] == (long)prop_node.Tag)
                 {
-                    alreadyExists = true; 
+                    alreadyExists = true;
                     break;
                 }
             }
@@ -760,7 +760,20 @@ namespace simple_database
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 string plugin_name = frm.tbClassName.Text.Trim();
-                if (Path.GetExtension(plugin_name) == "")
+                string extension = "";
+
+                // проверим имя файла
+                try
+                {
+                    extension = Path.GetExtension(plugin_name);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка в имени плагина. Текст ошибки '{ex.Message}'", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (extension == "")
                 {
                     MessageBox.Show("Имя плагина должно включать расширение", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -789,6 +802,47 @@ namespace simple_database
                 frmEdit.property_id = rowid;
                 frmEdit.LoadText("");
                 frmEdit.ShowDialog();
+            }
+        }
+
+        /// <summary>
+        /// Переименовать плагин
+        /// </summary>
+        /// <param name="node">Элемент оглавления (плагин)</param>
+        public static void PluginRename(TreeNode node)
+        {
+            if (node == null) return;
+
+            frmClassEdit frm = new frmClassEdit();
+            frm.Text = "Название плагина";
+            frm.tbClassName.Text = node.Text;
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                string plugin_name = frm.tbClassName.Text.Trim();
+                string extension = "";
+
+                // проверим имя файла
+                try
+                {
+                    extension = Path.GetExtension(plugin_name);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка в имени плагина. Текст ошибки '{ex.Message}'", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (extension == "")
+                {
+                    MessageBox.Show("Имя плагина должно включать расширение", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (DATABASE.Plugin_Rename((long)node.Tag, plugin_name))
+                {
+                    node.Text = plugin_name;
+                    VARS.main_form.slblLastUpdate.Text = "Last update: " + DATABASE.SetLastUpdate();
+                }
             }
         }
     }

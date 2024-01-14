@@ -46,6 +46,7 @@
             this.ctxTemplates_CSharpConsoleApp = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblCaretInfo = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnSpellingCheck = new System.Windows.Forms.Button();
             this.pnlHotButtons.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -55,6 +56,7 @@
             // 
             this.pnlHotButtons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.pnlHotButtons.Controls.Add(this.btnRun);
+            this.pnlHotButtons.Controls.Add(this.btnSpellingCheck);
             this.pnlHotButtons.Controls.Add(this.btnInsertPreset);
             this.pnlHotButtons.Controls.Add(this.btnSave);
             this.pnlHotButtons.Dock = System.Windows.Forms.DockStyle.Top;
@@ -72,7 +74,7 @@
             this.btnRun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRun.ImageKey = "play";
             this.btnRun.ImageList = this.imageList1;
-            this.btnRun.Location = new System.Drawing.Point(20, 0);
+            this.btnRun.Location = new System.Drawing.Point(40, 0);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(20, 22);
             this.btnRun.TabIndex = 9;
@@ -88,6 +90,7 @@
             this.imageList1.Images.SetKeyName(1, "exclamation");
             this.imageList1.Images.SetKeyName(2, "list");
             this.imageList1.Images.SetKeyName(3, "play");
+            this.imageList1.Images.SetKeyName(4, "spelling_check");
             // 
             // btnInsertPreset
             // 
@@ -128,7 +131,7 @@
             this.rtb.BackColor = System.Drawing.Color.White;
             this.rtb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rtb.ForeColor = System.Drawing.Color.Navy;
+            this.rtb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.rtb.Location = new System.Drawing.Point(0, 22);
             this.rtb.Name = "rtb";
             this.rtb.Size = new System.Drawing.Size(800, 406);
@@ -137,6 +140,7 @@
             this.rtb.SelectionChanged += new System.EventHandler(this.rtb_SelectionChanged);
             this.rtb.TextChanged += new System.EventHandler(this.rtb_TextChanged);
             this.rtb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.rtb_KeyDown);
+            this.rtb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rtb_KeyPress);
             // 
             // contextMenuStrip1
             // 
@@ -214,6 +218,23 @@
             this.lblCaretInfo.Size = new System.Drawing.Size(118, 17);
             this.lblCaretInfo.Text = "toolStripStatusLabel1";
             // 
+            // btnSpellingCheck
+            // 
+            this.btnSpellingCheck.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnSpellingCheck.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnSpellingCheck.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnSpellingCheck.FlatAppearance.BorderSize = 0;
+            this.btnSpellingCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSpellingCheck.ImageKey = "spelling_check";
+            this.btnSpellingCheck.ImageList = this.imageList1;
+            this.btnSpellingCheck.Location = new System.Drawing.Point(20, 0);
+            this.btnSpellingCheck.Name = "btnSpellingCheck";
+            this.btnSpellingCheck.Size = new System.Drawing.Size(20, 22);
+            this.btnSpellingCheck.TabIndex = 10;
+            this.btnSpellingCheck.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSpellingCheck.UseVisualStyleBackColor = false;
+            this.btnSpellingCheck.Click += new System.EventHandler(this.btnSpellingCheck_Click);
+            // 
             // frmPluginEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -227,6 +248,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактор плагина";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPluginEditor_FormClosing);
+            this.Load += new System.EventHandler(this.frmPluginEditor_Load);
             this.pnlHotButtons.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
@@ -254,5 +276,6 @@
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblCaretInfo;
+        private System.Windows.Forms.Button btnSpellingCheck;
     }
 }

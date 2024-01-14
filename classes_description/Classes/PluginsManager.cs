@@ -89,7 +89,7 @@ namespace simple_database
             if (user_data.Count > 0) ShowUserInputForm();
 
             // подставляем полученные пользовательские данные в код
-            mm = Regex.Matches(code, @"{#VALUE\s+(.+)#}", RegexOptions.Multiline);
+            mm = Regex.Matches(code, @"{#VALUE\s+(.+?)#}", RegexOptions.Multiline);
             StringBuilder newcode = new StringBuilder(code.Length);
             int index = 0;
             foreach (Match m in mm)
@@ -335,6 +335,7 @@ namespace simple_database
         {
             int maxHeight = 0;
             Icon icon = Icon.FromHandle(Properties.Resources.plugin_16.GetHicon());
+            string[] controlsWithoutLabels = new string[] { "Button", "Label", "CheckBox" };
 
             // создаем форму
             Form frm = new Form();
@@ -413,9 +414,18 @@ namespace simple_database
                         cb.Tag = input.Key;
                         cb.Parent = frm;
                         break;
+
+                    case "CheckBox":
+                        CheckBox chb = new CheckBox();
+                        chb.Dock = DockStyle.Top;
+                        chb.Checked = input.Value.Value == "1";
+                        chb.Tag = input.Key;
+                        chb.Text = input.Value.Text;
+                        chb.Parent = frm;
+                        break;
                 }
 
-                if (input.Value.Type != "Button" && input.Value.Type != "Label")
+                if (!controlsWithoutLabels.Contains(input.Value.Type))
                 {
                     // создаем метку
                     Label lbl = new Label();
@@ -464,6 +474,10 @@ namespace simple_database
                 else if (c.GetType() == typeof(ComboBox))
                 {
                     user_data[(string)c.Tag].Value = ((ComboBox)c).SelectedItem.ToString().Trim();
+                }
+                else if (c.GetType() == typeof(CheckBox))
+                {
+                    user_data[(string)c.Tag].Value = ((CheckBox)c).Checked ? "1" : "0";
                 }
             }
 

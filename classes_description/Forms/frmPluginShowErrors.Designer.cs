@@ -55,7 +55,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmPluginShowErrors";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Ошибки компиляции";
+            this.Text = "Ошибки запуска";
             this.ResumeLayout(false);
             this.PerformLayout();
 

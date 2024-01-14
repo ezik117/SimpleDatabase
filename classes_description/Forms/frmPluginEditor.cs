@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,6 +20,8 @@ namespace simple_database
         /// ID редактируемого оглавления плагина
         /// </summary>
         public long property_id;
+
+        private static bool lockUpdate = false;
 
         /// <summary>
         /// Конструктор
@@ -45,8 +48,30 @@ namespace simple_database
         /// </summary>
         private void rtb_TextChanged(object sender, EventArgs e)
         {
+            if (lockUpdate) return;
+
             if (btnSave.ImageKey == "Save-icon")
                 btnSave.ImageKey = "exclamation";
+
+            int lastSymbolPos = rtb.SelectionStart - 1;
+
+            if (lastSymbolPos >= 0)
+            {
+                char c = rtb.Text[lastSymbolPos];
+                if (wordTerminators.Contains(c) || c == '"')
+                {
+                    int start = rtb.GetFirstCharIndexOfCurrentLine();
+                    int len = rtb.SelectionStart - start;
+
+                    if (c == '\n')
+                    {
+                        start = rtb.GetFirstCharIndexFromLine(rtb.GetLineFromCharIndex(start) - 1);
+                        len = rtb.SelectionStart - start - 1;
+                    }
+                    
+                   CheckSpelling(start, len, true);
+                }
+            }
         }
 
         /// <summary>
@@ -54,9 +79,12 @@ namespace simple_database
         /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
+            CheckSpelling(0, rtb.Text.Length);
+
             if (DATABASE.Plugin_Update(property_id, rtb.Text))
             {
                 btnSave.ImageKey = "Save-icon";
+                VARS.main_form.slblLastUpdate.Text = "Last update: " + DATABASE.SetLastUpdate();
             }
             else
             {
@@ -259,6 +287,221 @@ namespace simple_database
             int column = pos - rtb.GetFirstCharIndexFromLine(row);
 
             lblCaretInfo.Text = $"Позиция {1 + pos}    Строка {1 + row}    Столбец {1 + column}";
+        }
+
+
+        /// <summary>
+        /// Подсветить синтаксис
+        /// </summary>
+        private void btnSpellingCheck_Click(object sender, EventArgs e)
+        {
+            CheckSpelling(0, rtb.Text.Length);
+        }
+
+        /// <summary>
+        /// Функция подсветки синтаксиса
+        /// </summary>
+        /// <param name="startPos">Позиция с которой надо проверить</param>
+        /// <param name="length">Длина проверяемого участка</param>
+        /// <param name="partially">Показывает производится ли проверка частично</param>
+        private void CheckSpelling(int startPos, int length, bool partially = false)
+        {
+            lockUpdate = true;
+
+            // сохранение состояния
+            int cursorPos = rtb.SelectionStart;
+            string saveStatus = btnSave.ImageKey;
+
+            // отключим вывод в RichTextBox
+            TextEditorNS.WinAPI.SendMessage(rtb.Handle, TextEditorNS.WinAPI.WM_SETREDRAW, 0, IntPtr.Zero);
+
+            // если это частичная проверка, то вначале сбросим цвет по умолчанию
+            rtb.Select(startPos, length);
+            rtb.SelectionColor = rtb.ForeColor;
+
+            // внутренние переменные
+            int endTextIndex = startPos + length - 1;
+            char c = '\0';
+            PBlocks pblocks = new PBlocks();
+            PStart pstart = new PStart();
+
+            for (int i = startPos; i < startPos + length; i++)
+            {
+                c = rtb.Text[i];
+
+                // двойная кавычка
+                if (c == '"')
+                {
+                    if (pstart.doubleQuote < 0)
+                    {
+                        pstart.doubleQuote = i; // начало строки
+                    }
+                    else
+                    {
+                        // продолжение строки
+                        if (i > 0 && rtb.Text[i - 1] != '\\')
+                        {
+                            pblocks.doubleQuote.Add(new Point(pstart.doubleQuote, 1 + i - pstart.doubleQuote));
+                            pstart.doubleQuote = -1;
+                        }
+                    }
+                }
+
+                // одинарная кавычка
+                if (c == '\'')
+                {
+                    if (pstart.singleQuote < 0)
+                    {
+                        pstart.singleQuote = i; // начало строки
+                    }
+                    else
+                    {
+                        // продолжение строки
+                        if (i > 0 && rtb.Text[i - 1] != '\\')
+                        {
+                            pblocks.singleQuote.Add(new Point(pstart.singleQuote, 1 + i - pstart.singleQuote));
+                            pstart.singleQuote = -1;
+                        }
+                    }
+                }
+
+                // специальный блок
+                if (c == '#')
+                {
+                    if (pstart.specialBlock < 0 && i > 0 && rtb.Text[i - 1] == '{')
+                    {
+                        pstart.specialBlock = i - 1; // начало
+                    }
+                    else if (i < endTextIndex && rtb.Text[i + 1] == '}')
+                    {
+                        pblocks.specialBlock.Add(new Point(pstart.specialBlock, 2 + i - pstart.specialBlock));
+                        pstart.specialBlock = -1;
+                        i++;
+                    }
+                }
+
+                // слово
+                if (pstart.word < 0 && char.IsLetter(c))
+                {
+                    pstart.word = i;
+                }
+                else if (pstart.word >= 0 && wordTerminators.Contains(c))
+                {
+                    if (keywords.Contains(rtb.Text.Substring(pstart.word, i - pstart.word)))
+                    {
+                        pblocks.word.Add(new Point(pstart.word, i - pstart.word));
+                    }
+                    pstart.word = -1;
+                }
+                else if (pstart.word >= 0 && i == endTextIndex)
+                {
+                    if (keywords.Contains(rtb.Text.Substring(pstart.word, 1 + i - pstart.word)))
+                    {
+                        pblocks.word.Add(new Point(pstart.word, 1 + i - pstart.word));
+                    }
+                    pstart.word = -1;
+                }
+            }
+
+            // Раскрашивание найденных блоков в порядке применения очередности
+            foreach (Point p in pblocks.word)
+            {
+                rtb.Select(p.X, p.Y);
+                rtb.SelectionColor = Color.Blue;
+            }
+
+            foreach (Point p in pblocks.doubleQuote)
+            {
+                rtb.Select(p.X, p.Y);
+                rtb.SelectionColor = Color.Brown;
+            }
+
+            foreach (Point p in pblocks.singleQuote)
+            {
+                rtb.Select(p.X, p.Y);
+                rtb.SelectionColor = Color.Brown;
+            }
+
+            foreach (Point p in pblocks.specialBlock)
+            {
+                rtb.Select(p.X, p.Y);
+                rtb.SelectionColor = Color.Magenta;
+            }
+
+            // включим вывод в окно
+            TextEditorNS.WinAPI.SendMessage(rtb.Handle, TextEditorNS.WinAPI.WM_SETREDRAW, 1, IntPtr.Zero);
+
+            // восстановление состояния
+            rtb.Select(cursorPos, 0);
+            rtb.SelectionColor = rtb.ForeColor;
+            btnSave.ImageKey = saveStatus;
+            rtb.Invalidate();
+            rtb.Focus();
+
+            lockUpdate = false;
+        }
+
+        private class PStart
+        {
+            public PStart()
+            {
+                doubleQuote = -1;
+                singleQuote = -1;
+                specialBlock = -1;
+                word = -1;
+            }
+
+            public int doubleQuote = -1;
+            public int singleQuote = -1;
+            public int specialBlock = -1;
+            public int word = -1;
+        }
+
+        private class PBlocks
+        {
+            public PBlocks()
+            {
+                doubleQuote.Clear();
+                singleQuote.Clear();
+                specialBlock.Clear();
+                word.Clear();
+            }
+
+            public List<Point> doubleQuote = new List<Point>();
+            public List<Point> singleQuote = new List<Point>();
+            public List<Point> specialBlock = new List<Point>();
+            public List<Point> word = new List<Point>();
+        }
+
+        private readonly string[] keywords =
+        {
+            "using", "class", "namespace", "new",
+            "int", "long", "bool", "float", "double", "single", "string", "char", "void", "byte", "enum", "short",
+            "true", "false", "null", "fixed", "object", "sizeof", "typeof", 
+            "public", "private", "protected", "static", "const", "readonly",
+            "for", "foreach", "do", "while", "break", "continue", "if", "else", "in", "out", "is", "ref",
+            "try", "catch", "finally", "return", 
+            "switch", "case", "default", "where", "this", "throw", 
+        };
+
+        private readonly char[] wordTerminators = { ' ', '.', ':', ';', '=', ')', '{', '}', '(', '\r', '\n' };
+
+        /// <summary>
+        /// Действия после загрузки и отображения формы
+        /// </summary>
+        private void frmPluginEditor_Load(object sender, EventArgs e)
+        {
+            CheckSpelling(0, rtb.Text.Length);
+        }
+
+        /// <summary>
+        /// Подсветка синтаксиса по нажатию ключевых клавиш
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rtb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
         }
     }
 }

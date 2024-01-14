@@ -568,6 +568,7 @@ namespace simple_database
                 tsmiPluginEdit.Visible = true;
                 tsmiPluginExecute.Visible = true;
                 tsmiPluginSaveTo.Visible = true;
+                tsmiPluginRename.Visible = true;
             }
             else
             {
@@ -575,6 +576,7 @@ namespace simple_database
                 tsmiPluginEdit.Visible = false;
                 tsmiPluginExecute.Visible = false;
                 tsmiPluginSaveTo.Visible = false;
+                tsmiPluginRename.Visible = false;
             }
         }
 
@@ -692,6 +694,14 @@ namespace simple_database
         private void tsmiPluginCreate_Click(object sender, EventArgs e)
         {
             PROPERTY.PluginCreate(tvProps.SelectedNode);
+        }
+
+        /// <summary>
+        /// Контекстное меню: Плагин - Переименовать
+        /// </summary>
+        private void tsmiPluginRename_Click(object sender, EventArgs e)
+        {
+            PROPERTY.PluginRename(tvProps.SelectedNode);
         }
     }
 

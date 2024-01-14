@@ -48,3 +48,6 @@ https://www.iconarchive.com/show/papirus-apps-icons-by-papirus-team/chromium-app
 play
 https://www.iconarchive.com/show/vista-multimedia-icons-by-icons-land/Play-1-Pressed-icon.html
 
+подсветка синтаксиса
+https://www.iconarchive.com/show/oxygen-icons-by-oxygen-icons.org/Actions-tools-check-spelling-icon.html
+
