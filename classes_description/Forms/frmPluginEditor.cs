@@ -26,6 +26,11 @@ namespace simple_database
         /// </summary>
         private static bool lockUpdate = false;
 
+        /// <summary>
+        /// Последняя нажатая клавиша из события KeyDown
+        /// </summary>
+        private Keys lastKey = Keys.None;
+
         // Цветовые константы
         private readonly Color cComment = Color.FromArgb(87, 166, 74);
         private readonly Color cKeyword = Color.FromArgb(86, 156, 214);
@@ -49,7 +54,9 @@ namespace simple_database
         /// </summary>
         public void LoadText(string plugin_code)
         {
+            lockUpdate = true;
             rtb.Text = plugin_code;
+            lockUpdate = false;
         }
 
         /// <summary>
@@ -61,6 +68,14 @@ namespace simple_database
 
             if (btnSave.ImageKey == "Save-icon")
                 btnSave.ImageKey = "exclamation";
+
+            // вызовем подсветку синтаксиса, если тест изменился в результате нажатия клавиш удаления
+            if (lastKey == Keys.Back || lastKey == Keys.Delete)
+            {
+                if (rtb.Lines.Length > 0)
+                    CheckSpelling(rtb.GetFirstCharIndexOfCurrentLine(), rtb.Lines[rtb.GetLineFromCharIndex(rtb.SelectionStart)].Length, true);
+                return;
+            }
 
             // вызовем подсветку синтаксиса для текущей строки, если были введены специальные символы
             int lastSymbolPos = rtb.SelectionStart - 1;
@@ -80,6 +95,23 @@ namespace simple_database
                     {
                         start = rtb.GetFirstCharIndexFromLine(line - 1);
                         len = rtb.Lines[line - 1].Length;
+
+                        // заодно проверим автоотступы
+                        string spaces = "";
+                        foreach (char ch in rtb.Lines[line - 1])
+                        {
+                            if (ch != ' ')
+                                break;
+                            else
+                                spaces += " ";
+                        }
+                        if (spaces.Length > 0)
+                        {
+                            lockUpdate = true;
+                            rtb.Select(rtb.GetFirstCharIndexOfCurrentLine(), 0);
+                            rtb.SelectedText = spaces;
+                            lockUpdate = false;
+                        }
                     }
                     else // вычислим данные текущей строки
                     {
@@ -117,10 +149,67 @@ namespace simple_database
         /// <param name="e"></param>
         private void rtb_KeyDown(object sender, KeyEventArgs e)
         {
+            lastKey = e.KeyCode;
+
             // обработка TAB
-            if (e.KeyCode == Keys.Tab && !e.Control)
+            if (e.KeyCode == Keys.Tab && e.Modifiers == Keys.None)
             {
-                rtb.SelectedText = "    ";
+                if (rtb.SelectionLength == 0)
+                {
+                    // одиночная вставка
+                    rtb.SelectedText = "    ";
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                    return;
+                }
+                else
+                {
+                    // сдвигаем текст
+                    int startLine = rtb.GetLineFromCharIndex(rtb.SelectionStart);
+                    int endLine = rtb.GetLineFromCharIndex(rtb.SelectionStart + rtb.SelectionLength);
+                    int savedStartPos = rtb.SelectionStart;
+                    int savedLength = rtb.SelectionLength;
+                    for (int i = startLine; i <= endLine; i++)
+                    {
+                        int firstSymbolPos = rtb.GetFirstCharIndexFromLine(i);
+                        rtb.Select(firstSymbolPos, 0);
+                        rtb.SelectedText = "    ";
+                        savedLength += 4;
+                    }
+
+                    rtb.Select(4 + savedStartPos, savedLength - 4);
+
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                    return;
+                }
+            }
+
+            // обработка CTRL-TAB
+            if (e.KeyCode == Keys.Tab && e.Modifiers == Keys.Shift)
+            {
+                int startLine = rtb.GetLineFromCharIndex(rtb.SelectionStart);
+                int endLine = rtb.GetLineFromCharIndex(rtb.SelectionStart + rtb.SelectionLength);
+                int savedStartPos = rtb.SelectionStart;
+                int savedLength = rtb.SelectionLength;
+                for (int i = startLine; i <= endLine; i++)
+                {
+                    int firstSymbolPos = rtb.GetFirstCharIndexFromLine(i);
+                    if (rtb.Lines[i].Length >= 4 && rtb.Text.Substring(firstSymbolPos, 4) == "    ")
+                    {
+                        rtb.Select(firstSymbolPos, 4);
+                        rtb.SelectedText = "";
+
+                        if (i == startLine)
+                        {
+                            if ((savedStartPos - firstSymbolPos) > 3) savedStartPos -= 4;
+                        }
+                        else
+                            savedLength -= 4;
+                    }
+                    
+                }
+                rtb.Select(savedStartPos, savedLength);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
                 return;
@@ -219,7 +308,7 @@ namespace simple_database
                 "{#SET RUN=Start #}" + Environment.NewLine +
                 "{#SET REFERENCES=System.dll; System.Windows.Forms.dll #}" + Environment.NewLine +
                 "" + Environment.NewLine +
-                "{#SET ASKTITLE=Запрос данных #}" + Environment.NewLine +
+                "{#SET ASKTITLE=Ввод данных #}" + Environment.NewLine +
                 "{#ASK NAME=\"\" TYPE=\"Label\" TEXT=\"Пример запроса данных у пользователя\\n и принцип обработки чисел с плавающей точкой.\" VALUE=\"\" #}" + Environment.NewLine +
                 "{#ASK NAME=\"message1\" TYPE=\"TextBox\" TEXT=\"Сообщение для вывода на экран:\" VALUE=\"Hello World!\" #}" + Environment.NewLine +
                 "{#ASK NAME=\"числоСПлавающейТочкой\" TYPE=\"TextBox\" TEXT=\"Число с плавающей точкой:\" VALUE=\"0,4\" #}" + Environment.NewLine +
