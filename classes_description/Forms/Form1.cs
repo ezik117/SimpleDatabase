@@ -557,7 +557,6 @@ namespace simple_database
             TreeNode node = tvProps.SelectedNode;
 
             tsmiAttachments.Visible = false;
-            tsmiPlugin.Visible = false;
 
             if (node.ImageIndex == (int)IconTypes.Attachment)
             {
@@ -565,7 +564,17 @@ namespace simple_database
             }
             else if (node.ImageIndex == (int)IconTypes.Plugin)
             {
-                tsmiPlugin.Visible = true;
+                tsmiPluginCreate.Visible = false;
+                tsmiPluginEdit.Visible = true;
+                tsmiPluginExecute.Visible = true;
+                tsmiPluginSaveTo.Visible = true;
+            }
+            else
+            {
+                tsmiPluginCreate.Visible = true;
+                tsmiPluginEdit.Visible = false;
+                tsmiPluginExecute.Visible = false;
+                tsmiPluginSaveTo.Visible = false;
             }
         }
 
@@ -682,14 +691,7 @@ namespace simple_database
         /// </summary>
         private void tsmiPluginCreate_Click(object sender, EventArgs e)
         {
-            frmClassEdit frm = new frmClassEdit();
-            frm.Text = "Название плагина";
-            frm.ShowDialog();
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                string plugin_name = frm.tbClassName.Text.Trim();
-
-            }
+            PROPERTY.PluginCreate(tvProps.SelectedNode);
         }
     }
 

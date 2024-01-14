@@ -265,7 +265,7 @@
             this.tsmiAttachments,
             this.tsmiPlugin});
             this.ctxMenuCharters.Name = "ctxMenuCharters";
-            this.ctxMenuCharters.Size = new System.Drawing.Size(154, 170);
+            this.ctxMenuCharters.Size = new System.Drawing.Size(181, 192);
             this.ctxMenuCharters.Opening += new System.ComponentModel.CancelEventHandler(this.ctxMenuCharters_Opening);
             // 
             // toolStripSeparator1
@@ -878,7 +878,6 @@
             this.tsmiPluginCreate.Name = "tsmiPluginCreate";
             this.tsmiPluginCreate.Size = new System.Drawing.Size(182, 22);
             this.tsmiPluginCreate.Text = "Создать";
-            this.tsmiPluginCreate.Visible = false;
             this.tsmiPluginCreate.Click += new System.EventHandler(this.tsmiPluginCreate_Click);
             // 
             // Form1

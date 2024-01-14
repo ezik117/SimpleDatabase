@@ -707,7 +707,7 @@ namespace simple_database
         {
             if (node == null) return;
 
-            PluginsManager.Open((long)node.Tag);
+            PluginsManager.StartPlugin((long)node.Tag);
         }
 
         /// <summary>
@@ -745,7 +745,51 @@ namespace simple_database
             frm.property_id = (long)node.Tag;
             frm.LoadText(plugin_code);
             frm.ShowDialog();
+        }
 
+        /// <summary>
+        /// Создать новый плагин
+        /// </summary>
+        /// <param name="node">Элемент оглавления (плагин)</param>
+        public static void PluginCreate(TreeNode node)
+        {
+            if (node == null) return;
+
+            frmClassEdit frm = new frmClassEdit();
+            frm.Text = "Название плагина";
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                string plugin_name = frm.tbClassName.Text.Trim();
+                if (Path.GetExtension(plugin_name) == "")
+                {
+                    MessageBox.Show("Имя плагина должно включать расширение", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                long rowid = DATABASE.Plugin_Create((long)node.Tag, (long)VARS.main_form.tvClasses.SelectedNode.Tag, plugin_name);
+
+                if (rowid < 0)
+                {
+                    MessageBox.Show("Невозможно создать", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                VARS.main_form.slblLastUpdate.Text = "Last update: " + DATABASE.SetLastUpdate();
+
+                TreeNode t = new TreeNode();
+                t.Text = plugin_name;
+                t.ImageIndex = t.SelectedImageIndex = (int)IconTypes.Plugin;
+                t.Tag = rowid;
+
+                node.Nodes.Add(t);
+                VARS.main_form.tvProps.SelectedNode = t;
+                VARS.main_form.tvProps.Focus();
+
+                frmPluginEditor frmEdit = new frmPluginEditor();
+                frmEdit.property_id = rowid;
+                frmEdit.LoadText("");
+                frmEdit.ShowDialog();
+            }
         }
     }
 }

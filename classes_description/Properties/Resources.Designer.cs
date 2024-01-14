@@ -255,7 +255,7 @@ namespace simple_database.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap plugin_16 {
             get {
-                object obj = ResourceManager.GetObject("plugin-16", resourceCulture);
+                object obj = ResourceManager.GetObject("plugin_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

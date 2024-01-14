@@ -228,6 +228,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="main_icon.ico" />
+    <None Include="Resources\list-161.png" />
+    <None Include="Resources\list-16.png" />
     <None Include="Resources\plugin-16.png" />
     <None Include="Resources\about-16.png" />
     <None Include="Resources\vacuum-16.png" />

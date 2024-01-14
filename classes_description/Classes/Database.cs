@@ -1299,5 +1299,45 @@ namespace simple_database
             cmd.CommandText = "UPDATE attachments SET data=@data WHERE property = @property_id";
             return cmd.ExecuteNonQuery() == 1;
         }
+
+        /// <summary>
+        /// Создание пустого плагина
+        /// </summary>
+        /// <param name="parent_id">ID элемента оглавления</param>
+        /// <param name="class_id">ID каталога</param>
+        /// <param name="name">Название плагина</param>
+        /// <returns>ROWID новой элемента оглавления или -1</returns>
+        public static long Plugin_Create(long parent_id, long class_id, string name)
+        {
+            SQLiteTransaction trans = conn.BeginTransaction();
+            long rowid = -1;
+
+            try
+            {
+                rowid = SaveProperty(-1, class_id, name, (int)IconTypes.Plugin, parent_id, "");
+
+                cmd.Parameters["@rowid"].Value = rowid;
+                cmd.Parameters["@fileName"].Value = name;
+
+                cmd.CommandText = @"INSERT INTO attachments (property, filename, data)
+                                    VALUES(@rowid, @fileName, @data)";
+
+                cmd.Parameters["@data"].Value = Encoding.UTF8.GetBytes(string.Empty);
+
+                cmd.ExecuteNonQuery();
+
+                // сохраним в истории
+                SaveHistory(class_id, conn.LastInsertRowId, "attachments", "Создание плагина", name);
+
+                trans.Commit();
+            }
+            catch
+            {
+                trans.Rollback();
+                rowid = -1;
+            }
+
+            return rowid;
+        }
     }
 }
