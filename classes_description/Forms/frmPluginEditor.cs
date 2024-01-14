@@ -297,11 +297,11 @@ namespace simple_database
         }
 
         /// <summary>
-        /// Контекстное меню. Вставить шаблон: C# класс
+        /// Контекстное меню. Вставить шаблон: C# класс (пустой)
         /// </summary>
         private void ctxTemplates_CSharpClass_Click(object sender, EventArgs e)
         {
-            rtb.SelectedText =
+            rtb.Text =
                 "/*" + Environment.NewLine +
                 "{#SET TYPE=CLASS #}" + Environment.NewLine +
                 "{#SET CLASS=Plugin #}" + Environment.NewLine +
@@ -335,6 +335,10 @@ namespace simple_database
                 "        }" + Environment.NewLine +
                 "    }" + Environment.NewLine +
                 "}";
+
+            rtb.Select(0, 0);
+            btnSpellingCheck.PerformClick();
+            rtb.Focus();
         }
 
         /// <summary>
@@ -342,7 +346,7 @@ namespace simple_database
         /// </summary>
         private void ctxTemplates_CSharpConsoleApp_Click(object sender, EventArgs e)
         {
-            rtb.SelectedText =
+            rtb.Text =
                 "/*" + Environment.NewLine +
                 "{#SET TYPE=APPLICATION #}" + Environment.NewLine +
                 "{#SET REFERENCES=System.dll; #}" + Environment.NewLine +
@@ -356,23 +360,58 @@ namespace simple_database
                 "using System;" + Environment.NewLine +
                 "" + Environment.NewLine +
                 "namespace plugins" + Environment.NewLine +
+                "{" + Environment.NewLine +
+                "    class PluginSample" + Environment.NewLine +
                 "    {" + Environment.NewLine +
-                "        class PluginSample" + Environment.NewLine +
+                "        [STAThread]" + Environment.NewLine +
+                "        static void Main(string[] args)" + Environment.NewLine +
                 "        {" + Environment.NewLine +
-                "            [STAThread]" + Environment.NewLine +
-                "            static void Main(string[] args)" + Environment.NewLine +
-                "            {" + Environment.NewLine +
-                "                if (\"pressed\" != \"{#VALUE btnOK #}\") return;" + Environment.NewLine +
-                "                int x = int.Parse(\"{#VALUE valX #}\");" + Environment.NewLine +
-                "                int y = int.Parse(\"{#VALUE valY #}\");" + Environment.NewLine +
-                "                int result = x + y;" + Environment.NewLine +
-                "                Console.WriteLine(\"X+Y=\" + result.ToString());" + Environment.NewLine +
-                "                Console.WriteLine(\"\");" + Environment.NewLine +
-                "                Console.WriteLine(\"Press a key to exit...\");" + Environment.NewLine +
-                "                Console.ReadKey(true);" + Environment.NewLine +
-                "            }" + Environment.NewLine +
+                "            if (\"pressed\" != \"{#VALUE btnOK #}\") return;" + Environment.NewLine +
+                "            int x = int.Parse(\"{#VALUE valX #}\");" + Environment.NewLine +
+                "            int y = int.Parse(\"{#VALUE valY #}\");" + Environment.NewLine +
+                "            int result = x + y;" + Environment.NewLine +
+                "            Console.WriteLine(\"X+Y=\" + result.ToString());" + Environment.NewLine +
+                "            Console.WriteLine(\"\");" + Environment.NewLine +
+                "            Console.WriteLine(\"Press a key to exit...\");" + Environment.NewLine +
+                "            Console.ReadKey(true);" + Environment.NewLine +
                 "        }" + Environment.NewLine +
-                "    }";
+                "    }" + Environment.NewLine +
+                "}";
+
+            rtb.Select(0, 0);
+            btnSpellingCheck.PerformClick();
+            rtb.Focus();
+        }
+
+        /// <summary>
+        /// Контекстное меню. Вставить шаблон: C# класс (пустой)
+        /// </summary>
+        private void ctxTemplates_CSharpClassEmpty_Click(object sender, EventArgs e)
+        {
+            rtb.Text =
+                "/*" + Environment.NewLine +
+                "{#SET TYPE=CLASS #}" + Environment.NewLine +
+                "{#SET CLASS=Plugin #}" + Environment.NewLine +
+                "{#SET RUN=Start #}" + Environment.NewLine +
+                "{#SET REFERENCES=System.dll; System.Windows.Forms.dll; #}" + Environment.NewLine +
+                "" + Environment.NewLine +
+                "*/" + Environment.NewLine +
+                "" + Environment.NewLine +
+                "using System;" + Environment.NewLine +
+                "using System.Globalization;" + Environment.NewLine +
+                "using System.Windows.Forms;" + Environment.NewLine +
+                "" + Environment.NewLine +
+                "class Plugin" + Environment.NewLine +
+                "{" + Environment.NewLine +
+                "    public void Start()" + Environment.NewLine +
+                "    {" + Environment.NewLine +
+                "        " + Environment.NewLine +
+                "    }" + Environment.NewLine +
+                "}";
+
+            rtb.Select(251, 0);
+            btnSpellingCheck.PerformClick();
+            rtb.Focus();
         }
 
         /// <summary>
@@ -647,5 +686,7 @@ namespace simple_database
         {
 
         }
+
+
     }
 }

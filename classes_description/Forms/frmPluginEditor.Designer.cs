@@ -47,6 +47,7 @@
             this.ctxTemplates_CSharpConsoleApp = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblCaretInfo = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ctxTemplates_CSharpClassEmpty = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHotButtons.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -168,55 +169,56 @@
             this.toolStripMenuItem1,
             this.шаблоныToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(129, 98);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 120);
             // 
             // ctxASK
             // 
             this.ctxASK.Name = "ctxASK";
-            this.ctxASK.Size = new System.Drawing.Size(128, 22);
+            this.ctxASK.Size = new System.Drawing.Size(180, 22);
             this.ctxASK.Text = "ASK";
             this.ctxASK.Click += new System.EventHandler(this.ctxASK_Click);
             // 
             // ctxSET
             // 
             this.ctxSET.Name = "ctxSET";
-            this.ctxSET.Size = new System.Drawing.Size(128, 22);
+            this.ctxSET.Size = new System.Drawing.Size(180, 22);
             this.ctxSET.Text = "SET";
             this.ctxSET.Click += new System.EventHandler(this.ctxSET_Click);
             // 
             // ctxVALUE
             // 
             this.ctxVALUE.Name = "ctxVALUE";
-            this.ctxVALUE.Size = new System.Drawing.Size(128, 22);
+            this.ctxVALUE.Size = new System.Drawing.Size(180, 22);
             this.ctxVALUE.Text = "VALUE";
             this.ctxVALUE.Click += new System.EventHandler(this.ctxVALUE_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(125, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // шаблоныToolStripMenuItem
             // 
             this.шаблоныToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ctxTemplates_CSharpClass,
-            this.ctxTemplates_CSharpConsoleApp});
+            this.ctxTemplates_CSharpConsoleApp,
+            this.ctxTemplates_CSharpClassEmpty});
             this.шаблоныToolStripMenuItem.Name = "шаблоныToolStripMenuItem";
-            this.шаблоныToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.шаблоныToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.шаблоныToolStripMenuItem.Text = "Шаблоны";
             // 
             // ctxTemplates_CSharpClass
             // 
             this.ctxTemplates_CSharpClass.Name = "ctxTemplates_CSharpClass";
-            this.ctxTemplates_CSharpClass.Size = new System.Drawing.Size(231, 22);
-            this.ctxTemplates_CSharpClass.Text = "C# класс";
+            this.ctxTemplates_CSharpClass.Size = new System.Drawing.Size(270, 22);
+            this.ctxTemplates_CSharpClass.Text = "C# класс (демо)";
             this.ctxTemplates_CSharpClass.Click += new System.EventHandler(this.ctxTemplates_CSharpClass_Click);
             // 
             // ctxTemplates_CSharpConsoleApp
             // 
             this.ctxTemplates_CSharpConsoleApp.Name = "ctxTemplates_CSharpConsoleApp";
-            this.ctxTemplates_CSharpConsoleApp.Size = new System.Drawing.Size(231, 22);
-            this.ctxTemplates_CSharpConsoleApp.Text = "C# консольное приложение";
+            this.ctxTemplates_CSharpConsoleApp.Size = new System.Drawing.Size(270, 22);
+            this.ctxTemplates_CSharpConsoleApp.Text = "C# консольное приложение (демо)";
             this.ctxTemplates_CSharpConsoleApp.Click += new System.EventHandler(this.ctxTemplates_CSharpConsoleApp_Click);
             // 
             // statusStrip1
@@ -234,6 +236,13 @@
             this.lblCaretInfo.Name = "lblCaretInfo";
             this.lblCaretInfo.Size = new System.Drawing.Size(118, 17);
             this.lblCaretInfo.Text = "toolStripStatusLabel1";
+            // 
+            // ctxTemplates_CSharpClassEmpty
+            // 
+            this.ctxTemplates_CSharpClassEmpty.Name = "ctxTemplates_CSharpClassEmpty";
+            this.ctxTemplates_CSharpClassEmpty.Size = new System.Drawing.Size(270, 22);
+            this.ctxTemplates_CSharpClassEmpty.Text = "C# класс";
+            this.ctxTemplates_CSharpClassEmpty.Click += new System.EventHandler(this.ctxTemplates_CSharpClassEmpty_Click);
             // 
             // frmPluginEditor
             // 
@@ -277,5 +286,6 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblCaretInfo;
         private System.Windows.Forms.Button btnSpellingCheck;
+        private System.Windows.Forms.ToolStripMenuItem ctxTemplates_CSharpClassEmpty;
     }
 }
