@@ -32,8 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPluginEditor));
             this.pnlHotButtons = new System.Windows.Forms.Panel();
             this.btnInsertPreset = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.btnSave = new System.Windows.Forms.Button();
             this.rtb = new System.Windows.Forms.RichTextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ctxASK = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,6 +43,7 @@
             this.шаблоныToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxTemplates_CSharpClass = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxTemplates_CSharpConsoleApp = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnRun = new System.Windows.Forms.Button();
             this.pnlHotButtons.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -50,6 +51,7 @@
             // pnlHotButtons
             // 
             this.pnlHotButtons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.pnlHotButtons.Controls.Add(this.btnRun);
             this.pnlHotButtons.Controls.Add(this.btnInsertPreset);
             this.pnlHotButtons.Controls.Add(this.btnSave);
             this.pnlHotButtons.Dock = System.Windows.Forms.DockStyle.Top;
@@ -65,7 +67,7 @@
             this.btnInsertPreset.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
             this.btnInsertPreset.FlatAppearance.BorderSize = 0;
             this.btnInsertPreset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnInsertPreset.ImageKey = "list-16-grayed.png";
+            this.btnInsertPreset.ImageKey = "list";
             this.btnInsertPreset.ImageList = this.imageList1;
             this.btnInsertPreset.Location = new System.Drawing.Point(0, 0);
             this.btnInsertPreset.Name = "btnInsertPreset";
@@ -74,6 +76,15 @@
             this.btnInsertPreset.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnInsertPreset.UseVisualStyleBackColor = false;
             this.btnInsertPreset.Click += new System.EventHandler(this.btnInsertPreset_Click);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Save-icon");
+            this.imageList1.Images.SetKeyName(1, "exclamation");
+            this.imageList1.Images.SetKeyName(2, "list");
+            this.imageList1.Images.SetKeyName(3, "play");
             // 
             // btnSave
             // 
@@ -91,14 +102,6 @@
             this.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Save-icon");
-            this.imageList1.Images.SetKeyName(1, "exclamation");
-            this.imageList1.Images.SetKeyName(2, "list-16-grayed.png");
             // 
             // rtb
             // 
@@ -126,28 +129,28 @@
             // ctxASK
             // 
             this.ctxASK.Name = "ctxASK";
-            this.ctxASK.Size = new System.Drawing.Size(180, 22);
+            this.ctxASK.Size = new System.Drawing.Size(128, 22);
             this.ctxASK.Text = "ASK";
             this.ctxASK.Click += new System.EventHandler(this.ctxASK_Click);
             // 
             // ctxSET
             // 
             this.ctxSET.Name = "ctxSET";
-            this.ctxSET.Size = new System.Drawing.Size(180, 22);
+            this.ctxSET.Size = new System.Drawing.Size(128, 22);
             this.ctxSET.Text = "SET";
             this.ctxSET.Click += new System.EventHandler(this.ctxSET_Click);
             // 
             // ctxVALUE
             // 
             this.ctxVALUE.Name = "ctxVALUE";
-            this.ctxVALUE.Size = new System.Drawing.Size(180, 22);
+            this.ctxVALUE.Size = new System.Drawing.Size(128, 22);
             this.ctxVALUE.Text = "VALUE";
             this.ctxVALUE.Click += new System.EventHandler(this.ctxVALUE_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(125, 6);
             // 
             // шаблоныToolStripMenuItem
             // 
@@ -155,7 +158,7 @@
             this.ctxTemplates_CSharpClass,
             this.ctxTemplates_CSharpConsoleApp});
             this.шаблоныToolStripMenuItem.Name = "шаблоныToolStripMenuItem";
-            this.шаблоныToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.шаблоныToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.шаблоныToolStripMenuItem.Text = "Шаблоны";
             // 
             // ctxTemplates_CSharpClass
@@ -172,6 +175,23 @@
             this.ctxTemplates_CSharpConsoleApp.Text = "C# консольное приложение";
             this.ctxTemplates_CSharpConsoleApp.Click += new System.EventHandler(this.ctxTemplates_CSharpConsoleApp_Click);
             // 
+            // btnRun
+            // 
+            this.btnRun.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnRun.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnRun.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnRun.FlatAppearance.BorderSize = 0;
+            this.btnRun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRun.ImageKey = "play";
+            this.btnRun.ImageList = this.imageList1;
+            this.btnRun.Location = new System.Drawing.Point(20, 0);
+            this.btnRun.Name = "btnRun";
+            this.btnRun.Size = new System.Drawing.Size(20, 22);
+            this.btnRun.TabIndex = 9;
+            this.btnRun.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnRun.UseVisualStyleBackColor = false;
+            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
+            // 
             // frmPluginEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -184,7 +204,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактор плагина";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPluginEditor_FormClosing);
-            this.Load += new System.EventHandler(this.frmPluginEditor_Load);
             this.pnlHotButtons.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -206,5 +225,6 @@
         private System.Windows.Forms.ToolStripMenuItem шаблоныToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ctxTemplates_CSharpClass;
         private System.Windows.Forms.ToolStripMenuItem ctxTemplates_CSharpConsoleApp;
+        private System.Windows.Forms.Button btnRun;
     }
 }

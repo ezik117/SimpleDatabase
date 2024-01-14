@@ -175,6 +175,7 @@ namespace simple_database
                 "*/" + Environment.NewLine +
                 "" + Environment.NewLine +
                 "using System;" + Environment.NewLine +
+                "using System;" + Environment.NewLine +
                 "using System.Windows.Forms;" + Environment.NewLine +
                 "" + Environment.NewLine +
                 "class Plugin" + Environment.NewLine +
@@ -229,11 +230,11 @@ namespace simple_database
         }
 
         /// <summary>
-        /// Действия при загрузке формы
+        /// Запустить скрипт
         /// </summary>
-        private void frmPluginEditor_Load(object sender, EventArgs e)
+        private void btnRun_Click(object sender, EventArgs e)
         {
-            
+            PluginsManager.StartPlugin(property_id);
         }
     }
 }
