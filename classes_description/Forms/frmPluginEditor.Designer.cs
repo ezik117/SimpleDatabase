@@ -33,6 +33,7 @@
             this.pnlHotButtons = new System.Windows.Forms.Panel();
             this.btnRun = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.btnSpellingCheck = new System.Windows.Forms.Button();
             this.btnInsertPreset = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.rtb = new System.Windows.Forms.RichTextBox();
@@ -46,7 +47,6 @@
             this.ctxTemplates_CSharpConsoleApp = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblCaretInfo = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnSpellingCheck = new System.Windows.Forms.Button();
             this.pnlHotButtons.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -92,6 +92,23 @@
             this.imageList1.Images.SetKeyName(3, "play");
             this.imageList1.Images.SetKeyName(4, "spelling_check");
             // 
+            // btnSpellingCheck
+            // 
+            this.btnSpellingCheck.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnSpellingCheck.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnSpellingCheck.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnSpellingCheck.FlatAppearance.BorderSize = 0;
+            this.btnSpellingCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSpellingCheck.ImageKey = "spelling_check";
+            this.btnSpellingCheck.ImageList = this.imageList1;
+            this.btnSpellingCheck.Location = new System.Drawing.Point(20, 0);
+            this.btnSpellingCheck.Name = "btnSpellingCheck";
+            this.btnSpellingCheck.Size = new System.Drawing.Size(20, 22);
+            this.btnSpellingCheck.TabIndex = 10;
+            this.btnSpellingCheck.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSpellingCheck.UseVisualStyleBackColor = false;
+            this.btnSpellingCheck.Click += new System.EventHandler(this.btnSpellingCheck_Click);
+            // 
             // btnInsertPreset
             // 
             this.btnInsertPreset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -128,10 +145,10 @@
             // 
             // rtb
             // 
-            this.rtb.BackColor = System.Drawing.Color.White;
+            this.rtb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.rtb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rtb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.rtb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.rtb.Location = new System.Drawing.Point(0, 22);
             this.rtb.Name = "rtb";
             this.rtb.Size = new System.Drawing.Size(800, 406);
@@ -217,23 +234,6 @@
             this.lblCaretInfo.Name = "lblCaretInfo";
             this.lblCaretInfo.Size = new System.Drawing.Size(118, 17);
             this.lblCaretInfo.Text = "toolStripStatusLabel1";
-            // 
-            // btnSpellingCheck
-            // 
-            this.btnSpellingCheck.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnSpellingCheck.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnSpellingCheck.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnSpellingCheck.FlatAppearance.BorderSize = 0;
-            this.btnSpellingCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSpellingCheck.ImageKey = "spelling_check";
-            this.btnSpellingCheck.ImageList = this.imageList1;
-            this.btnSpellingCheck.Location = new System.Drawing.Point(20, 0);
-            this.btnSpellingCheck.Name = "btnSpellingCheck";
-            this.btnSpellingCheck.Size = new System.Drawing.Size(20, 22);
-            this.btnSpellingCheck.TabIndex = 10;
-            this.btnSpellingCheck.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnSpellingCheck.UseVisualStyleBackColor = false;
-            this.btnSpellingCheck.Click += new System.EventHandler(this.btnSpellingCheck_Click);
             // 
             // frmPluginEditor
             // 

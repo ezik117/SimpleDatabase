@@ -21,7 +21,15 @@ namespace simple_database
         /// </summary>
         public long property_id;
 
+        /// <summary>
+        /// Блокировка события изменения текста
+        /// </summary>
         private static bool lockUpdate = false;
+
+        // Цветовые константы
+        private readonly Color cComment = Color.FromArgb(87, 166, 74);
+        private readonly Color cKeyword = Color.FromArgb(86, 156, 214);
+        private readonly Color cString = Color.FromArgb(214, 157, 133);
 
         /// <summary>
         /// Конструктор
@@ -410,31 +418,80 @@ namespace simple_database
                     }
                     pstart.word = -1;
                 }
+
+                // одиночный комментарий
+                if (c == '/')
+                {
+                    if (pstart.singleComment < 0 && i > 0 && rtb.Text[i - 1] == '/')
+                    {
+                        pstart.singleComment = i - 1; // начало
+                    }
+                }
+                if (pstart.singleComment >= 0)
+                {
+                    if (c == '\n')
+                    {
+                        pblocks.singleComment.Add(new Point(pstart.singleComment, i - pstart.singleComment));
+                        pstart.singleComment = -1;
+                    }
+                    else if (i == endTextIndex)
+                    {
+                        pblocks.singleComment.Add(new Point(pstart.singleComment, 1 + i - pstart.singleComment));
+                        pstart.singleComment = -1;
+                    }
+                }
+
+                // блочный комментарий
+                if (c == '*')
+                {
+                    if (pstart.blockComment < 0 && i > 0 && rtb.Text[i - 1] == '/')
+                    {
+                        pstart.blockComment = i - 1; // начало
+                    }
+                    else if (i < endTextIndex && rtb.Text[i + 1] == '/')
+                    {
+                        pblocks.blockComment.Add(new Point(pstart.blockComment, 2 + i - pstart.blockComment));
+                        pstart.blockComment = -1;
+                        i++;
+                    }
+                }
             }
 
             // Раскрашивание найденных блоков в порядке применения очередности
             foreach (Point p in pblocks.word)
             {
                 rtb.Select(p.X, p.Y);
-                rtb.SelectionColor = Color.Blue;
+                rtb.SelectionColor = cKeyword;
             }
 
             foreach (Point p in pblocks.doubleQuote)
             {
                 rtb.Select(p.X, p.Y);
-                rtb.SelectionColor = Color.Brown;
+                rtb.SelectionColor = cString;
             }
 
             foreach (Point p in pblocks.singleQuote)
             {
                 rtb.Select(p.X, p.Y);
-                rtb.SelectionColor = Color.Brown;
+                rtb.SelectionColor = cString;
+            }
+
+            foreach (Point p in pblocks.singleComment)
+            {
+                rtb.Select(p.X, p.Y);
+                rtb.SelectionColor = Color.ForestGreen;
+            }
+
+            foreach (Point p in pblocks.blockComment)
+            {
+                rtb.Select(p.X, p.Y);
+                rtb.SelectionColor = Color.ForestGreen;
             }
 
             foreach (Point p in pblocks.specialBlock)
             {
                 rtb.Select(p.X, p.Y);
-                rtb.SelectionColor = Color.Magenta;
+                rtb.SelectionColor = Color.Cyan;
             }
 
             // восстановление состояния
@@ -452,34 +509,22 @@ namespace simple_database
 
         private class PStart
         {
-            public PStart()
-            {
-                doubleQuote = -1;
-                singleQuote = -1;
-                specialBlock = -1;
-                word = -1;
-            }
-
             public int doubleQuote = -1;
             public int singleQuote = -1;
             public int specialBlock = -1;
             public int word = -1;
+            public int singleComment = -1;
+            public int blockComment = -1;
         }
 
         private class PBlocks
         {
-            public PBlocks()
-            {
-                doubleQuote.Clear();
-                singleQuote.Clear();
-                specialBlock.Clear();
-                word.Clear();
-            }
-
             public List<Point> doubleQuote = new List<Point>();
             public List<Point> singleQuote = new List<Point>();
             public List<Point> specialBlock = new List<Point>();
             public List<Point> word = new List<Point>();
+            public List<Point> singleComment = new List<Point>();
+            public List<Point> blockComment = new List<Point>();
         }
 
         private readonly string[] keywords =
@@ -493,7 +538,7 @@ namespace simple_database
             "switch", "case", "default", "where", "this", "throw", 
         };
 
-        private readonly char[] wordTerminators = { ' ', '.', ':', ';', '=', ')', '{', '}', '(', '\r', '\n' };
+        private readonly char[] wordTerminators = { ' ', '.', ':', ';', '=', '/', ')', '{', '}', '(', '\r', '\n' };
 
         /// <summary>
         /// Действия после загрузки и отображения формы
