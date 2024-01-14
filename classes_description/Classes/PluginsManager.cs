@@ -70,7 +70,15 @@ namespace simple_database
             {
                 if (m.Groups.Count == 5)
                 {
-                    user_data.Add(m.Groups[1].Value, new InputField() { Type = m.Groups[2].Value, Text = m.Groups[3].Value, Value = m.Groups[4].Value });
+                    string keyName = m.Groups[1].Value.Trim();
+                    if (keyName == "") keyName = Guid.NewGuid().ToString(); // для пустых имен создаем уникальный ключ
+                    if (user_data.ContainsKey(keyName))
+                    {
+                        errors.Add($"Элемент запроса с именем '{keyName}' уже существует");
+                        ShowErrors();
+                        return;
+                    }
+                    user_data.Add(keyName, new InputField() { Type = m.Groups[2].Value, Text = m.Groups[3].Value, Value = m.Groups[4].Value });
                 }
 
                 //code = code.Remove(m.Index - shorten, m.Length);
@@ -391,8 +399,8 @@ namespace simple_database
                         Label lbl = new Label();
                         lbl.Dock = DockStyle.Top;
                         lbl.Text = input.Value.Text.Replace("\\n", Environment.NewLine);
-                        lbl.TextAlign = ContentAlignment.MiddleCenter;
                         lbl.AutoSize = true;
+                        lbl.TextAlign = ContentAlignment.MiddleCenter;
                         lbl.Parent = frm;
                         break;
                 }
