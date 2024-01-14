@@ -53,6 +53,7 @@ namespace simple_database
             if (btnSave.ImageKey == "Save-icon")
                 btnSave.ImageKey = "exclamation";
 
+            // вызовем подсветку синтаксиса для текущей строки, если были введены специальные символы
             int lastSymbolPos = rtb.SelectionStart - 1;
 
             if (lastSymbolPos >= 0)
@@ -60,13 +61,21 @@ namespace simple_database
                 char c = rtb.Text[lastSymbolPos];
                 if (wordTerminators.Contains(c) || c == '"')
                 {
-                    int start = rtb.GetFirstCharIndexOfCurrentLine();
-                    int len = rtb.SelectionStart - start;
+                    
+                    int start = 0;
+                    int len = 0;
+                    int line = rtb.GetLineFromCharIndex(rtb.SelectionStart);
 
+                    // был перенос на другую строку, вычислим данные верхней строки
                     if (c == '\n')
                     {
-                        start = rtb.GetFirstCharIndexFromLine(rtb.GetLineFromCharIndex(start) - 1);
-                        len = rtb.SelectionStart - start - 1;
+                        start = rtb.GetFirstCharIndexFromLine(line - 1);
+                        len = rtb.Lines[line - 1].Length;
+                    }
+                    else // вычислим данные текущей строки
+                    {
+                        start = rtb.GetFirstCharIndexOfCurrentLine();
+                        len = rtb.Lines[line].Length;
                     }
                     
                    CheckSpelling(start, len, true);
@@ -428,15 +437,15 @@ namespace simple_database
                 rtb.SelectionColor = Color.Magenta;
             }
 
-            // включим вывод в окно
-            TextEditorNS.WinAPI.SendMessage(rtb.Handle, TextEditorNS.WinAPI.WM_SETREDRAW, 1, IntPtr.Zero);
-
             // восстановление состояния
             rtb.Select(cursorPos, 0);
             rtb.SelectionColor = rtb.ForeColor;
             btnSave.ImageKey = saveStatus;
-            rtb.Invalidate();
             rtb.Focus();
+
+            // включим вывод в окно
+            TextEditorNS.WinAPI.SendMessage(rtb.Handle, TextEditorNS.WinAPI.WM_SETREDRAW, 1, IntPtr.Zero);
+            rtb.Invalidate();
 
             lockUpdate = false;
         }
@@ -476,7 +485,7 @@ namespace simple_database
         private readonly string[] keywords =
         {
             "using", "class", "namespace", "new",
-            "int", "long", "bool", "float", "double", "single", "string", "char", "void", "byte", "enum", "short",
+            "int", "long", "bool", "float", "double", "single", "string", "String", "char", "void", "byte", "enum", "short",
             "true", "false", "null", "fixed", "object", "sizeof", "typeof", 
             "public", "private", "protected", "static", "const", "readonly",
             "for", "foreach", "do", "while", "break", "continue", "if", "else", "in", "out", "is", "ref",
