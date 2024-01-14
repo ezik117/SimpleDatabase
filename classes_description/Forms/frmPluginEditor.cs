@@ -175,7 +175,6 @@ namespace simple_database
                 "*/" + Environment.NewLine +
                 "" + Environment.NewLine +
                 "using System;" + Environment.NewLine +
-                "using System;" + Environment.NewLine +
                 "using System.Windows.Forms;" + Environment.NewLine +
                 "" + Environment.NewLine +
                 "class Plugin" + Environment.NewLine +
