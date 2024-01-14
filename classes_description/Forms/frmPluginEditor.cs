@@ -27,6 +27,8 @@ namespace simple_database
         {
             InitializeComponent();
             rtb.AcceptsTab = true;
+            rtb.WordWrap = false;
+            lblCaretInfo.Text = $"Позиция 0    Строка 0    Столбец 0";
         }
 
         /// <summary>
@@ -170,18 +172,26 @@ namespace simple_database
                 "{#SET RUN=Start #}" + Environment.NewLine +
                 "{#SET REFERENCES=System.dll; System.Windows.Forms.dll #}" + Environment.NewLine +
                 "" + Environment.NewLine +
+                "{#SET ASKTITLE=Запрос данных #}" + Environment.NewLine +
+                "{#ASK NAME=\"\" TYPE=\"Label\" TEXT=\"Пример запроса данных у пользователя\\n и принцип обработки чисел с плавающей точкой.\" VALUE=\"\" #}" + Environment.NewLine +
                 "{#ASK NAME=\"message1\" TYPE=\"TextBox\" TEXT=\"Сообщение для вывода на экран:\" VALUE=\"Hello World!\" #}" + Environment.NewLine +
+                "{#ASK NAME=\"числоСПлавающейТочкой\" TYPE=\"TextBox\" TEXT=\"Число с плавающей точкой:\" VALUE=\"0,4\" #}" + Environment.NewLine +
                 "{#ASK NAME=\"btnOK\" TYPE=\"Button\" TEXT=\"OK\" VALUE=\"\" #}" + Environment.NewLine +
                 "*/" + Environment.NewLine +
                 "" + Environment.NewLine +
                 "using System;" + Environment.NewLine +
+                "using System.Globalization;" + Environment.NewLine +
                 "using System.Windows.Forms;" + Environment.NewLine +
                 "" + Environment.NewLine +
                 "class Plugin" + Environment.NewLine +
                 "{" + Environment.NewLine +
                 "    public void Start()" + Environment.NewLine +
                 "    {" + Environment.NewLine +
+                "        double x = 0.0;" + Environment.NewLine +
+                "        x = double.Parse(\"{#VALUE числоСПлавающейТочкой #}\".Replace(\",\", \".\"), CultureInfo.InvariantCulture);" + Environment.NewLine +
+                "        " + Environment.NewLine +
                 "        if (\"pressed\" == \"{#VALUE btnOK #}\") {" + Environment.NewLine +
+                "            MessageBox.Show(String.Format(\"Введенное число={0:f2}\", x));" + Environment.NewLine +
                 "            MessageBox.Show(\"{#VALUE message1 #}\");" + Environment.NewLine +
                 "        } else {" + Environment.NewLine +
                 "            MessageBox.Show(\"Button was not pressed\");" + Environment.NewLine +
@@ -200,7 +210,7 @@ namespace simple_database
                 "{#SET TYPE=APPLICATION #}" + Environment.NewLine +
                 "{#SET REFERENCES=System.dll; #}" + Environment.NewLine +
                 "" + Environment.NewLine +
-                "{#ASK NAME=\"label1\" TYPE=\"Label\" TEXT=\"Вычисление суммы двух чисел\" VALUE=\"\" #}" + Environment.NewLine +
+                "{#ASK NAME=\"\" TYPE=\"Label\" TEXT=\"Вычисление суммы двух чисел\" VALUE=\"\" #}" + Environment.NewLine +
                 "{#ASK NAME=\"valX\" TYPE=\"TextBox\" TEXT=\"X=\" VALUE=\"1\" #}" + Environment.NewLine +
                 "{#ASK NAME=\"valY\" TYPE=\"TextBox\" TEXT=\"Y=\" VALUE=\"2\" #}" + Environment.NewLine +
                 "{#ASK NAME=\"btnOK\" TYPE=\"Button\" TEXT=\"X+Y=?\" VALUE=\"\" #}" + Environment.NewLine +
@@ -233,7 +243,20 @@ namespace simple_database
         /// </summary>
         private void btnRun_Click(object sender, EventArgs e)
         {
+            if (btnSave.ImageKey == "exclamation") btnSave.PerformClick();
             PluginsManager.StartPlugin(property_id);
+        }
+
+        /// <summary>
+        /// Изменение положение курсора
+        /// </summary>
+        private void rtb_SelectionChanged(object sender, EventArgs e)
+        {
+            int pos = rtb.SelectionStart;
+            int row = rtb.GetLineFromCharIndex(pos);
+            int column = pos - rtb.GetFirstCharIndexFromLine(row);
+
+            lblCaretInfo.Text = $"Позиция {1 + pos}    Строка {1 + row}    Столбец {1 + column}";
         }
     }
 }

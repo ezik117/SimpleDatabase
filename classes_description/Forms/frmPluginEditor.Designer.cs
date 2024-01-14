@@ -31,8 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPluginEditor));
             this.pnlHotButtons = new System.Windows.Forms.Panel();
-            this.btnInsertPreset = new System.Windows.Forms.Button();
+            this.btnRun = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.btnInsertPreset = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.rtb = new System.Windows.Forms.RichTextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -43,9 +44,11 @@
             this.шаблоныToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxTemplates_CSharpClass = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxTemplates_CSharpConsoleApp = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnRun = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblCaretInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.pnlHotButtons.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlHotButtons
@@ -59,6 +62,32 @@
             this.pnlHotButtons.Name = "pnlHotButtons";
             this.pnlHotButtons.Size = new System.Drawing.Size(800, 22);
             this.pnlHotButtons.TabIndex = 4;
+            // 
+            // btnRun
+            // 
+            this.btnRun.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnRun.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnRun.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnRun.FlatAppearance.BorderSize = 0;
+            this.btnRun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRun.ImageKey = "play";
+            this.btnRun.ImageList = this.imageList1;
+            this.btnRun.Location = new System.Drawing.Point(20, 0);
+            this.btnRun.Name = "btnRun";
+            this.btnRun.Size = new System.Drawing.Size(20, 22);
+            this.btnRun.TabIndex = 9;
+            this.btnRun.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnRun.UseVisualStyleBackColor = false;
+            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Save-icon");
+            this.imageList1.Images.SetKeyName(1, "exclamation");
+            this.imageList1.Images.SetKeyName(2, "list");
+            this.imageList1.Images.SetKeyName(3, "play");
             // 
             // btnInsertPreset
             // 
@@ -76,15 +105,6 @@
             this.btnInsertPreset.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnInsertPreset.UseVisualStyleBackColor = false;
             this.btnInsertPreset.Click += new System.EventHandler(this.btnInsertPreset_Click);
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Save-icon");
-            this.imageList1.Images.SetKeyName(1, "exclamation");
-            this.imageList1.Images.SetKeyName(2, "list");
-            this.imageList1.Images.SetKeyName(3, "play");
             // 
             // btnSave
             // 
@@ -105,13 +125,16 @@
             // 
             // rtb
             // 
+            this.rtb.BackColor = System.Drawing.Color.White;
             this.rtb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rtb.ForeColor = System.Drawing.Color.Navy;
             this.rtb.Location = new System.Drawing.Point(0, 22);
             this.rtb.Name = "rtb";
-            this.rtb.Size = new System.Drawing.Size(800, 428);
+            this.rtb.Size = new System.Drawing.Size(800, 406);
             this.rtb.TabIndex = 5;
             this.rtb.Text = "";
+            this.rtb.SelectionChanged += new System.EventHandler(this.rtb_SelectionChanged);
             this.rtb.TextChanged += new System.EventHandler(this.rtb_TextChanged);
             this.rtb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.rtb_KeyDown);
             // 
@@ -175,22 +198,21 @@
             this.ctxTemplates_CSharpConsoleApp.Text = "C# консольное приложение";
             this.ctxTemplates_CSharpConsoleApp.Click += new System.EventHandler(this.ctxTemplates_CSharpConsoleApp_Click);
             // 
-            // btnRun
+            // statusStrip1
             // 
-            this.btnRun.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnRun.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnRun.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnRun.FlatAppearance.BorderSize = 0;
-            this.btnRun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRun.ImageKey = "play";
-            this.btnRun.ImageList = this.imageList1;
-            this.btnRun.Location = new System.Drawing.Point(20, 0);
-            this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(20, 22);
-            this.btnRun.TabIndex = 9;
-            this.btnRun.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnRun.UseVisualStyleBackColor = false;
-            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblCaretInfo});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.TabIndex = 6;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // lblCaretInfo
+            // 
+            this.lblCaretInfo.Name = "lblCaretInfo";
+            this.lblCaretInfo.Size = new System.Drawing.Size(118, 17);
+            this.lblCaretInfo.Text = "toolStripStatusLabel1";
             // 
             // frmPluginEditor
             // 
@@ -199,6 +221,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.rtb);
             this.Controls.Add(this.pnlHotButtons);
+            this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmPluginEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -206,7 +229,10 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPluginEditor_FormClosing);
             this.pnlHotButtons.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -226,5 +252,7 @@
         private System.Windows.Forms.ToolStripMenuItem ctxTemplates_CSharpClass;
         private System.Windows.Forms.ToolStripMenuItem ctxTemplates_CSharpConsoleApp;
         private System.Windows.Forms.Button btnRun;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel lblCaretInfo;
     }
 }

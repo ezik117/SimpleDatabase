@@ -48,10 +48,24 @@ namespace simple_database
             string filename = DATABASE.AttachmentGetFilename(id);
             string extension = Path.GetExtension(filename).ToLower();
 
+            // ищем все параметры
+            MatchCollection mm = Regex.Matches(code, @"{#SET\s+([A-Z]+)=(.+)(?=#})", RegexOptions.Multiline);
+            int shorten = 0;
+            foreach (Match m in mm)
+            {
+                if (m.Groups.Count == 3)
+                {
+                    parameters.Add(m.Groups[1].Value.Trim(), m.Groups[2].Value.Trim());
+                }
+
+                //code = code.Remove(m.Index - shorten, m.Length);
+                //shorten += m.Length;
+            }
+
             // получаем список пользовательских параметров
             user_data.Clear();
-            MatchCollection mm = Regex.Matches(code, @"{#ASK\s+NAME=""(.*?)""\s+TYPE=""(.*?)""\s+TEXT=""(.*?)""\s+VALUE=""(.*?)""\s*#}", RegexOptions.Multiline);
-            int shorten = 0;
+            mm = Regex.Matches(code, @"{#ASK\s+NAME=""(.*?)""\s+TYPE=""(.*?)""\s+TEXT=""(.*?)""\s+VALUE=""(.*?)""\s*#}", RegexOptions.Multiline);
+            shorten = 0;
             foreach (Match m in mm)
             {
                 if (m.Groups.Count == 5)
@@ -59,8 +73,8 @@ namespace simple_database
                     user_data.Add(m.Groups[1].Value, new InputField() { Type = m.Groups[2].Value, Text = m.Groups[3].Value, Value = m.Groups[4].Value });
                 }
 
-                code = code.Remove(m.Index - shorten, m.Length);
-                shorten += m.Length;
+                //code = code.Remove(m.Index - shorten, m.Length);
+                //shorten += m.Length;
             }
 
             // если есть пользовательские параметры, то выводим форму запроса
@@ -157,22 +171,7 @@ namespace simple_database
         {
             errors.Clear();
 
-            parameters.Clear();
             string exename = Path.GetFileNameWithoutExtension(filename) + ".exe";
-
-            // ищем все параметры
-            MatchCollection mm = Regex.Matches(code, @"{#SET\s+([A-Z]+)=(.+)(?=#})", RegexOptions.Multiline);
-            int shorten = 0;
-            foreach (Match m in mm)
-            {
-                if (m.Groups.Count == 3)
-                {
-                    parameters.Add(m.Groups[1].Value.Trim(), m.Groups[2].Value.Trim());
-                }
-
-                code = code.Remove(m.Index - shorten, m.Length);
-                shorten += m.Length;
-            }
 
             // проверяем тип приложения
             if (!parameters.ContainsKey("TYPE"))
@@ -327,14 +326,18 @@ namespace simple_database
         public static void ShowUserInputForm()
         {
             int maxHeight = 0;
+            Icon icon = Icon.FromHandle(Properties.Resources.plugin_16.GetHicon());
 
             // создаем форму
             Form frm = new Form();
             frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.BackColor = Color.White;
+            frm.BackColor = Color.FromArgb(250, 250, 250);
             frm.Padding = new Padding(5);
             frm.Width = 300;
             frm.Height = 400;
+            frm.Icon = icon;
+            if (parameters.ContainsKey("ASKTITLE")) frm.Text = parameters["ASKTITLE"].Trim();
+
             frm.SuspendLayout();
 
             for (int i = user_data.Count - 1; i >= 0; i--)
@@ -387,8 +390,9 @@ namespace simple_database
                     case "Label":
                         Label lbl = new Label();
                         lbl.Dock = DockStyle.Top;
-                        lbl.Text = input.Value.Text;
+                        lbl.Text = input.Value.Text.Replace("\\n", Environment.NewLine);
                         lbl.TextAlign = ContentAlignment.MiddleCenter;
+                        lbl.AutoSize = true;
                         lbl.Parent = frm;
                         break;
                 }
@@ -417,7 +421,7 @@ namespace simple_database
 
             frm.ShowDialog();
 
-
+            icon.Dispose();
         }
 
         /// <summary>
