@@ -148,7 +148,7 @@
             this.rtb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.rtb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rtb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.rtb.ForeColor = System.Drawing.Color.Gainsboro;
             this.rtb.Location = new System.Drawing.Point(0, 22);
             this.rtb.Name = "rtb";
             this.rtb.Size = new System.Drawing.Size(800, 406);

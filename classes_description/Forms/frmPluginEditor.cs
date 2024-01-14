@@ -30,6 +30,7 @@ namespace simple_database
         private readonly Color cComment = Color.FromArgb(87, 166, 74);
         private readonly Color cKeyword = Color.FromArgb(86, 156, 214);
         private readonly Color cString = Color.FromArgb(214, 157, 133);
+        private readonly Color cPlainText = Color.FromArgb(220, 220, 220);
 
         /// <summary>
         /// Конструктор
