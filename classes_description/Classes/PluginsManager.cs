@@ -116,6 +116,21 @@ namespace simple_database
                     }
                     break;
 
+                case ".ps1":
+                    // запуск файла на языке PowerShell
+                    try
+                    {
+                        string script_filename = Path.Combine(VARS.temp_folder, filename);
+                        File.WriteAllText(script_filename, code);
+                        Process.Start("powershell.exe", $"-NoProfile -ExecutionPolicy Unrestricted -File \"{script_filename}\"");
+                    }
+                    catch (Exception ex)
+                    {
+                        errors.Add(ex.Message);
+                        ShowErrors();
+                    }
+                    break;
+
                 default:
                     // попытка запустить все другие файлы
                     try
