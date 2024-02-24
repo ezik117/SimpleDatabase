@@ -186,7 +186,7 @@ namespace simple_database
             }
 
             // обработка CTRL-TAB
-            if (e.KeyCode == Keys.Tab && e.Modifiers == Keys.Shift)
+            if (e.KeyCode == Keys.Q && e.Modifiers == Keys.Shift)
             {
                 int startLine = rtb.GetLineFromCharIndex(rtb.SelectionStart);
                 int endLine = rtb.GetLineFromCharIndex(rtb.SelectionStart + rtb.SelectionLength);
@@ -209,7 +209,7 @@ namespace simple_database
                     }
                     
                 }
-                rtb.Select(savedStartPos, savedLength);
+                //rtb.Select(savedStartPos, savedLength);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
                 return;
@@ -659,15 +659,17 @@ namespace simple_database
         private readonly string[] keywords =
         {
             "using", "class", "namespace", "new",
-            "int", "long", "bool", "float", "double", "single", "string", "String", "char", "void", "byte", "enum", "short",
+            "int", "long", "bool", "float", "double", "single", "string", "String", "char", "void", "byte", "Byte", "enum", "short",
+            "Int16", "UInt16", "Int32", "UInt32", "Int64", "UInt64", "In", "Out",
             "true", "false", "null", "fixed", "object", "sizeof", "typeof", 
-            "public", "private", "protected", "static", "const", "readonly",
+            "public", "private", "protected", "override", "static", "const", "readonly",
             "for", "foreach", "do", "while", "break", "continue", "if", "else", "in", "out", "is", "ref",
             "try", "catch", "finally", "return", 
-            "switch", "case", "default", "where", "this", "throw", 
+            "switch", "case", "default", "where", "this", "throw",
+            "DllImport", "extern",
         };
 
-        private readonly char[] wordTerminators = { ' ', '.', ':', ';', '=', '/', ')', '{', '}', '(', '\r', '\n' };
+        private readonly char[] wordTerminators = { ' ', '.', ':', ';', '=', '/', ')', '{', '}', '(', '[', ']', '\r', '\n' };
 
         /// <summary>
         /// Действия после загрузки и отображения формы
@@ -684,7 +686,7 @@ namespace simple_database
         /// <param name="e"></param>
         private void rtb_KeyPress(object sender, KeyPressEventArgs e)
         {
-
+            
         }
 
 

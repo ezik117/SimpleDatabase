@@ -68,6 +68,7 @@
             this.tsmiPlugin = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiPluginExecute = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiPluginEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiPluginRename = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiPluginSaveTo = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiPluginCreate = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
@@ -95,7 +96,8 @@
             this.slblEmpty = new System.Windows.Forms.ToolStripStatusLabel();
             this.slblVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.tsmiPluginRename = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxMenuCatalogues = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiMoveCatalogToAnotherDB = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panelDescriptionHolder.SuspendLayout();
             this.pnlDescriptionHeader.SuspendLayout();
@@ -107,6 +109,7 @@
             this.panelCatalogHolder.SuspendLayout();
             this.panel7.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.ctxMenuCatalogues.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -343,14 +346,14 @@
             this.tsmiAttachments,
             this.tsmiPlugin});
             this.ctxMenuCharters.Name = "ctxMenuCharters";
-            this.ctxMenuCharters.Size = new System.Drawing.Size(181, 192);
+            this.ctxMenuCharters.Size = new System.Drawing.Size(154, 170);
             this.ctxMenuCharters.Opening += new System.ComponentModel.CancelEventHandler(this.ctxMenuCharters_Opening);
             // 
             // tsmiMoveUp
             // 
             this.tsmiMoveUp.Image = global::simple_database.Properties.Resources.up_16;
             this.tsmiMoveUp.Name = "tsmiMoveUp";
-            this.tsmiMoveUp.Size = new System.Drawing.Size(180, 22);
+            this.tsmiMoveUp.Size = new System.Drawing.Size(153, 22);
             this.tsmiMoveUp.Text = "Поднять вверх";
             this.tsmiMoveUp.Click += new System.EventHandler(this.tsmiMoveUp_Click);
             // 
@@ -358,7 +361,7 @@
             // 
             this.tsmiMoveDown.Image = global::simple_database.Properties.Resources.down_16;
             this.tsmiMoveDown.Name = "tsmiMoveDown";
-            this.tsmiMoveDown.Size = new System.Drawing.Size(180, 22);
+            this.tsmiMoveDown.Size = new System.Drawing.Size(153, 22);
             this.tsmiMoveDown.Text = "Опустить вниз";
             this.tsmiMoveDown.Click += new System.EventHandler(this.tsmiMoveDown_Click);
             // 
@@ -366,7 +369,7 @@
             // 
             this.tsmiRenumering.Image = global::simple_database.Properties.Resources.renumbering_16;
             this.tsmiRenumering.Name = "tsmiRenumering";
-            this.tsmiRenumering.Size = new System.Drawing.Size(180, 22);
+            this.tsmiRenumering.Size = new System.Drawing.Size(153, 22);
             this.tsmiRenumering.Text = "Нумеровать";
             this.tsmiRenumering.Click += new System.EventHandler(this.tsmiRenumering_Click);
             // 
@@ -374,14 +377,14 @@
             // 
             this.tsmiDenumering.Image = global::simple_database.Properties.Resources.denumbering_16;
             this.tsmiDenumering.Name = "tsmiDenumering";
-            this.tsmiDenumering.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDenumering.Size = new System.Drawing.Size(153, 22);
             this.tsmiDenumering.Text = "Денумеровать";
             this.tsmiDenumering.Click += new System.EventHandler(this.tsmiDenumering_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(150, 6);
             // 
             // инструментыToolStripMenuItem
             // 
@@ -397,7 +400,7 @@
             this.tsmiHashtags});
             this.инструментыToolStripMenuItem.Image = global::simple_database.Properties.Resources.tools_16;
             this.инструментыToolStripMenuItem.Name = "инструментыToolStripMenuItem";
-            this.инструментыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.инструментыToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.инструментыToolStripMenuItem.Text = "Инструменты";
             // 
             // tsmiSearch
@@ -464,7 +467,7 @@
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(150, 6);
             // 
             // tsmiAttachments
             // 
@@ -474,7 +477,7 @@
             this.tsmiAttachmentSaveAs});
             this.tsmiAttachments.Image = global::simple_database.Properties.Resources.attachment;
             this.tsmiAttachments.Name = "tsmiAttachments";
-            this.tsmiAttachments.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAttachments.Size = new System.Drawing.Size(153, 22);
             this.tsmiAttachments.Text = "Вложение";
             // 
             // tsmiAttachmentOpen
@@ -508,7 +511,7 @@
             this.tsmiPluginCreate});
             this.tsmiPlugin.Image = global::simple_database.Properties.Resources.plugin_16;
             this.tsmiPlugin.Name = "tsmiPlugin";
-            this.tsmiPlugin.Size = new System.Drawing.Size(180, 22);
+            this.tsmiPlugin.Size = new System.Drawing.Size(153, 22);
             this.tsmiPlugin.Text = "Плагин";
             // 
             // tsmiPluginExecute
@@ -524,6 +527,13 @@
             this.tsmiPluginEdit.Size = new System.Drawing.Size(182, 22);
             this.tsmiPluginEdit.Text = "Редактировать";
             this.tsmiPluginEdit.Click += new System.EventHandler(this.tsmiPluginEdit_Click);
+            // 
+            // tsmiPluginRename
+            // 
+            this.tsmiPluginRename.Name = "tsmiPluginRename";
+            this.tsmiPluginRename.Size = new System.Drawing.Size(182, 22);
+            this.tsmiPluginRename.Text = "Переименовать";
+            this.tsmiPluginRename.Click += new System.EventHandler(this.tsmiPluginRename_Click);
             // 
             // tsmiPluginSaveTo
             // 
@@ -761,6 +771,7 @@
             // tvClasses
             // 
             this.tvClasses.BackColor = System.Drawing.Color.White;
+            this.tvClasses.ContextMenuStrip = this.ctxMenuCatalogues;
             this.tvClasses.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvClasses.FullRowSelect = true;
             this.tvClasses.HideSelection = false;
@@ -882,12 +893,19 @@
             this.slblVersion.Size = new System.Drawing.Size(64, 17);
             this.slblVersion.Text = "slblVersion";
             // 
-            // tsmiPluginRename
+            // ctxMenuCatalogues
             // 
-            this.tsmiPluginRename.Name = "tsmiPluginRename";
-            this.tsmiPluginRename.Size = new System.Drawing.Size(182, 22);
-            this.tsmiPluginRename.Text = "Переименовать";
-            this.tsmiPluginRename.Click += new System.EventHandler(this.tsmiPluginRename_Click);
+            this.ctxMenuCatalogues.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiMoveCatalogToAnotherDB});
+            this.ctxMenuCatalogues.Name = "ctxMenuCatalogues";
+            this.ctxMenuCatalogues.Size = new System.Drawing.Size(204, 26);
+            // 
+            // tsmiMoveCatalogToAnotherDB
+            // 
+            this.tsmiMoveCatalogToAnotherDB.Name = "tsmiMoveCatalogToAnotherDB";
+            this.tsmiMoveCatalogToAnotherDB.Size = new System.Drawing.Size(203, 22);
+            this.tsmiMoveCatalogToAnotherDB.Text = "Перенести в другую БД";
+            this.tsmiMoveCatalogToAnotherDB.Click += new System.EventHandler(this.tsmiMoveCatalogToAnotherDB_Click);
             // 
             // Form1
             // 
@@ -915,6 +933,7 @@
             this.panel7.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.ctxMenuCatalogues.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -988,6 +1007,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiPluginSaveTo;
         private System.Windows.Forms.ToolStripMenuItem tsmiPluginCreate;
         private System.Windows.Forms.ToolStripMenuItem tsmiPluginRename;
+        private System.Windows.Forms.ContextMenuStrip ctxMenuCatalogues;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveCatalogToAnotherDB;
     }
 }
 

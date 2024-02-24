@@ -378,7 +378,7 @@ namespace TextEditorNS
         /// </summary>
         private void TxtBox_SelectionChanged(object sender, EventArgs e)
         {
-            ShowSelectionProperties();
+            //ShowSelectionProperties();
         }
 
         /// <summary>
@@ -496,7 +496,8 @@ namespace TextEditorNS
         /// </summary>
         private void TxtBox_TextChanged(object sender, EventArgs e)
         {
-            ShowSelectionProperties();
+            //ShowSelectionProperties();
+            //if (Clipboard.ContainsText() && richTextBox1.SelectedText.Length == 0) // определим вставку из буфера обмена
 
             textWasChanged = true;
             OnContentChanged?.Invoke(txtBox);
@@ -852,7 +853,7 @@ namespace TextEditorNS
             {
                 btnNumbersList.Checked = nl.IsTheTextNumberedInCurrentPosition();
             }
-
+            
             bgColorsPanel.Showed = false;
 
             lockResetControls = false;
@@ -1738,8 +1739,8 @@ namespace TextEditorNS
                 LineInfo li = new LineInfo();
                 li.CurrentPos = (charIndex < 0 ? content.SelectionStart : charIndex);
                 li.RowNo = content.GetLineFromCharIndex(li.CurrentPos);
-
-                for (int i = 0; i < content.Lines.Length; i++)
+                int end = content.Lines.Length;
+                for (int i = 0; i < end; i++)
                 {
                     li.LineNo = i;
 

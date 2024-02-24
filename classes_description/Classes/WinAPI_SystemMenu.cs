@@ -21,7 +21,7 @@ namespace WinAPI
         /// Получение кода ошибки последней выполненной операции
         /// </summary>
         /// <returns>Код ошибки</returns>
-        [DllImport("user32.dll")]
+        [DllImport("Kernel32.dll")]
         public static extern uint GetLastError();
 
         /// <summary>

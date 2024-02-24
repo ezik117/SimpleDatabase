@@ -703,6 +703,20 @@ namespace simple_database
         {
             PROPERTY.PluginRename(tvProps.SelectedNode);
         }
+
+        /// <summary>
+        /// Контекстное меню Каталога: перенести каталог в другую БД
+        /// </summary>
+        private void tsmiMoveCatalogToAnotherDB_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Not available yet!");
+            return;
+
+            if (tvClasses.SelectedNode == null) return;
+
+            frmMoveBetweenDb frm = new frmMoveBetweenDb();
+            frm.ShowDialog();
+        }
     }
 
 

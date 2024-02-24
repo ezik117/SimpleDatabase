@@ -56,6 +56,11 @@ namespace simple_database
         public static DataSet ds = new DataSet();
 
         /// <summary>
+        /// Информация об ошибке при вызове функции (работает не для всех функций)
+        /// </summary>
+        public static string LastError = "";
+
+        /// <summary>
         /// Таблица для хранения закладок (можно также обратиться через "ds").\n
         /// (S)database, (S)class, (L)class_id, (S)property, (L)property_id
         /// </summary>
@@ -1384,6 +1389,63 @@ namespace simple_database
             }
 
             return rowid;
+        }
+
+        /// <summary>
+        /// Перемещает каталог в другую БД.
+        /// </summary>
+        /// <param name="AnotherDbName">Имя БД в которую перемещается каталог без пути и расширения</param>
+        /// <param name="AnotherCatalogName">Новое имя каталога</param>
+        /// <param name="id">ID текущего каталога, который будет перемещаться</param>
+        /// <returns>True - если перемещение удалось, иначе false. Текст ошибки в LastError</returns>
+        public static bool Service_MoveCatalogBetweenDbs(string AnotherDbName, string AnotherCatalogName, long id)
+        {
+            LastError = "";
+
+            // открываем другую БД
+            SQLiteConnection newConn = new SQLiteConnection();
+            string anotherDbName = $@"{Application.StartupPath}\databases\{AnotherDbName}.sqlite";
+            newConn.ConnectionString = $@"Data Source={anotherDbName}; foreign keys=true; nolock=1; version=3;";
+            try
+            {
+                newConn.Open();
+            }
+            catch (Exception ex)
+            {
+                LastError = ex.Message;
+                return false;
+            }
+
+            // перемещаем
+            SQLiteTransaction anotherDbTransaction = null;
+            SQLiteTransaction currentDbTransaction = null;
+            try
+            {
+                anotherDbTransaction = newConn.BeginTransaction();
+                currentDbTransaction = conn.BeginTransaction();
+
+                SQLiteCommand anotherCmd = newConn.CreateCommand();
+                cmd.CommandText = $"ATTACH DATABASE '{anotherDbName}' AS adb1";
+                cmd.ExecuteNonQuery();
+
+                //cmd.CommandText = "INSERT INTO classes "
+
+
+                cmd.CommandText = "DETACH DATABASE adb1";
+                cmd.ExecuteNonQuery();
+
+                anotherDbTransaction.Commit();
+                currentDbTransaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                anotherDbTransaction.Rollback();
+                currentDbTransaction.Rollback();
+                LastError = ex.Message;
+                return false;
+            }
+
+            return true;
         }
     }
 }
