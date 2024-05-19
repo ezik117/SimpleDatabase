@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -305,8 +306,12 @@ namespace simple_database
         /// </summary>
         private void tvProps_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && e.Item.GetType() == typeof(TreeNode))
             {
+                DnD.Reset();
+                DnD.SrcSelectedNode = (TreeNode)e.Item;
+                DnD.SourceTV = (TreeView)sender;
+                DnD.IsDragStarted = true;
                 DoDragDrop(e.Item, DragDropEffects.Move);
             }
         }
@@ -317,8 +322,10 @@ namespace simple_database
         /// </summary>
         private void tvProps_DragEnter(object sender, DragEventArgs e)
         {
-            // Check if datatype is acceptable
-            if (e.Data.GetDataPresent(typeof(TreeNode))) e.Effect = e.AllowedEffect; 
+            // Вставлять можно только из tvClasses и tvProps
+            if (DnD.IsDragStarted && 
+                (DnD.SourceTV == tvClasses || DnD.SourceTV == tvProps ) &&
+                e.Data.GetDataPresent(typeof(TreeNode))) e.Effect = e.AllowedEffect; 
         }
 
         /// <summary>
@@ -327,6 +334,8 @@ namespace simple_database
         /// </summary>
         private void tvProps_DragOver(object sender, DragEventArgs e)
         {
+            return;
+
             // Do not allow visual effects if data type is not acceptable
             if (!e.Data.GetDataPresent(typeof(TreeNode))) return;
 
@@ -338,7 +347,7 @@ namespace simple_database
 
             if (DragDropSelectedNode != targetNode)
             {
-                if (DragDropSelectedNode != null && DragDropSelectedNodeImageIndex != -1 && DragDropSelectedNode != null)
+                if (DragDropSelectedNode != null && DragDropSelectedNodeImageIndex != -1)
                     DragDropSelectedNode.ImageIndex = DragDropSelectedNodeImageIndex;
 
                 DragDropSelectedNode = targetNode;
@@ -416,12 +425,21 @@ namespace simple_database
         /// </summary>
         private void tvProps_KeyDown(object sender, KeyEventArgs e)
         {
-            // CTRL-F. Поиск параметра
-            if (e.Control && e.KeyCode == Keys.F)
+            if (e.Control)
             {
-                btnPropSearch.PerformClick();
-                e.Handled = true;
-                return;
+                // CTRL-F. Поиск параметра
+                if (e.KeyCode == Keys.F)
+                {
+                    btnPropSearch.PerformClick();
+                    e.Handled = true;
+                    return;
+                }
+                // CTRL-C. Копирование в буфер
+                else if (e.KeyCode == Keys.C)
+                {
+                    if (tvProps.SelectedNode != null)
+                        Clipboard.SetText(tvProps.SelectedNode.Text);
+                }
             }
         }
 
@@ -705,17 +723,119 @@ namespace simple_database
         }
 
         /// <summary>
-        /// Контекстное меню Каталога: перенести каталог в другую БД
+        /// Кнопка быстрой смены БД
         /// </summary>
-        private void tsmiMoveCatalogToAnotherDB_Click(object sender, EventArgs e)
+        private void btnChangeDb_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Not available yet!");
-            return;
-
-            if (tvClasses.SelectedNode == null) return;
-
-            frmMoveBetweenDb frm = new frmMoveBetweenDb();
+            frmDbManager frm = new frmDbManager();
+            frm.dbName = Path.GetFileNameWithoutExtension(DATABASE.FileName);
             frm.ShowDialog();
+            if (frm.action == 3)
+            {
+                DATABASE.Close();
+                DATABASE.OpenOrCreate(frm.dbName);
+                ClassItem.Load(this);
+
+                double db_size = DATABASE.GetOpenedDatabaseSize() / 1024.0 / 1024.0;
+                slblLastUpdate.Text = $"Last update: {DATABASE.GetLastUpdate()}  |  Size: {db_size:0.0} Mb";
+            }
+        }
+
+        /// <summary>
+        /// Начало перетаскивания из tvClasses
+        /// </summary>
+        private void tvClasses_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && e.Item.GetType() == typeof(TreeNode))
+            {
+                DnD.Reset();
+                DnD.SrcSelectedNode = (TreeNode)e.Item;
+                DnD.SourceTV = (TreeView)sender;
+                DnD.IsDragStarted = true;
+                DoDragDrop(e.Item, DragDropEffects.Move);
+            }
+        }
+
+        /// <summary>
+        /// Для tvClasses определяем принимать ли Drag and Drop элемент
+        /// </summary>
+        private void tvClasses_DragEnter(object sender, DragEventArgs e)
+        {
+            // Вставлять можно только из tvProps
+            if (DnD.IsDragStarted &&
+                DnD.SourceTV == tvProps &&
+                e.Data.GetDataPresent(typeof(TreeNode)))
+            {
+                e.Effect = e.AllowedEffect;
+            }
+        }
+
+        /// <summary>
+        /// В tvClasses переместили элемент
+        /// </summary>
+        private void tvClasses_DragDrop(object sender, DragEventArgs e)
+        {
+            frmConfirmPropertyMove frm = new frmConfirmPropertyMove();
+            frm.ShowDialog();
+            if (!frm.Cancel)
+            {
+                if (frm.MoveAsNewClass)
+                {
+                    long classId = DATABASE.MoveProperyToClass((long)DnD.SrcSelectedNode.Tag, -1, (long)tvClasses.SelectedNode.Tag, "");
+                    TreeNode node = new TreeNode(DnD.SrcSelectedNode.Text);
+                    node.ImageKey = node.SelectedImageKey = "book";
+                    node.Tag = classId;
+                    tvClasses.Nodes.Add(node);
+                    tvClasses.SelectedNode = node;
+                }
+                else
+                {
+                    if (DnD.DstSelectedNode == null)
+                    {
+                        MessageBox.Show("Не выбран каталог", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                    }
+                    else
+                    {
+                        DATABASE.MoveProperyToClass((long)DnD.SrcSelectedNode.Tag, (long)DnD.DstSelectedNode.Tag, (long)tvClasses.SelectedNode.Tag, DnD.DstSelectedNode.Text);
+                        tvClasses_AfterSelect(null, null);
+                        DnD.SrcSelectedNode.Remove();
+                    }
+                }
+            }
+
+            DnD.Reset();
+        }
+
+        /// <summary>
+        /// Для tvClasses подсвечиваем в какой каталог добавить оглавление
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tvClasses_DragOver(object sender, DragEventArgs e)
+        {
+            // Вставлять можно только из tvProps
+            if (!DnD.IsDragStarted ||
+                DnD.SourceTV != tvProps ||
+                !e.Data.GetDataPresent(typeof(TreeNode)))
+            {
+                return;
+            }
+
+            // Определяем узел под курсором и выделяем его
+            Point targetPoint = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
+            TreeNode selected = ((TreeView)sender).GetNodeAt(targetPoint);
+            DnD.SelectNode(selected);
+        }
+
+        /// <summary>
+        /// Для tvClasses операция Dran and Drop вышла за пределы видимости
+        /// </summary>
+        private void tvClasses_DragLeave(object sender, EventArgs e)
+        {
+            if (DnD.DstSelectedNode != null)
+            {
+                DnD.SelectNode(null);
+            }
         }
     }
 

@@ -106,7 +106,8 @@ namespace simple_database
         FolderGrey = 12,
         Class = 13,
         FileImportant = 14,
-        Plugin = 15
+        Plugin = 15,
+        White = 16
     }
 
     /// <summary>
@@ -123,6 +124,80 @@ namespace simple_database
             TextBox = tb;
             TextColor = Color.Black;
             BgColor = Color.Yellow;
+        }
+    }
+
+    /// <summary>
+    /// Класс объектов состояния для обработки Dran and Drop между объектами TreeView
+    /// </summary>
+    static class DnD
+    {
+        /// <summary>
+        /// Флаг, показывающий что операция перетаскивания начата
+        /// </summary>
+        public static bool IsDragStarted = false;
+        /// <summary>
+        /// Узел, который перетаскивается
+        /// </summary>
+        public static TreeNode SrcSelectedNode = null;
+        /// <summary>
+        /// Выбранный узел в приемнике перетаскивания
+        /// </summary>
+        public static TreeNode DstSelectedNode = null;
+        /// <summary>
+        /// Имя ключа изображения узла в приемнике перетаскивания (для восстановления изображения после)
+        /// </summary>
+        public static string DstDefaultImageKey = null;
+        /// <summary>
+        /// TreeView источника перетаскивания
+        /// </summary>
+        public static TreeView SourceTV = null;
+        /// <summary>
+        /// Зона узла источника перетаскивания. Выход курсора за пределы этой зоны инициирует перетаскивание
+        /// </summary>
+        public static Rectangle StartDragArea = Rectangle.Empty;
+
+        /// <summary>
+        /// Сброс (отмена) перетаскивания
+        /// </summary>
+        public static void Reset()
+        {
+            if (DstSelectedNode != null)
+                DstSelectedNode.ImageKey = DstSelectedNode.SelectedImageKey = DstDefaultImageKey;
+            IsDragStarted = false;
+            SrcSelectedNode = null;
+            DstSelectedNode = null;
+            SourceTV = null;
+            StartDragArea = Rectangle.Empty;
+        }
+
+        /// <summary>
+        /// Выбрать узел в приемнике перетаскивания (назначить изображение стрелки)
+        /// </summary>
+        /// <param name="selected">Узел в приемнике перетаскивания</param>
+        public static void SelectNode(TreeNode selected)
+        {
+            if (selected != DstSelectedNode)
+            {
+                if (selected != null && selected.ImageKey != "selected")
+                {
+                    if (DstSelectedNode != null)
+                    {
+                        DstSelectedNode.ImageKey = DstSelectedNode.SelectedImageKey = DstDefaultImageKey;
+                    }
+                    DstDefaultImageKey = selected.ImageKey;
+                    selected.ImageKey = selected.SelectedImageKey = "selected";
+                }
+                else if (selected == null)
+                {
+                    if (DstSelectedNode != null)
+                    {
+                        DstSelectedNode.ImageKey = DstSelectedNode.SelectedImageKey = DstDefaultImageKey;
+                    }
+                }
+                
+                DstSelectedNode = selected;
+            }
         }
     }
 

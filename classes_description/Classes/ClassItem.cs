@@ -70,6 +70,7 @@ namespace simple_database
             foreach (Dictionary<string, object> r in rows)
             {
                 TreeNode t = new TreeNode();
+                t.ImageIndex = t.SelectedImageIndex = (int)IconTypes.Book;
                 t.Text = (string)r["name"];
                 t.Tag = (long)r["id"];
                 main.tvClasses.Nodes.Add(t);
@@ -152,15 +153,17 @@ namespace simple_database
                 return;
             }
 
-            // description
             SqlRows r = DATABASE.LoadClass((long)currentClass.Tag);
 
             main.tvProps.Nodes.Clear();
-            TreeNode t = new TreeNode(currentClass.Text, 0, 0);
+            TreeNode t = new TreeNode(currentClass.Text, (int)IconTypes.Book, (int)IconTypes.Book);
             t.Tag = (long)-1;
             main.tvProps.Nodes.Add(t);
 
             PROPERTY.Load((long)currentClass.Tag, main);
+
+            main.paramTextEditor.txtBox.Rtf = (string)r[0]["description"];
+            main.paramTextEditor.userAction1();
         }
     }
 }

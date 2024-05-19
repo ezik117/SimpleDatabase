@@ -33,16 +33,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmBookmarks));
             this.panel1 = new System.Windows.Forms.Panel();
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.pnlHotButtons = new System.Windows.Forms.Panel();
-            this.btnShowCurrentDbOnly = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.btnDeleteAll = new System.Windows.Forms.Button();
             this.bookmarkDb = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bookmarkClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bookmarkProperty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bookmark_class_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bookmark_property_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pnlHotButtons = new System.Windows.Forms.Panel();
+            this.btnShowCurrentDbOnly = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.btnDeleteAll = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.pnlHotButtons.SuspendLayout();
@@ -81,6 +81,52 @@
             this.dgv.Size = new System.Drawing.Size(800, 428);
             this.dgv.TabIndex = 0;
             this.dgv.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
+            // 
+            // bookmarkDb
+            // 
+            this.bookmarkDb.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.bookmarkDb.DataPropertyName = "database";
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
+            this.bookmarkDb.DefaultCellStyle = dataGridViewCellStyle1;
+            this.bookmarkDb.HeaderText = "БД";
+            this.bookmarkDb.Name = "bookmarkDb";
+            this.bookmarkDb.ReadOnly = true;
+            this.bookmarkDb.Visible = false;
+            // 
+            // bookmarkClass
+            // 
+            this.bookmarkClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.bookmarkClass.DataPropertyName = "class";
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Purple;
+            this.bookmarkClass.DefaultCellStyle = dataGridViewCellStyle2;
+            this.bookmarkClass.HeaderText = "Каталог";
+            this.bookmarkClass.Name = "bookmarkClass";
+            this.bookmarkClass.ReadOnly = true;
+            this.bookmarkClass.Width = 73;
+            // 
+            // bookmarkProperty
+            // 
+            this.bookmarkProperty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.bookmarkProperty.DataPropertyName = "property";
+            this.bookmarkProperty.HeaderText = "Оглавление";
+            this.bookmarkProperty.Name = "bookmarkProperty";
+            this.bookmarkProperty.ReadOnly = true;
+            // 
+            // bookmark_class_id
+            // 
+            this.bookmark_class_id.DataPropertyName = "class_id";
+            this.bookmark_class_id.HeaderText = "_class_id";
+            this.bookmark_class_id.Name = "bookmark_class_id";
+            this.bookmark_class_id.ReadOnly = true;
+            this.bookmark_class_id.Visible = false;
+            // 
+            // bookmark_property_id
+            // 
+            this.bookmark_property_id.DataPropertyName = "property_id";
+            this.bookmark_property_id.HeaderText = "_property_id";
+            this.bookmark_property_id.Name = "bookmark_property_id";
+            this.bookmark_property_id.ReadOnly = true;
+            this.bookmark_property_id.Visible = false;
             // 
             // pnlHotButtons
             // 
@@ -160,57 +206,10 @@
             this.btnDeleteAll.UseVisualStyleBackColor = false;
             this.btnDeleteAll.Click += new System.EventHandler(this.btnDeleteAll_Click);
             // 
-            // bookmarkDb
-            // 
-            this.bookmarkDb.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.bookmarkDb.DataPropertyName = "database";
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
-            this.bookmarkDb.DefaultCellStyle = dataGridViewCellStyle1;
-            this.bookmarkDb.HeaderText = "БД";
-            this.bookmarkDb.Name = "bookmarkDb";
-            this.bookmarkDb.ReadOnly = true;
-            this.bookmarkDb.Visible = false;
-            this.bookmarkDb.Width = 29;
-            // 
-            // bookmarkClass
-            // 
-            this.bookmarkClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.bookmarkClass.DataPropertyName = "class";
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Purple;
-            this.bookmarkClass.DefaultCellStyle = dataGridViewCellStyle2;
-            this.bookmarkClass.HeaderText = "Каталог";
-            this.bookmarkClass.Name = "bookmarkClass";
-            this.bookmarkClass.ReadOnly = true;
-            this.bookmarkClass.Width = 73;
-            // 
-            // bookmarkProperty
-            // 
-            this.bookmarkProperty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.bookmarkProperty.DataPropertyName = "property";
-            this.bookmarkProperty.HeaderText = "Оглавление";
-            this.bookmarkProperty.Name = "bookmarkProperty";
-            this.bookmarkProperty.ReadOnly = true;
-            // 
-            // bookmark_class_id
-            // 
-            this.bookmark_class_id.DataPropertyName = "class_id";
-            this.bookmark_class_id.HeaderText = "_class_id";
-            this.bookmark_class_id.Name = "bookmark_class_id";
-            this.bookmark_class_id.ReadOnly = true;
-            this.bookmark_class_id.Visible = false;
-            // 
-            // bookmark_property_id
-            // 
-            this.bookmark_property_id.DataPropertyName = "property_id";
-            this.bookmark_property_id.HeaderText = "_property_id";
-            this.bookmark_property_id.Name = "bookmark_property_id";
-            this.bookmark_property_id.ReadOnly = true;
-            this.bookmark_property_id.Visible = false;
-            // 
             // frmBookmarks
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

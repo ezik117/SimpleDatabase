@@ -48,8 +48,8 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.gbStandardItems = new System.Windows.Forms.GroupBox();
             this.gbSpecialItems = new System.Windows.Forms.GroupBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.rbPlugin = new System.Windows.Forms.RadioButton();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.gbStandardItems.SuspendLayout();
             this.gbSpecialItems.SuspendLayout();
             this.SuspendLayout();
@@ -330,8 +330,8 @@
             // frmPropertyEdit
             // 
             this.AcceptButton = this.btnOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(403, 194);
             this.Controls.Add(this.gbSpecialItems);
             this.Controls.Add(this.gbStandardItems);

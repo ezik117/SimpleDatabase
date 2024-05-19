@@ -262,7 +262,16 @@ namespace simple_database
         {
             if (main.tvProps.SelectedNode == null) return;
 
-            DATABASE.UpdatePropertyDescription((long)main.tvProps.SelectedNode.Tag, main.paramTextEditor.txtBox.Rtf);
+            if ((long)main.tvProps.SelectedNode.Tag == -1)
+            {
+                // обновим описание каталога
+                DATABASE.UpdateClassDescription((long)main.tvClasses.SelectedNode.Tag, main.paramTextEditor.txtBox.Rtf);
+            }
+            else
+            {
+                // обновим описание оглавления
+                DATABASE.UpdatePropertyDescription((long)main.tvProps.SelectedNode.Tag, main.paramTextEditor.txtBox.Rtf);
+            }
             main.paramTextEditor.userAction1();
             main.slblLastUpdate.Text = "Last update: " + DATABASE.SetLastUpdate();
         }
@@ -337,7 +346,7 @@ namespace simple_database
             {
                 // выбран корневой узел
                 VARS.main_form.pbMarks.Refresh();
-                main.paramTextEditor.txtBox.ReadOnly = true;
+                main.paramTextEditor.txtBox.ReadOnly = false;
                 main.paramTextEditor.userAction2();
                 return;
             }

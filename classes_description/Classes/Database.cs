@@ -572,19 +572,37 @@ namespace simple_database
         }
 
         /// <summary>
-        /// Обновляет описание к параметру.
+        /// Обновляет описание к оглавлению.
         /// </summary>
         /// <param name="id">ROWDI параметра.</param>
         /// <param name="description">Описание параметра.</param>
         public static void UpdatePropertyDescription(long id, string description)
         {
-            cmd.CommandText = "UPDATE properties SET description=@description WHERE id=@id";
             cmd.Parameters["@id"].Value = id;
             cmd.Parameters["@description"].Value = description;
+
+            cmd.CommandText = "UPDATE properties SET description=@description WHERE id=@id";
             cmd.ExecuteNonQuery();
 
             // сохраним в истории
             SaveHistory(-1, id, "properties", "Обновление информации", VARS.main_form.tvProps.SelectedNode.Text);
+        }
+
+        /// <summary>
+        /// Обновляет описание к каталогу.
+        /// </summary>
+        /// <param name="id">ROWDI параметра.</param>
+        /// <param name="description">Описание параметра.</param>
+        public static void UpdateClassDescription(long id, string description)
+        {
+            cmd.Parameters["@id"].Value = id;
+            cmd.Parameters["@description"].Value = description;
+
+            cmd.CommandText = "UPDATE classes SET description=@description WHERE id=@id";
+            cmd.ExecuteNonQuery();
+
+            // сохраним в истории
+            SaveHistory(id, -1, "classes", "Обновление информации", VARS.main_form.tvClasses.SelectedNode.Text);
         }
 
         /// <summary>
@@ -1446,6 +1464,103 @@ namespace simple_database
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Перемещает выделенный элемент оглавления в каталог
+        /// </summary>
+        /// <param name="propId">ROWID оглавления</param>
+        /// <param name="toClassId">ROWID класса куда перемещаем, если равно -1, то создается новый класс</param>
+        /// <param name="fromClassId">ROWID класса из которого перемещаем</param>
+        /// <param name="toClassName">Имя класса в которорый перемещаем, не имеет значения при создании нового</param>
+        /// <returns>ROWID созданного класса, если создавался новый класс, иначе -1</returns>
+        public static long MoveProperyToClass(long propId, long toClassId, long fromClassId, string toClassName)
+        {
+            long ret = -1;
+
+            cmd.Parameters["@property_id"].Value = propId;
+            cmd.Parameters["@class_id"].Value = toClassId;
+            
+
+            if (toClassId == -1)
+            {
+                SQLiteTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    cmd.CommandText = "SELECT name FROM properties WHERE id=@property_id";
+                    cmd.Parameters["@name"].Value = (string)cmd.ExecuteScalar();
+                    cmd.CommandText = "SELECT description FROM properties WHERE id=@property_id";
+                    cmd.Parameters["@description"].Value = (string)cmd.ExecuteScalar();
+
+                    cmd.CommandText = "INSERT INTO classes (name, description) VALUES (@name, @description)";
+                    cmd.ExecuteNonQuery();
+                    long newClassId = conn.LastInsertRowId;
+                    cmd.Parameters["@class_id"].Value = newClassId;
+
+                    cmd.CommandText = @"
+                    UPDATE properties SET class=@class_id WHERE parent IN(
+                        WITH cte AS
+                        (
+                            SELECT id FROM properties WHERE id=@property_id
+                            UNION ALL
+                            SELECT properties.id FROM cte, properties ON  properties.parent = cte.id
+                        )
+                        SELECT id FROM cte)";
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = "UPDATE properties SET parent=NULL WHERE parent=@property_id";
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = "DELETE FROM properties WHERE id=@property_id";
+                    cmd.ExecuteNonQuery();
+
+                    // сохраним в истории
+                    SaveHistory(newClassId, -1, "classes", "Создание каталога (Drag and Drop)", VARS.main_form.tvProps.SelectedNode.Text);
+                    SaveHistory(fromClassId, propId, "properties", "Удаление оглавления (Drag and Drop)", VARS.main_form.tvProps.SelectedNode.Text);
+
+                    ret = newClassId;
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка перемещения", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                }
+
+            }
+            else
+            {
+                SQLiteTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    cmd.CommandText = "UPDATE properties SET parent=NULL WHERE id=@property_id";
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = @"
+                    UPDATE properties SET class=@class_id WHERE id IN(
+                        WITH cte AS
+                        (
+                            SELECT id FROM properties WHERE id=@property_id
+                            UNION ALL
+                            SELECT properties.id FROM cte, properties ON  properties.parent = cte.id
+                        )
+                        SELECT id FROM cte)";
+                    cmd.ExecuteNonQuery();
+
+                    // сохраним в истории
+                    SaveHistory(toClassId, propId, "classes", "Обновление информации каталога (Drag and Drop)", toClassName);
+                    SaveHistory(fromClassId, propId, "properties", "Удаление оглавления (Drag and Drop)", VARS.main_form.tvProps.SelectedNode.Text);
+
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка перемещения", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                }
+            }
+
+            return ret;
         }
     }
 }

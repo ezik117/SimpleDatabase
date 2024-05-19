@@ -86,7 +86,11 @@
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.panelCatalogHolder = new System.Windows.Forms.Panel();
             this.tvClasses = new System.Windows.Forms.TreeView();
+            this.ctxMenuCatalogues = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiMoveClassToAnotherDB = new System.Windows.Forms.ToolStripMenuItem();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnChangeDb = new System.Windows.Forms.Button();
             this.btnClassAdd = new System.Windows.Forms.Button();
             this.btnClassEdit = new System.Windows.Forms.Button();
             this.btnClassDel = new System.Windows.Forms.Button();
@@ -96,8 +100,7 @@
             this.slblEmpty = new System.Windows.Forms.ToolStripStatusLabel();
             this.slblVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.ctxMenuCatalogues = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiMoveCatalogToAnotherDB = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCreateDbFromClass = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panelDescriptionHolder.SuspendLayout();
             this.pnlDescriptionHeader.SuspendLayout();
@@ -107,9 +110,9 @@
             this.panel11.SuspendLayout();
             this.panelPropCaption.SuspendLayout();
             this.panelCatalogHolder.SuspendLayout();
+            this.ctxMenuCatalogues.SuspendLayout();
             this.panel7.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.ctxMenuCatalogues.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -223,6 +226,7 @@
             this.imageList1.Images.SetKeyName(31, "favourites_mark");
             this.imageList1.Images.SetKeyName(32, "hashtag_mark");
             this.imageList1.Images.SetKeyName(33, "plugin");
+            this.imageList1.Images.SetKeyName(34, "database-16-grayed.png");
             // 
             // btnDescOpenInNewWindow
             // 
@@ -569,6 +573,7 @@
             this.imageList2.Images.SetKeyName(13, "class");
             this.imageList2.Images.SetKeyName(14, "file_important");
             this.imageList2.Images.SetKeyName(15, "plugin");
+            this.imageList2.Images.SetKeyName(16, "white");
             // 
             // panel11
             // 
@@ -770,24 +775,49 @@
             // 
             // tvClasses
             // 
+            this.tvClasses.AllowDrop = true;
             this.tvClasses.BackColor = System.Drawing.Color.White;
             this.tvClasses.ContextMenuStrip = this.ctxMenuCatalogues;
             this.tvClasses.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvClasses.FullRowSelect = true;
             this.tvClasses.HideSelection = false;
+            this.tvClasses.ImageIndex = 0;
+            this.tvClasses.ImageList = this.imageList2;
             this.tvClasses.Location = new System.Drawing.Point(0, 24);
             this.tvClasses.Name = "tvClasses";
+            this.tvClasses.SelectedImageIndex = 0;
             this.tvClasses.ShowLines = false;
             this.tvClasses.ShowRootLines = false;
             this.tvClasses.Size = new System.Drawing.Size(200, 404);
             this.tvClasses.TabIndex = 1;
+            this.tvClasses.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tvClasses_ItemDrag);
             this.tvClasses.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvClasses_BeforeSelect);
             this.tvClasses.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvClasses_AfterSelect);
+            this.tvClasses.DragDrop += new System.Windows.Forms.DragEventHandler(this.tvClasses_DragDrop);
+            this.tvClasses.DragEnter += new System.Windows.Forms.DragEventHandler(this.tvClasses_DragEnter);
+            this.tvClasses.DragOver += new System.Windows.Forms.DragEventHandler(this.tvClasses_DragOver);
+            this.tvClasses.DragLeave += new System.EventHandler(this.tvClasses_DragLeave);
+            // 
+            // ctxMenuCatalogues
+            // 
+            this.ctxMenuCatalogues.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiMoveClassToAnotherDB,
+            this.tsmiCreateDbFromClass});
+            this.ctxMenuCatalogues.Name = "ctxMenuCatalogues";
+            this.ctxMenuCatalogues.Size = new System.Drawing.Size(204, 70);
+            // 
+            // tsmiMoveClassToAnotherDB
+            // 
+            this.tsmiMoveClassToAnotherDB.Name = "tsmiMoveClassToAnotherDB";
+            this.tsmiMoveClassToAnotherDB.Size = new System.Drawing.Size(203, 22);
+            this.tsmiMoveClassToAnotherDB.Text = "Перенести в другую БД";
             // 
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel7.Controls.Add(this.label4);
+            this.panel7.Controls.Add(this.btnChangeDb);
             this.panel7.Controls.Add(this.btnClassAdd);
             this.panel7.Controls.Add(this.btnClassEdit);
             this.panel7.Controls.Add(this.btnClassDel);
@@ -797,6 +827,36 @@
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(200, 24);
             this.panel7.TabIndex = 3;
+            // 
+            // label4
+            // 
+            this.label4.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.label4.Location = new System.Drawing.Point(20, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(72, 22);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Каталог";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnChangeDb
+            // 
+            this.btnChangeDb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnChangeDb.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnChangeDb.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnChangeDb.FlatAppearance.BorderSize = 0;
+            this.btnChangeDb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnChangeDb.ImageKey = "database-16-grayed.png";
+            this.btnChangeDb.ImageList = this.imageList1;
+            this.btnChangeDb.Location = new System.Drawing.Point(0, 0);
+            this.btnChangeDb.Name = "btnChangeDb";
+            this.btnChangeDb.Size = new System.Drawing.Size(20, 22);
+            this.btnChangeDb.TabIndex = 6;
+            this.btnChangeDb.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.btnChangeDb, "Сменить БД");
+            this.btnChangeDb.UseVisualStyleBackColor = false;
+            this.btnChangeDb.Click += new System.EventHandler(this.btnChangeDb_Click);
             // 
             // btnClassAdd
             // 
@@ -860,7 +920,6 @@
             this.label1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.label1.Size = new System.Drawing.Size(198, 22);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Каталог";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // statusStrip1
@@ -893,24 +952,16 @@
             this.slblVersion.Size = new System.Drawing.Size(64, 17);
             this.slblVersion.Text = "slblVersion";
             // 
-            // ctxMenuCatalogues
+            // tsmiCreateDbFromClass
             // 
-            this.ctxMenuCatalogues.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiMoveCatalogToAnotherDB});
-            this.ctxMenuCatalogues.Name = "ctxMenuCatalogues";
-            this.ctxMenuCatalogues.Size = new System.Drawing.Size(204, 26);
-            // 
-            // tsmiMoveCatalogToAnotherDB
-            // 
-            this.tsmiMoveCatalogToAnotherDB.Name = "tsmiMoveCatalogToAnotherDB";
-            this.tsmiMoveCatalogToAnotherDB.Size = new System.Drawing.Size(203, 22);
-            this.tsmiMoveCatalogToAnotherDB.Text = "Перенести в другую БД";
-            this.tsmiMoveCatalogToAnotherDB.Click += new System.EventHandler(this.tsmiMoveCatalogToAnotherDB_Click);
+            this.tsmiCreateDbFromClass.Name = "tsmiCreateDbFromClass";
+            this.tsmiCreateDbFromClass.Size = new System.Drawing.Size(203, 22);
+            this.tsmiCreateDbFromClass.Text = "Создать БД из Каталога";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(907, 450);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip1);
@@ -930,10 +981,10 @@
             this.panel11.ResumeLayout(false);
             this.panelPropCaption.ResumeLayout(false);
             this.panelCatalogHolder.ResumeLayout(false);
+            this.ctxMenuCatalogues.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.ctxMenuCatalogues.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1008,7 +1059,10 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiPluginCreate;
         private System.Windows.Forms.ToolStripMenuItem tsmiPluginRename;
         private System.Windows.Forms.ContextMenuStrip ctxMenuCatalogues;
-        private System.Windows.Forms.ToolStripMenuItem tsmiMoveCatalogToAnotherDB;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveClassToAnotherDB;
+        private System.Windows.Forms.Button btnChangeDb;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripMenuItem tsmiCreateDbFromClass;
     }
 }
 

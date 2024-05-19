@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmHistory));
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.lbInfo = new System.Windows.Forms.ListBox();
             this.histDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.histUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.histTablename = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,6 +38,7 @@
             this.histRowId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.histClassId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.histPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lbInfo = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,16 +70,6 @@
             this.dgv.TabIndex = 0;
             this.dgv.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
             this.dgv.SelectionChanged += new System.EventHandler(this.dgv_SelectionChanged);
-            // 
-            // lbInfo
-            // 
-            this.lbInfo.BackColor = System.Drawing.Color.White;
-            this.lbInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lbInfo.FormattingEnabled = true;
-            this.lbInfo.Location = new System.Drawing.Point(0, 355);
-            this.lbInfo.Name = "lbInfo";
-            this.lbInfo.Size = new System.Drawing.Size(800, 95);
-            this.lbInfo.TabIndex = 1;
             // 
             // histDate
             // 
@@ -146,10 +136,20 @@
             this.histPath.ReadOnly = true;
             this.histPath.Visible = false;
             // 
+            // lbInfo
+            // 
+            this.lbInfo.BackColor = System.Drawing.Color.White;
+            this.lbInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lbInfo.FormattingEnabled = true;
+            this.lbInfo.Location = new System.Drawing.Point(0, 355);
+            this.lbInfo.Name = "lbInfo";
+            this.lbInfo.Size = new System.Drawing.Size(800, 95);
+            this.lbInfo.TabIndex = 1;
+            // 
             // frmHistory
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.lbInfo);
