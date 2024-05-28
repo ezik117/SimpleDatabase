@@ -288,6 +288,13 @@ namespace simple_database
 
             list.Add(el);
             currentPos++;
+
+            // проверим на лимит
+            if (currentPos > 50)
+            {
+                currentPos--;
+                list.RemoveAt(0);
+            }
         }
 
         /// <summary>
