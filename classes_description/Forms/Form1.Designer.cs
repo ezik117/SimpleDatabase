@@ -73,6 +73,8 @@
             this.tsmiPluginCreate = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.panel11 = new System.Windows.Forms.Panel();
+            this.btnPropForward = new System.Windows.Forms.Button();
+            this.btnPropBackward = new System.Windows.Forms.Button();
             this.btnPropFavourites = new System.Windows.Forms.Button();
             this.btnPropBookmark = new System.Windows.Forms.Button();
             this.btnPropFavouritesAdd = new System.Windows.Forms.Button();
@@ -88,6 +90,7 @@
             this.tvClasses = new System.Windows.Forms.TreeView();
             this.ctxMenuCatalogues = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiMoveClassToAnotherDB = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCreateDbFromClass = new System.Windows.Forms.ToolStripMenuItem();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.btnChangeDb = new System.Windows.Forms.Button();
@@ -100,7 +103,6 @@
             this.slblEmpty = new System.Windows.Forms.ToolStripStatusLabel();
             this.slblVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.tsmiCreateDbFromClass = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panelDescriptionHolder.SuspendLayout();
             this.pnlDescriptionHeader.SuspendLayout();
@@ -227,6 +229,10 @@
             this.imageList1.Images.SetKeyName(32, "hashtag_mark");
             this.imageList1.Images.SetKeyName(33, "plugin");
             this.imageList1.Images.SetKeyName(34, "database-16-grayed.png");
+            this.imageList1.Images.SetKeyName(35, "backward");
+            this.imageList1.Images.SetKeyName(36, "forward");
+            this.imageList1.Images.SetKeyName(37, "backward-gray");
+            this.imageList1.Images.SetKeyName(38, "forward-gray");
             // 
             // btnDescOpenInNewWindow
             // 
@@ -335,6 +341,7 @@
             this.tvProps.DragDrop += new System.Windows.Forms.DragEventHandler(this.tvProps_DragDrop);
             this.tvProps.DragEnter += new System.Windows.Forms.DragEventHandler(this.tvProps_DragEnter);
             this.tvProps.DragOver += new System.Windows.Forms.DragEventHandler(this.tvProps_DragOver);
+            this.tvProps.DragLeave += new System.EventHandler(this.tvProps_DragLeave);
             this.tvProps.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tvProps_KeyDown);
             // 
             // ctxMenuCharters
@@ -579,6 +586,8 @@
             // 
             this.panel11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel11.Controls.Add(this.btnPropForward);
+            this.panel11.Controls.Add(this.btnPropBackward);
             this.panel11.Controls.Add(this.btnPropFavourites);
             this.panel11.Controls.Add(this.btnPropBookmark);
             this.panel11.Controls.Add(this.btnPropFavouritesAdd);
@@ -589,6 +598,40 @@
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(243, 22);
             this.panel11.TabIndex = 6;
+            // 
+            // btnPropForward
+            // 
+            this.btnPropForward.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnPropForward.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnPropForward.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnPropForward.FlatAppearance.BorderSize = 0;
+            this.btnPropForward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPropForward.ImageKey = "forward-gray";
+            this.btnPropForward.ImageList = this.imageList1;
+            this.btnPropForward.Location = new System.Drawing.Point(120, 0);
+            this.btnPropForward.Name = "btnPropForward";
+            this.btnPropForward.Size = new System.Drawing.Size(20, 20);
+            this.btnPropForward.TabIndex = 13;
+            this.toolTip1.SetToolTip(this.btnPropForward, "Вперед");
+            this.btnPropForward.UseVisualStyleBackColor = false;
+            this.btnPropForward.Click += new System.EventHandler(this.btnPropForward_Click);
+            // 
+            // btnPropBackward
+            // 
+            this.btnPropBackward.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnPropBackward.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnPropBackward.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnPropBackward.FlatAppearance.BorderSize = 0;
+            this.btnPropBackward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPropBackward.ImageKey = "backward-gray";
+            this.btnPropBackward.ImageList = this.imageList1;
+            this.btnPropBackward.Location = new System.Drawing.Point(100, 0);
+            this.btnPropBackward.Name = "btnPropBackward";
+            this.btnPropBackward.Size = new System.Drawing.Size(20, 20);
+            this.btnPropBackward.TabIndex = 12;
+            this.toolTip1.SetToolTip(this.btnPropBackward, "Назад");
+            this.btnPropBackward.UseVisualStyleBackColor = false;
+            this.btnPropBackward.Click += new System.EventHandler(this.btnPropBackward_Click);
             // 
             // btnPropFavourites
             // 
@@ -804,13 +847,19 @@
             this.tsmiMoveClassToAnotherDB,
             this.tsmiCreateDbFromClass});
             this.ctxMenuCatalogues.Name = "ctxMenuCatalogues";
-            this.ctxMenuCatalogues.Size = new System.Drawing.Size(204, 70);
+            this.ctxMenuCatalogues.Size = new System.Drawing.Size(204, 48);
             // 
             // tsmiMoveClassToAnotherDB
             // 
             this.tsmiMoveClassToAnotherDB.Name = "tsmiMoveClassToAnotherDB";
             this.tsmiMoveClassToAnotherDB.Size = new System.Drawing.Size(203, 22);
             this.tsmiMoveClassToAnotherDB.Text = "Перенести в другую БД";
+            // 
+            // tsmiCreateDbFromClass
+            // 
+            this.tsmiCreateDbFromClass.Name = "tsmiCreateDbFromClass";
+            this.tsmiCreateDbFromClass.Size = new System.Drawing.Size(203, 22);
+            this.tsmiCreateDbFromClass.Text = "Создать БД из Каталога";
             // 
             // panel7
             // 
@@ -952,12 +1001,6 @@
             this.slblVersion.Size = new System.Drawing.Size(64, 17);
             this.slblVersion.Text = "slblVersion";
             // 
-            // tsmiCreateDbFromClass
-            // 
-            this.tsmiCreateDbFromClass.Name = "tsmiCreateDbFromClass";
-            this.tsmiCreateDbFromClass.Size = new System.Drawing.Size(203, 22);
-            this.tsmiCreateDbFromClass.Text = "Создать БД из Каталога";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1063,6 +1106,8 @@
         private System.Windows.Forms.Button btnChangeDb;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem tsmiCreateDbFromClass;
+        public System.Windows.Forms.Button btnPropForward;
+        public System.Windows.Forms.Button btnPropBackward;
     }
 }
 

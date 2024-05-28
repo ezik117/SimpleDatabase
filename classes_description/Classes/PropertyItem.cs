@@ -374,6 +374,20 @@ namespace simple_database
             VARS.main_form.toolTip1.SetToolTip(VARS.main_form.pbMarks, propertyInfo.Tip);
 
             VARS.main_form.pbMarks.Refresh();
+
+            // добавим в историю просмотра
+            if (!VARS.moving_over_history)
+            {
+                MOVEHISTORY.Set(
+                    Path.GetFileNameWithoutExtension(DATABASE.FileName),
+                    (long)VARS.main_form.tvClasses.SelectedNode.Tag,
+                    (long)VARS.main_form.tvProps.SelectedNode.Tag
+                );
+                if (MOVEHISTORY.Count() > 1) VARS.main_form.btnPropBackward.ImageKey = "backward";
+                VARS.main_form.btnPropForward.ImageKey = "forward-gray";
+
+            }
+            VARS.moving_over_history = false;
         }
 
         /// <summary>

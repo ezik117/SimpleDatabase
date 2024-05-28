@@ -1562,5 +1562,16 @@ namespace simple_database
 
             return ret;
         }
+
+        /// <summary>
+        /// Добавить элемент к истории перемещения
+        /// </summary>
+        /// <param name="database">Имя БД</param>
+        /// <param name="class_id">ROWID Каталога</param>
+        /// <param name="property_id">ROWID оглавления</param>
+        public static void PushToMoveHistory(string database, long class_id, long property_id)
+        {
+
+        }
     }
 }

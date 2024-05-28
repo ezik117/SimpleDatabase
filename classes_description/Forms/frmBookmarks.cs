@@ -57,52 +57,6 @@ namespace simple_database
         }
 
         /// <summary>
-        /// Ищет заданный узел в каталоге
-        /// </summary>
-        /// <param name="rowid">ROWID (Tag) нужного узла</param>
-        /// <returns>Найденный объект TreeNode или null</returns>
-        private TreeNode FindClassNode(long rowid)
-        {
-            TreeNode ret = null;
-            foreach (TreeNode node in VARS.main_form.tvClasses.Nodes)
-                if ((long)node.Tag == rowid)
-                {
-                    ret = node;
-                    break;
-                }
-            return ret;
-        }
-
-        /// <summary>
-        /// Ищет заданный узел в TV.
-        /// </summary>
-        /// <param name="node">Родительский узел</param>
-        /// <param name="rowid">ROWID (Tag) нужного узла</param>
-        /// <returns>Найденный объект TreeNode или null</returns>
-        private TreeNode FindNodeRecursively(TreeNode node, long rowid)
-        {
-            TreeNode ret = null;
-            foreach (TreeNode n in node.Nodes)
-            {
-                if ((long)n.Tag == rowid)
-                {
-                    ret = n;
-                    break;
-                }
-                else
-                {
-                    if (n.Nodes.Count > 0)
-                    {
-                        ret = FindNodeRecursively(n, rowid);
-                        if (ret != null) break;
-                    }
-                }
-            }
-
-            return ret;
-        }
-
-        /// <summary>
         /// Удалить все
         /// </summary>
         private void btnDeleteAll_Click(object sender, EventArgs e)
@@ -137,30 +91,7 @@ namespace simple_database
 
             string dbname = Path.GetFileNameWithoutExtension(DATABASE.FileName);
 
-            if (dbname != (string)row["database"])
-            {
-                // меняем БД
-                DATABASE.Close();
-                DATABASE.OpenOrCreate((string)row["database"]);
-                ClassItem.Load(VARS.main_form);
-                VARS.main_form.slblLastUpdate.Text = "Last update: " + DATABASE.GetLastUpdate();
-            }
-
-            TreeNode class_node = FindClassNode((long)row["class_id"]);
-            if (class_node != null)
-            {
-                VARS.property_update_finished = false;
-                VARS.main_form.tvClasses.SelectedNode = null;
-                VARS.main_form.tvClasses.SelectedNode = class_node;
-                while (VARS.property_update_finished != true)
-                    Application.DoEvents();
-            }
-
-            TreeNode prop_node = FindNodeRecursively(VARS.main_form.tvProps.Nodes[0], (long)row["property_id"]);
-            if (prop_node != null)
-            {
-                VARS.main_form.tvProps.SelectedNode = prop_node;
-            }
+            HELPER.MoveToElement((string)row["database"], (long)row["class_id"], (long)row["property_id"]);
 
             Close();
         }

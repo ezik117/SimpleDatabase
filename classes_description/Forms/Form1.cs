@@ -26,11 +26,6 @@ namespace simple_database
         /// </summary>
         public TextEditor paramTextEditor;
 
-        // используется для операций DragDrop, содержит выбранный для Drop узел
-        private TreeNode DragDropSelectedNode = null;
-        // используется для операций DragDrop, содержит индекс картинки узла (будет заменен на индекс выделения)
-        private int DragDropSelectedNodeImageIndex = -1;
-
         /// <summary>
         /// Конструктор формы.
         /// </summary>
@@ -302,58 +297,57 @@ namespace simple_database
         }
 
         /// <summary>
-        /// Move the dragged node when the left mouse button is used.
+        /// Начало перетаскивания элемента оглавления
         /// </summary>
         private void tvProps_ItemDrag(object sender, ItemDragEventArgs e)
         {
             if (e.Button == MouseButtons.Left && e.Item.GetType() == typeof(TreeNode))
             {
-                DnD.Reset();
-                DnD.SrcSelectedNode = (TreeNode)e.Item;
-                DnD.SourceTV = (TreeView)sender;
-                DnD.IsDragStarted = true;
+                DnD.Start((TreeNode)e.Item);
                 DoDragDrop(e.Item, DragDropEffects.Move);
             }
         }
 
         /// <summary>
-        /// Set the target drop effect to the effect 
-        /// specified in the ItemDrag event handler.
+        /// Для tvProps определяем принимать ли Drag and Drop элемент
         /// </summary>
         private void tvProps_DragEnter(object sender, DragEventArgs e)
         {
-            // Вставлять можно только из tvClasses и tvProps
-            if (DnD.IsDragStarted && 
-                (DnD.SourceTV == tvClasses || DnD.SourceTV == tvProps ) &&
-                e.Data.GetDataPresent(typeof(TreeNode))) e.Effect = e.AllowedEffect; 
+            // Вставлять можно как из tvProps так и из tvClasses
+            if (DnD.IsDragStarted &&
+                (DnD.SourceTV == tvProps || DnD.SourceTV == tvClasses) &&
+                e.Data.GetDataPresent(typeof(TreeNode)))
+            {
+                e.Effect = e.AllowedEffect;
+            }
         }
 
         /// <summary>
-        /// Select the node under the mouse pointer to indicate the 
-        /// expected drop location.
+        /// Для tvProps подсвечиваем в какой каталог добавить оглавление
         /// </summary>
         private void tvProps_DragOver(object sender, DragEventArgs e)
         {
-            return;
-
-            // Do not allow visual effects if data type is not acceptable
-            if (!e.Data.GetDataPresent(typeof(TreeNode))) return;
-
-            // Retrieve the client coordinates of the mouse position.
-            Point targetPoint = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
-
-            // Select the node at the mouse position.
-            TreeNode targetNode = ((TreeView)sender).GetNodeAt(targetPoint);
-
-            if (DragDropSelectedNode != targetNode)
+            // Вставлять можно как из tvProps так и из tvClasses
+            if (!DnD.IsDragStarted ||
+                (DnD.SourceTV != tvProps && DnD.SourceTV != tvClasses) ||
+                !e.Data.GetDataPresent(typeof(TreeNode)))
             {
-                if (DragDropSelectedNode != null && DragDropSelectedNodeImageIndex != -1)
-                    DragDropSelectedNode.ImageIndex = DragDropSelectedNodeImageIndex;
-
-                DragDropSelectedNode = targetNode;
-                DragDropSelectedNodeImageIndex = DragDropSelectedNode.ImageIndex;
-                DragDropSelectedNode.ImageKey = "selected";
+                return;
             }
+
+            // Определяем узел под курсором и выделяем его
+            Point targetPoint = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
+            TreeNode selected = ((TreeView)sender).GetNodeAt(targetPoint);
+
+            // выход за пределы 
+            if (selected == null)
+            {
+                e.Effect = DragDropEffects.None;
+                DnD.SelectNode(null);
+                return;
+            }
+
+            e.Effect = DnD.SelectNode(selected);
         }
 
         /// <summary>
@@ -361,13 +355,6 @@ namespace simple_database
         /// </summary>
         private void tvProps_DragDrop(object sender, DragEventArgs e)
         {
-            if (DragDropSelectedNode != null && DragDropSelectedNodeImageIndex != -1)
-            {
-                DragDropSelectedNode.ImageIndex = DragDropSelectedNodeImageIndex;
-                DragDropSelectedNodeImageIndex = -1;
-                DragDropSelectedNode = null;
-            }
-
             // Retrieve the client coordinates of the drop location.
             Point targetPoint = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
 
@@ -377,14 +364,22 @@ namespace simple_database
             // Retrieve the node that was dragged.
             TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
 
-            // Confirm that the node at the drop location is not 
-            // the dragged node or a descendant of the dragged node.
-            if (!draggedNode.Equals(targetNode) && !ContainsNode(draggedNode, targetNode))
+            if (DnD.SourceTV == tvProps)
             {
-                PROPERTY.ChangeParent((long)draggedNode.Tag, (long)targetNode.Tag, this);
-                draggedNode.Remove();
-                targetNode.Nodes.Add(draggedNode);
+                // Confirm that the node at the drop location is not 
+                // the dragged node or a descendant of the dragged node.
+                if (!draggedNode.Equals(targetNode) && !ContainsNode(draggedNode, targetNode))
+                {
+                    PROPERTY.ChangeParent((long)draggedNode.Tag, (long)targetNode.Tag, this);
+                    draggedNode.Remove();
+                    targetNode.Nodes.Add(draggedNode);
+                }
+            } else if (DnD.SourceTV == tvClasses)
+            {
+
             }
+
+            DnD.End();
         }
 
         /// <summary>
@@ -746,12 +741,10 @@ namespace simple_database
         /// </summary>
         private void tvClasses_ItemDrag(object sender, ItemDragEventArgs e)
         {
+            Debug.WriteLine($"Item: {((TreeNode)e.Item).Text}");
             if (e.Button == MouseButtons.Left && e.Item.GetType() == typeof(TreeNode))
             {
-                DnD.Reset();
-                DnD.SrcSelectedNode = (TreeNode)e.Item;
-                DnD.SourceTV = (TreeView)sender;
-                DnD.IsDragStarted = true;
+                DnD.Start((TreeNode)e.Item);
                 DoDragDrop(e.Item, DragDropEffects.Move);
             }
         }
@@ -803,14 +796,12 @@ namespace simple_database
                 }
             }
 
-            DnD.Reset();
+            DnD.End();
         }
 
         /// <summary>
         /// Для tvClasses подсвечиваем в какой каталог добавить оглавление
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void tvClasses_DragOver(object sender, DragEventArgs e)
         {
             // Вставлять можно только из tvProps
@@ -818,6 +809,7 @@ namespace simple_database
                 DnD.SourceTV != tvProps ||
                 !e.Data.GetDataPresent(typeof(TreeNode)))
             {
+                e.Effect = DragDropEffects.None;
                 return;
             }
 
@@ -825,6 +817,7 @@ namespace simple_database
             Point targetPoint = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
             TreeNode selected = ((TreeView)sender).GetNodeAt(targetPoint);
             DnD.SelectNode(selected);
+            e.Effect = DragDropEffects.Move;
         }
 
         /// <summary>
@@ -836,6 +829,47 @@ namespace simple_database
             {
                 DnD.SelectNode(null);
             }
+        }
+
+        /// <summary>
+        /// Для tvProps операция Dran and Drop вышла за пределы видимости
+        /// </summary>
+        private void tvProps_DragLeave(object sender, EventArgs e)
+        {
+            if (DnD.DstSelectedNode != null)
+            {
+                DnD.SelectNode(null);
+            }
+        }
+
+        /// <summary>
+        /// Нажата кнопка "История перемещения: назад
+        /// </summary>
+        private void btnPropBackward_Click(object sender, EventArgs e)
+        {
+            MoveHistoryElement el = MOVEHISTORY.GotoPrevious();
+            if (el == null) return;
+
+            btnPropBackward.ImageKey = el.isPrevExists ? "backward" : "backward-gray";
+            btnPropForward.ImageKey = el.isNextExists ? "forward" : "forward-gray";
+
+            VARS.moving_over_history = true;
+            HELPER.MoveToElement(el.database, el.class_id, el.property_id);
+        }
+
+        /// <summary>
+        /// Нажата кнопка "История перемещения: вперед
+        /// </summary>
+        private void btnPropForward_Click(object sender, EventArgs e)
+        {
+            MoveHistoryElement el = MOVEHISTORY.GotoNext();
+            if (el == null) return;
+
+            btnPropBackward.ImageKey = el.isPrevExists ? "backward" : "backward-gray";
+            btnPropForward.ImageKey = el.isNextExists ? "forward" : "forward-gray";
+
+            VARS.moving_over_history = true;
+            HELPER.MoveToElement(el.database, el.class_id, el.property_id);
         }
     }
 

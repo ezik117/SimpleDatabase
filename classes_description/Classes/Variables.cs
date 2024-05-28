@@ -32,5 +32,10 @@ namespace simple_database
         /// Папка temp программы
         /// </summary>
         public static string temp_folder;
+
+        /// <summary>
+        /// Флаг, показывающий является ли переход результатом нажатия кнопок навигации по истории
+        /// </summary>
+        public static bool moving_over_history = false;
     }
 }
