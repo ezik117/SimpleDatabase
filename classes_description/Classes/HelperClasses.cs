@@ -109,7 +109,8 @@ namespace simple_database
         Class = 13,
         FileImportant = 14,
         Plugin = 15,
-        White = 16
+        Transparent = 16,
+        Gray = 17
     }
 
     /// <summary>
@@ -150,10 +151,12 @@ namespace simple_database
         /// Имя ключа изображения узла в приемнике перетаскивания (для восстановления изображения после)
         /// </summary>
         public static int DstPreviousImageIndex = 0;
+        public static int DstPreviousImageIndex_Selected = 0;
         /// <summary>
         /// Имя ключа изображения узла в источнике перетаскивания (для восстановления изображения после)
         /// </summary>
         public static int SrcPreviousImageIndex = 0;
+        public static int SrcPreviousImageIndex_Selected = 0;
         /// <summary>
         /// TreeView источника перетаскивания
         /// </summary>
@@ -169,7 +172,10 @@ namespace simple_database
         public static void Reset()
         {
             if (DstSelectedNode != null)
-                DstSelectedNode.ImageIndex = DstSelectedNode.SelectedImageIndex = DstPreviousImageIndex;
+            {
+                DstSelectedNode.ImageIndex = DstPreviousImageIndex;
+                DstSelectedNode.SelectedImageIndex = DstPreviousImageIndex_Selected;
+            }
             IsDragStarted = false;
             SrcSelectedNode = null;
             DstSelectedNode = null;
@@ -196,10 +202,13 @@ namespace simple_database
                     // Восстановим предыдущее состояние
                     if (DstSelectedNode != null)
                     {
-                        DstSelectedNode.ImageIndex = DstSelectedNode.SelectedImageIndex = DstPreviousImageIndex;
-                        SrcSelectedNode.ImageIndex = SrcSelectedNode.SelectedImageIndex = SrcPreviousImageIndex;
+                        DstSelectedNode.ImageIndex = DstPreviousImageIndex;
+                        DstSelectedNode.SelectedImageIndex = DstPreviousImageIndex_Selected;
+                        SrcSelectedNode.ImageIndex = SrcPreviousImageIndex;
+                        SrcSelectedNode.SelectedImageIndex = SrcPreviousImageIndex_Selected;
                     }
                     DstPreviousImageIndex = selected.ImageIndex;
+                    DstPreviousImageIndex_Selected = selected.SelectedImageIndex;
                     selected.ImageIndex = selected.SelectedImageIndex = (int)IconTypes.Selected;
                     Debug.WriteLine(selected.Text);
                 }
@@ -207,7 +216,8 @@ namespace simple_database
                 {
                     if (DstSelectedNode != null)
                     {
-                        DstSelectedNode.ImageIndex = DstSelectedNode.SelectedImageIndex = DstPreviousImageIndex;
+                        DstSelectedNode.ImageIndex = DstPreviousImageIndex;
+                        DstSelectedNode.SelectedImageIndex = DstPreviousImageIndex_Selected;
                     }
                 }
 
@@ -224,13 +234,17 @@ namespace simple_database
             SrcSelectedNode = sourceNode;
             SourceTV = sourceNode.TreeView;
             DstPreviousImageIndex = SrcPreviousImageIndex = sourceNode.ImageIndex;
+            DstPreviousImageIndex_Selected = SrcPreviousImageIndex_Selected = sourceNode.SelectedImageIndex;
         }
 
         public static void End()
         {
             IsDragStarted = false;
             if (DstSelectedNode != null)
-                DstSelectedNode.ImageIndex = DstSelectedNode.SelectedImageIndex = DstPreviousImageIndex;
+            {
+                DstSelectedNode.ImageIndex = DstPreviousImageIndex;
+                DstSelectedNode.SelectedImageIndex = DstPreviousImageIndex_Selected;
+            }
         }
     }
 

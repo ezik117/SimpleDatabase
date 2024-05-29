@@ -871,6 +871,32 @@ namespace simple_database
             VARS.moving_over_history = true;
             HELPER.MoveToElement(el.database, el.class_id, el.property_id);
         }
+
+        /// <summary>
+        /// Обработка глобальных нажатий клавиш
+        /// </summary>
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Alt)
+            {
+                switch (e.KeyCode)
+                {
+                    // История перемещений: назад
+                    case Keys.Left:
+                        btnPropBackward.PerformClick();
+                        e.SuppressKeyPress = true;
+                        e.Handled = true;
+                        break;
+
+                    // История перемещений: вперед
+                    case Keys.Right:
+                        btnPropForward.PerformClick();
+                        e.SuppressKeyPress = true;
+                        e.Handled = true;
+                        break;
+                }
+            }
+        }
     }
 
 

@@ -233,6 +233,7 @@
             this.imageList1.Images.SetKeyName(36, "forward");
             this.imageList1.Images.SetKeyName(37, "backward-gray");
             this.imageList1.Images.SetKeyName(38, "forward-gray");
+            this.imageList1.Images.SetKeyName(39, "transparent");
             // 
             // btnDescOpenInNewWindow
             // 
@@ -580,7 +581,8 @@
             this.imageList2.Images.SetKeyName(13, "class");
             this.imageList2.Images.SetKeyName(14, "file_important");
             this.imageList2.Images.SetKeyName(15, "plugin");
-            this.imageList2.Images.SetKeyName(16, "white");
+            this.imageList2.Images.SetKeyName(16, "transparent");
+            this.imageList2.Images.SetKeyName(17, "gray");
             // 
             // panel11
             // 
@@ -824,7 +826,7 @@
             this.tvClasses.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvClasses.FullRowSelect = true;
             this.tvClasses.HideSelection = false;
-            this.tvClasses.ImageIndex = 0;
+            this.tvClasses.ImageIndex = 16;
             this.tvClasses.ImageList = this.imageList2;
             this.tvClasses.Location = new System.Drawing.Point(0, 24);
             this.tvClasses.Name = "tvClasses";
@@ -1009,11 +1011,13 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Справочник";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.panel1.ResumeLayout(false);
             this.panelDescriptionHolder.ResumeLayout(false);

@@ -70,7 +70,8 @@ namespace simple_database
             foreach (Dictionary<string, object> r in rows)
             {
                 TreeNode t = new TreeNode();
-                t.ImageIndex = t.SelectedImageIndex = (int)IconTypes.Book;
+                t.ImageIndex = (int)IconTypes.Transparent;
+                t.SelectedImageIndex = (int)IconTypes.Book;
                 t.Text = (string)r["name"];
                 t.Tag = (long)r["id"];
                 main.tvClasses.Nodes.Add(t);
