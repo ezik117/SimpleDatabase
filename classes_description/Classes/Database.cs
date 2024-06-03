@@ -98,6 +98,7 @@ namespace simple_database
             // добавление переменных для запросов
             cmd.Parameters.Add("@className", DbType.String).IsNullable = true;
             cmd.Parameters.Add("@class_id", DbType.Int64).IsNullable = true;
+            cmd.Parameters.Add("@class_id2", DbType.Int64).IsNullable = true;
             cmd.Parameters.Add("@name", DbType.String).IsNullable = true;
             cmd.Parameters.Add("@property_id", DbType.Int64).IsNullable = true;
             cmd.Parameters.Add("@description", DbType.String).IsNullable = true;
@@ -1564,14 +1565,55 @@ namespace simple_database
         }
 
         /// <summary>
-        /// Добавить элемент к истории перемещения
+        /// Перемещает выделенный каталог в оглавление
         /// </summary>
-        /// <param name="database">Имя БД</param>
-        /// <param name="class_id">ROWID Каталога</param>
-        /// <param name="property_id">ROWID оглавления</param>
-        public static void PushToMoveHistory(string database, long class_id, long property_id)
+        /// <param name="classId">ROWID перемещаемого каталога</param>
+        /// <param name="toPropId">ROWID элемента оглавления приемника или -1, если в корень</param>
+        /// <param name="toClassId">ROWID каталога приемника</param>
+        /// /// <param name="toClassName">Имя перемещаемого класса</param>
+        /// <returns></returns>
+        public static bool MoveClassToProperty(long classId, long toPropId, long toClassId, string сlassName)
         {
+            bool ret = true;
 
+            cmd.Parameters["@property_id"].Value = toPropId;
+            if (toPropId < 0) cmd.Parameters["@property_id"].Value = DBNull.Value;
+            cmd.Parameters["@class_id"].Value = classId;
+            cmd.Parameters["@class_id2"].Value = toClassId;
+
+            SQLiteTransaction trans = conn.BeginTransaction();
+            try
+            {
+                cmd.CommandText = @"INSERT INTO properties (name, description, type, parent, class, keywords)
+                                SELECT name, description, 4, @property_id, @class_id2, '' FROM classes
+                                WHERE id=@class_id";
+                cmd.ExecuteNonQuery();
+                long lastId = conn.LastInsertRowId;
+
+                cmd.Parameters["@property_id"].Value = lastId;
+
+                cmd.CommandText = @"UPDATE properties SET parent = @property_id WHERE parent IS NULL AND class=@class_id";
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = @"UPDATE properties SET class=@class_id2 WHERE class=@class_id";
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = "DELETE FROM classes WHERE id=@class_id";
+                cmd.ExecuteNonQuery();
+
+                SaveHistory(toClassId, toPropId, "classes", "Обновление информации каталога (Drag and Drop)", VARS.main_form.tvProps.SelectedNode.Text);
+                SaveHistory(classId, -1, "classes", "Удаление каталога (Drag and Drop)", сlassName);
+
+                trans.Commit();
+            }
+            catch (Exception ex)
+            {
+                ret = false;
+                trans.Rollback();
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка перемещения", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
+
+            return ret;
         }
     }
 }

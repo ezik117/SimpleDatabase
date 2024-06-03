@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using TextEditorNS;
 
@@ -73,7 +74,7 @@ namespace simple_database
             double db_size = DATABASE.GetOpenedDatabaseSize() / 1024.0/ 1024.0;
             slblLastUpdate.Text = $"Last update: {DATABASE.GetLastUpdate()}  |  Size: {db_size:0.0} Mb";
 
-
+            AddPropertiesContextMenuItems();
         }
 
         // Обработка нажатий некоторых клавиш
@@ -318,7 +319,11 @@ namespace simple_database
                 (DnD.SourceTV == tvProps || DnD.SourceTV == tvClasses) &&
                 e.Data.GetDataPresent(typeof(TreeNode)))
             {
-                e.Effect = e.AllowedEffect;
+                // нельзя перетаскивать самого себя в себя
+                if (DnD.SourceTV == tvClasses && tvClasses.SelectedNode.Tag == ((TreeNode)e.Data.GetData(typeof(TreeNode))).Tag)
+                    return;
+                else
+                    e.Effect = e.AllowedEffect;
             }
         }
 
@@ -334,6 +339,10 @@ namespace simple_database
             {
                 return;
             }
+
+            // нельзя перетаскивать самого себя в себя
+            if (DnD.SourceTV == tvClasses && tvClasses.SelectedNode.Tag == ((TreeNode)e.Data.GetData(typeof(TreeNode))).Tag)
+                return;
 
             // Определяем узел под курсором и выделяем его
             Point targetPoint = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
@@ -376,7 +385,11 @@ namespace simple_database
                 }
             } else if (DnD.SourceTV == tvClasses)
             {
-
+                if (DATABASE.MoveClassToProperty((long)draggedNode.Tag, (long)targetNode.Tag, (long)tvClasses.SelectedNode.Tag, draggedNode.Text))
+                {
+                    tvClasses.Nodes.Remove(draggedNode);
+                    tvClasses_AfterSelect(null, null);
+                }
             }
 
             DnD.End();
@@ -776,7 +789,8 @@ namespace simple_database
                 {
                     long classId = DATABASE.MoveProperyToClass((long)DnD.SrcSelectedNode.Tag, -1, (long)tvClasses.SelectedNode.Tag, "");
                     TreeNode node = new TreeNode(DnD.SrcSelectedNode.Text);
-                    node.ImageKey = node.SelectedImageKey = "book";
+                    node.ImageIndex = (int)IconTypes.Transparent;
+                    node.SelectedImageIndex = (int)IconTypes.Book;
                     node.Tag = classId;
                     tvClasses.Nodes.Add(node);
                     tvClasses.SelectedNode = node;
@@ -896,6 +910,68 @@ namespace simple_database
                         break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Добавляет к стандартному контекстному меню редактора, подменю подсветки синтаксиса
+        /// </summary>
+        private void AddPropertiesContextMenuItems()
+        {
+            paramTextEditor.txtBox.ContextMenuStrip.Items.Add("-");
+            ToolStripMenuItem it = new ToolStripMenuItem("Синтаксис");
+            paramTextEditor.txtBox.ContextMenuStrip.Items.Add(it);
+            it.DropDownItems.Add("Базовый 1", null, customCtxMenu_Syntax_Basic1_Click);
+        }
+
+        /// <summary>
+        /// Контекстное меню подсветки синтаксиса: Базовый 1
+        /// Стандартная подсветка описания команды
+        /// </summary>
+        private void customCtxMenu_Syntax_Basic1_Click(object sender, EventArgs e)
+        {
+            RichTextBox rtb = paramTextEditor.txtBox;
+            string text = rtb.SelectedText;
+            int selectionStart = rtb.SelectionStart;
+            int selectionLength = rtb.SelectionLength;
+
+            rtb.SelectionColor = Color.Blue;
+
+            MatchCollection mm = Regex.Matches(text, @"<.*>");
+            foreach(Match m in mm)
+            {
+                rtb.Select(selectionStart + m.Index, m.Length);
+                rtb.SelectionColor = Color.Magenta;
+            }
+
+            mm = Regex.Matches(text, @"#.*$", RegexOptions.Multiline);
+            foreach (Match m in mm)
+            {
+                rtb.Select(selectionStart + m.Index, m.Length);
+                rtb.SelectionColor = Color.Green;
+            }
+
+            mm = Regex.Matches(text, @"//.*$", RegexOptions.Multiline);
+            foreach (Match m in mm)
+            {
+                rtb.Select(selectionStart + m.Index, m.Length);
+                rtb.SelectionColor = Color.Green;
+            }
+
+            mm = Regex.Matches(text, @"/\*.*\*/");
+            foreach (Match m in mm)
+            {
+                rtb.Select(selectionStart + m.Index, m.Length);
+                rtb.SelectionColor = Color.Green;
+            }
+
+            mm = Regex.Matches(text, @">>>.*$", RegexOptions.Multiline);
+            foreach (Match m in mm)
+            {
+                rtb.Select(selectionStart + m.Index, m.Length);
+                rtb.SelectionColor = Color.Gray;
+            }
+
+            rtb.Select(selectionStart, selectionLength);
         }
     }
 
