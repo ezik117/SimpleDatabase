@@ -936,35 +936,35 @@ namespace simple_database
 
             rtb.SelectionColor = Color.Blue;
 
-            MatchCollection mm = Regex.Matches(text, @"<.*>");
+            MatchCollection mm = Regex.Matches(text, @"<.*?>");
             foreach(Match m in mm)
             {
                 rtb.Select(selectionStart + m.Index, m.Length);
                 rtb.SelectionColor = Color.Magenta;
             }
 
-            mm = Regex.Matches(text, @"#.*$", RegexOptions.Multiline);
+            mm = Regex.Matches(text, @"#.*?$", RegexOptions.Multiline);
             foreach (Match m in mm)
             {
                 rtb.Select(selectionStart + m.Index, m.Length);
                 rtb.SelectionColor = Color.Green;
             }
 
-            mm = Regex.Matches(text, @"//.*$", RegexOptions.Multiline);
+            mm = Regex.Matches(text, @"//.*?$", RegexOptions.Multiline);
             foreach (Match m in mm)
             {
                 rtb.Select(selectionStart + m.Index, m.Length);
                 rtb.SelectionColor = Color.Green;
             }
 
-            mm = Regex.Matches(text, @"/\*.*\*/");
+            mm = Regex.Matches(text, @"/\*.*?\*/");
             foreach (Match m in mm)
             {
                 rtb.Select(selectionStart + m.Index, m.Length);
                 rtb.SelectionColor = Color.Green;
             }
 
-            mm = Regex.Matches(text, @">>>.*$", RegexOptions.Multiline);
+            mm = Regex.Matches(text, @">>>.*?$", RegexOptions.Multiline);
             foreach (Match m in mm)
             {
                 rtb.Select(selectionStart + m.Index, m.Length);
