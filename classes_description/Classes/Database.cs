@@ -112,6 +112,7 @@ namespace simple_database
             cmd.Parameters.Add("@keyword", DbType.String);
             cmd.Parameters.Add("@keyword_id", DbType.Int64);
             cmd.Parameters.Add("@count", DbType.Int64);
+            cmd.Parameters.Add("@stringData", DbType.String); // universal data holder
 
             cmd.Parameters.Add("@user", DbType.String).IsNullable = true;
             cmd.Parameters.Add("@tablename", DbType.String).IsNullable = true;
@@ -1613,6 +1614,24 @@ namespace simple_database
                 MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка перемещения", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
 
+            return ret;
+        }
+
+        public static void SaveSyntaxRules(string rules)
+        {
+            cmd.CommandText = "DELETE FROM settings WHERE key='SYNTAX_RULES'";
+            cmd.ExecuteNonQuery();
+            cmd.Parameters["@stringData"].Value = rules;
+            cmd.CommandText = $"INSERT INTO settings VALUES('SYNTAX_RULES',@stringData)";
+            cmd.ExecuteNonQuery();
+        }
+
+        public static string LoadSyntaxRules()
+        {
+            string ret = "";
+            cmd.CommandText = $"SELECT value FROM settings WHERE key='SYNTAX_RULES'";
+            object o = cmd.ExecuteScalar();
+            ret = (string)(o ?? "");
             return ret;
         }
     }

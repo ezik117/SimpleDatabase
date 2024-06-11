@@ -37,5 +37,10 @@ namespace simple_database
         /// Флаг, показывающий является ли переход результатом нажатия кнопок навигации по истории
         /// </summary>
         public static bool moving_over_history = false;
+
+        /// <summary>
+        /// Класс для хранения синтаксических правил
+        /// </summary>
+        public static SyntaxRulesHolder syntaxRules = new SyntaxRulesHolder();
     }
 }

@@ -74,7 +74,19 @@ namespace simple_database
             double db_size = DATABASE.GetOpenedDatabaseSize() / 1024.0/ 1024.0;
             slblLastUpdate.Text = $"Last update: {DATABASE.GetLastUpdate()}  |  Size: {db_size:0.0} Mb";
 
-            AddPropertiesContextMenuItems();
+            // загрузим синтаксические правила
+            try
+            {
+                string xml = DATABASE.LoadSyntaxRules();
+                HELPER.DeserializeSyntaxRules(xml, ref VARS.syntaxRules);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Невозможно загрузить синтаксические правила. Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // добавим контестное меню подсвветки синтаксиса
+            HELPER.AddPropertiesContextMenuItems();
         }
 
         // Обработка нажатий некоторых клавиш
@@ -912,67 +924,7 @@ namespace simple_database
             }
         }
 
-        /// <summary>
-        /// Добавляет к стандартному контекстному меню редактора, подменю подсветки синтаксиса
-        /// </summary>
-        private void AddPropertiesContextMenuItems()
-        {
-            paramTextEditor.txtBox.ContextMenuStrip.Items.Add("-");
-            ToolStripMenuItem it = new ToolStripMenuItem("Синтаксис");
-            paramTextEditor.txtBox.ContextMenuStrip.Items.Add(it);
-            it.DropDownItems.Add("Базовый 1", null, customCtxMenu_Syntax_Basic1_Click);
-        }
 
-        /// <summary>
-        /// Контекстное меню подсветки синтаксиса: Базовый 1
-        /// Стандартная подсветка описания команды
-        /// </summary>
-        private void customCtxMenu_Syntax_Basic1_Click(object sender, EventArgs e)
-        {
-            RichTextBox rtb = paramTextEditor.txtBox;
-            string text = rtb.SelectedText;
-            int selectionStart = rtb.SelectionStart;
-            int selectionLength = rtb.SelectionLength;
-
-            rtb.SelectionColor = Color.Blue;
-
-            MatchCollection mm = Regex.Matches(text, @"<.*?>");
-            foreach(Match m in mm)
-            {
-                rtb.Select(selectionStart + m.Index, m.Length);
-                rtb.SelectionColor = Color.Magenta;
-            }
-
-            mm = Regex.Matches(text, @"#.*?$", RegexOptions.Multiline);
-            foreach (Match m in mm)
-            {
-                rtb.Select(selectionStart + m.Index, m.Length);
-                rtb.SelectionColor = Color.Green;
-            }
-
-            mm = Regex.Matches(text, @"//.*?$", RegexOptions.Multiline);
-            foreach (Match m in mm)
-            {
-                rtb.Select(selectionStart + m.Index, m.Length);
-                rtb.SelectionColor = Color.Green;
-            }
-
-            mm = Regex.Matches(text, @"/\*.*?\*/");
-            foreach (Match m in mm)
-            {
-                rtb.Select(selectionStart + m.Index, m.Length);
-                rtb.SelectionColor = Color.Green;
-            }
-
-            mm = Regex.Matches(text, @">>>.*?$", RegexOptions.Multiline);
-            foreach (Match m in mm)
-            {
-                rtb.Select(selectionStart + m.Index, m.Length);
-                rtb.SelectionColor = Color.Gray;
-            }
-
-            rtb.Select(selectionStart, selectionLength);
-        }
     }
 
 

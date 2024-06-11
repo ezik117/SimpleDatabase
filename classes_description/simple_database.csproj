@@ -161,11 +161,17 @@
     <Compile Include="Forms\frmMoveBetweenDb.Designer.cs">
       <DependentUpon>frmMoveBetweenDb.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmConfirmPropertyMove.cs">
+    <Compile Include="Forms\frmConfirmPropertyMove.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmConfirmPropertyMove.Designer.cs">
+    <Compile Include="Forms\frmConfirmPropertyMove.Designer.cs">
       <DependentUpon>frmConfirmPropertyMove.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSyntaxBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSyntaxBuilder.Designer.cs">
+      <DependentUpon>frmSyntaxBuilder.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -218,8 +224,11 @@
     <EmbeddedResource Include="Forms\frmPluginEditor.resx">
       <DependentUpon>frmPluginEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmConfirmPropertyMove.resx">
+    <EmbeddedResource Include="Forms\frmConfirmPropertyMove.resx">
       <DependentUpon>frmConfirmPropertyMove.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSyntaxBuilder.resx">
+      <DependentUpon>frmSyntaxBuilder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

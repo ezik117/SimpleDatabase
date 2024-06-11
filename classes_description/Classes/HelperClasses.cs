@@ -5,19 +5,13 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace simple_database
 {
-
-    public class PropertyDescription : Description
-    {
-        public PropertyDescription(Button btn, RichTextBox tb) : base(btn, tb)
-        {
-
-        }
-    }
 
     public abstract class Description
     {
@@ -379,6 +373,208 @@ namespace simple_database
     public static class HELPER
     {
         /// <summary>
+        /// Добавляет к стандартному контекстному меню редактора, подменю подсветки синтаксиса
+        /// </summary>
+        public static void AddPropertiesContextMenuItems()
+        {
+            ToolStripItem item;
+            ToolStripMenuItem it;
+
+            // Удалим старые контролы
+            RemoveAllExtraContextMenus("extra", VARS.main_form.paramTextEditor.txtBox.ContextMenuStrip);
+
+            // Добавим базовые
+            item = new ToolStripSeparator();
+            item.Name = "extra01";
+            VARS.main_form.paramTextEditor.txtBox.ContextMenuStrip.Items.Add(item);
+
+            item = new ToolStripMenuItem("Синтаксис");
+            item.Name = "extra02";
+            VARS.main_form.paramTextEditor.txtBox.ContextMenuStrip.Items.Add(item);
+            it = (ToolStripMenuItem)item;
+            it.DropDownItems.Add("Редактор", null, customCtxMenu_Syntax_Editor_Click);
+            it.DropDownItems.Add("-");
+            it.DropDownItems.Add("default 1", null, customCtxMenu_Syntax_Basic1_Click);
+
+            // Добавим пользовательские
+            foreach (SyntaxRule rule in VARS.syntaxRules.Rules)
+            {
+                ToolStripMenuItem user_item = new ToolStripMenuItem(rule.Name);
+                user_item.Tag = rule;
+                it.DropDownItems.Add(user_item);
+                user_item.Click += User_item_Click;
+            }
+        }
+
+        /// <summary>
+        /// Функция обработки вызова пользовательского меню синтаксической раскраски
+        /// </summary>
+        private static void User_item_Click(object sender, EventArgs e)
+        {
+            SyntaxRule rule = (SyntaxRule)((ToolStripMenuItem)sender).Tag;
+            RichTextBox rtb = VARS.main_form.paramTextEditor.txtBox;
+            TextEditorNS.WinAPI.SendMessage(rtb.Handle, TextEditorNS.WinAPI.WM_SETREDRAW, 0, IntPtr.Zero);
+
+            int selLenght = rtb.SelectionLength;
+            int selStart = selLenght == 0 ? 0 : rtb.SelectionStart;
+            
+            string selectedText = selLenght == 0 ? rtb.Text : rtb.SelectedText;
+
+            foreach (RuleRow rr in rule.Rules)
+            {
+                if (rr.Enabled)
+                {
+                    RegexOptions ro = rr.SingleLine ? RegexOptions.Multiline : RegexOptions.Singleline;
+                    if (rr.RgKw)
+                    {
+                        string[] kws = rr.Rule.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (string kw in kws)
+                        {
+                            MatchCollection mm = Regex.Matches(selectedText, kw, ro);
+                            foreach (Match m in mm)
+                            {
+                                rtb.Select(selStart + m.Index, m.Length);
+                                rtb.SelectionColor = Color.FromArgb(rr.Color);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MatchCollection mm = Regex.Matches(selectedText, rr.Rule, ro);
+                        foreach (Match m in mm)
+                        {
+                            rtb.Select(selStart + m.Index, m.Length);
+                            rtb.SelectionColor = Color.FromArgb(rr.Color);
+                        }
+                    }
+                }
+            }
+
+            rtb.Select(selStart, selLenght);
+            TextEditorNS.WinAPI.SendMessage(rtb.Handle, TextEditorNS.WinAPI.WM_SETREDRAW, 1, IntPtr.Zero);
+            rtb.Refresh();
+        }
+
+        /// <summary>
+        /// Выбор контекстного меню: вызвать форму редактирования синтаксических правил
+        /// </summary>
+        private static void customCtxMenu_Syntax_Editor_Click(object sender, EventArgs e)
+        {
+            frmSyntaxBuilder frm = new frmSyntaxBuilder();
+            frm.ShowDialog();
+        }
+
+        /// <summary>
+        /// Выбор контекстного меню: встроенное базовое синтаксическое правило
+        /// Стандартная подсветка описания команды
+        /// </summary>
+        private static void customCtxMenu_Syntax_Basic1_Click(object sender, EventArgs e)
+        {
+            RichTextBox rtb = VARS.main_form.paramTextEditor.txtBox;
+            string text = rtb.SelectedText;
+            int selectionStart = rtb.SelectionStart;
+            int selectionLength = rtb.SelectionLength;
+
+            rtb.SelectionColor = Color.Blue;
+
+            // Подстановочное значение
+            MatchCollection mm = Regex.Matches(text, @"<.*?>");
+            foreach (Match m in mm)
+            {
+                rtb.Select(selectionStart + m.Index, m.Length);
+                rtb.SelectionColor = Color.Magenta;
+            }
+
+            // Результат вывода на экран
+            mm = Regex.Matches(text, @">>>.*?$", RegexOptions.Multiline);
+            foreach (Match m in mm)
+            {
+                rtb.Select(selectionStart + m.Index, m.Length);
+                rtb.SelectionColor = Color.Gray;
+            }
+
+            // комментарий #...
+            mm = Regex.Matches(text, @"#.*?$", RegexOptions.Multiline);
+            foreach (Match m in mm)
+            {
+                rtb.Select(selectionStart + m.Index, m.Length);
+                rtb.SelectionColor = Color.Green;
+            }
+
+            // комментарий //...
+            mm = Regex.Matches(text, @"//.*?$", RegexOptions.Multiline);
+            foreach (Match m in mm)
+            {
+                rtb.Select(selectionStart + m.Index, m.Length);
+                rtb.SelectionColor = Color.Green;
+            }
+
+            // комментарий /*...*/
+            mm = Regex.Matches(text, @"\/\*.*?\*\/", RegexOptions.Singleline);
+            foreach (Match m in mm)
+            {
+                rtb.Select(selectionStart + m.Index, m.Length);
+                rtb.SelectionColor = Color.Green;
+            }
+
+            rtb.Select(selectionStart, selectionLength);
+        }
+
+        /// <summary>
+        /// Удаляет все элементы контестного меню начинающиеся с определенного слова
+        /// </summary>
+        /// <param name="nameStartsFrom">Слово с которого начинается имя меню</param>
+        /// <param name="ctx">Объект контекстного меню</param>
+        private static void RemoveAllExtraContextMenus(string nameStartsFrom, ContextMenuStrip ctx)
+        {
+            ToolStripItem[] collection = new ToolStripItem[ctx.Items.Count];
+            ctx.Items.CopyTo(collection, 0);
+
+            foreach(var item in collection)
+            {
+                if (item.Name.StartsWith(nameStartsFrom))
+                {
+                    if (item.GetType() == typeof(ToolStripSeparator))
+                    {
+                        ctx.Items.Remove(((ToolStripSeparator)item));
+                        continue;
+                    }
+                    else if (item.GetType() == typeof(ToolStripMenuItem))
+                    {
+                        if (((ToolStripMenuItem)item).DropDownItems.Count > 0)
+                            RemoveAllExtraContextSubMenus(((ToolStripMenuItem)item), ctx);
+                        ctx.Items.Remove(((ToolStripMenuItem)item));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Рекурсивно удаляет все подэлементы контекстного меню
+        /// </summary>
+        /// <param name="mnu">Элемент меню</param>
+        /// <param name="ctx">Объект контекстного меню</param>
+        private static void RemoveAllExtraContextSubMenus(ToolStripMenuItem mnu, ContextMenuStrip ctx)
+        {
+            ToolStripItem[] collection = new ToolStripItem[mnu.DropDownItems.Count];
+            mnu.DropDownItems.CopyTo(collection, 0);
+
+            foreach (var item in collection)
+            {
+                if (item.GetType() == typeof(ToolStripSeparator))
+                {
+                    ctx.Items.Remove(((ToolStripSeparator)item));
+                    continue;
+                }
+                else if (item.GetType() == typeof(ToolStripMenuItem))
+                {
+                    if (((ToolStripMenuItem)item).DropDownItems.Count > 0) RemoveAllExtraContextSubMenus(((ToolStripMenuItem)item), ctx);
+                    ctx.Items.Remove(item);
+                }
+            }
+        }
+
+        /// <summary>
         /// Ищет заданный узел в каталоге
         /// </summary>
         /// <param name="rowid">ROWID (Tag) нужного узла</param>
@@ -458,5 +654,70 @@ namespace simple_database
                 VARS.main_form.tvProps.SelectedNode = prop_node;
             }
         }
+
+        /// <summary>
+        /// Сериализует объект в XML-текст
+        /// </summary>
+        /// <param name="obj">Объект для сериализации</param>
+        /// <returns>XML-строка сериализованного класса</returns>
+        public static string SerializeSyntaxRules(object obj)
+        {
+            string serializedRules = "";
+            XmlSerializer formatter = new XmlSerializer(obj.GetType());
+            using (StringWriter textWriter = new StringWriter())
+            {
+                formatter.Serialize(textWriter, obj);
+                serializedRules = textWriter.ToString();
+            }
+
+            return serializedRules;
+        }
+
+        /// <summary>
+        /// Десериализация объекта из XML-текста
+        /// </summary>
+        /// <param name="serializedRules">XML-строка сериализованного класса</param>
+        /// <param name="obj">Объект для сериализации</param>
+        public static void DeserializeSyntaxRules<T>(string serializedRules, ref T obj)
+        {
+            if (serializedRules == "") return;
+
+            XmlSerializer formatter = new XmlSerializer(obj.GetType());
+            using (TextReader textReader = new StringReader(serializedRules))
+            {
+                obj = (T)formatter.Deserialize(textReader);
+            }
+        }
     }
+
+    // Классы для синтаксических правил
+    [Serializable]
+    public class RuleRow
+    {
+        public int ParentId = 0;
+        public int Order = 0;
+        public string Name = "";
+        public string Rule = "";
+        public int Color = 0;
+        public bool SingleLine = false;
+        public bool RgKw = false;
+        public bool Enabled = true;
+    }
+
+    [Serializable]
+    public class SyntaxRule
+    {
+        public int id = 0;
+        public string Name = "";
+        public bool Enabled = true;
+        public List<RuleRow> Rules = new List<RuleRow>();
+    }
+
+    [Serializable]
+    public class SyntaxRulesHolder
+    {
+        public List<SyntaxRule> Rules = new List<SyntaxRule>();
+    }
+
+
 }
