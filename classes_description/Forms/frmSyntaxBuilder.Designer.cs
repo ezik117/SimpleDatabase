@@ -32,7 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSyntaxBuilder));
             this.dgv = new System.Windows.Forms.DataGridView();
             this.rtb = new System.Windows.Forms.RichTextBox();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnImportSyntax = new System.Windows.Forms.Button();
+            this.btnExportSyntax = new System.Windows.Forms.Button();
             this.btnCreateSyntax = new System.Windows.Forms.Button();
             this.btnRemoveSyntax = new System.Windows.Forms.Button();
             this.btnSaveSyntax = new System.Windows.Forms.Button();
@@ -46,6 +47,7 @@
             this.id0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.enabled0 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.name0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.id1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,12 +57,21 @@
             this.columnColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnSingleLine = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.columnRegexKeywords = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.btnExportSyntax = new System.Windows.Forms.Button();
-            this.btnImportSyntax = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.columnCase = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.pnlTestSection = new System.Windows.Forms.Panel();
+            this.pnlRulesSection = new System.Windows.Forms.Panel();
+            this.pnlGroupsSection = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
+            this.pnlTestSection.SuspendLayout();
+            this.pnlRulesSection.SuspendLayout();
+            this.pnlGroupsSection.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgv
@@ -80,50 +91,56 @@
             this.columnRule,
             this.columnColor,
             this.columnSingleLine,
-            this.columnRegexKeywords});
+            this.columnRegexKeywords,
+            this.columnCase});
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv.Enabled = false;
-            this.dgv.Location = new System.Drawing.Point(99, 185);
+            this.dgv.Location = new System.Drawing.Point(104, 0);
             this.dgv.MultiSelect = false;
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersVisible = false;
-            this.dgv.Size = new System.Drawing.Size(844, 199);
+            this.dgv.Size = new System.Drawing.Size(839, 192);
             this.dgv.TabIndex = 0;
             this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellClick);
             this.dgv.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
             // 
             // rtb
             // 
-            this.rtb.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.rtb.Location = new System.Drawing.Point(99, 384);
+            this.rtb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtb.Location = new System.Drawing.Point(104, 0);
             this.rtb.Name = "rtb";
             this.rtb.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtb.Size = new System.Drawing.Size(844, 116);
+            this.rtb.Size = new System.Drawing.Size(839, 120);
             this.rtb.TabIndex = 1;
             this.rtb.Text = "";
             // 
-            // panel2
+            // btnImportSyntax
             // 
-            this.panel2.Controls.Add(this.btnImportSyntax);
-            this.panel2.Controls.Add(this.btnExportSyntax);
-            this.panel2.Controls.Add(this.btnCreateSyntax);
-            this.panel2.Controls.Add(this.btnRemoveSyntax);
-            this.panel2.Controls.Add(this.btnSaveSyntax);
-            this.panel2.Controls.Add(this.btnTest);
-            this.panel2.Controls.Add(this.btnClear);
-            this.panel2.Controls.Add(this.btnDelete);
-            this.panel2.Controls.Add(this.btnCreate);
-            this.panel2.Controls.Add(this.btnMoveDown);
-            this.panel2.Controls.Add(this.btnMoveUp);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(99, 500);
-            this.panel2.TabIndex = 2;
+            this.btnImportSyntax.Location = new System.Drawing.Point(14, 133);
+            this.btnImportSyntax.Name = "btnImportSyntax";
+            this.btnImportSyntax.Size = new System.Drawing.Size(75, 23);
+            this.btnImportSyntax.TabIndex = 10;
+            this.btnImportSyntax.Text = "Импорт";
+            this.toolTip1.SetToolTip(this.btnImportSyntax, "Импортировать группу синтаксических правил из буфера обмена. Для импорта примера," +
+        " импортируйте из буфера строку \'sample\'");
+            this.btnImportSyntax.UseVisualStyleBackColor = true;
+            this.btnImportSyntax.Click += new System.EventHandler(this.btnImportSyntax_Click);
+            // 
+            // btnExportSyntax
+            // 
+            this.btnExportSyntax.Enabled = false;
+            this.btnExportSyntax.Location = new System.Drawing.Point(14, 104);
+            this.btnExportSyntax.Name = "btnExportSyntax";
+            this.btnExportSyntax.Size = new System.Drawing.Size(75, 23);
+            this.btnExportSyntax.TabIndex = 9;
+            this.btnExportSyntax.Text = "Экспорт";
+            this.toolTip1.SetToolTip(this.btnExportSyntax, "Экспортировать группу синтаксических правил в буфер обмена в формате XML");
+            this.btnExportSyntax.UseVisualStyleBackColor = true;
+            this.btnExportSyntax.Click += new System.EventHandler(this.btnExportSyntax_Click);
             // 
             // btnCreateSyntax
             // 
-            this.btnCreateSyntax.Location = new System.Drawing.Point(12, 51);
+            this.btnCreateSyntax.Location = new System.Drawing.Point(14, 46);
             this.btnCreateSyntax.Name = "btnCreateSyntax";
             this.btnCreateSyntax.Size = new System.Drawing.Size(75, 23);
             this.btnCreateSyntax.TabIndex = 8;
@@ -135,7 +152,7 @@
             // btnRemoveSyntax
             // 
             this.btnRemoveSyntax.Enabled = false;
-            this.btnRemoveSyntax.Location = new System.Drawing.Point(12, 80);
+            this.btnRemoveSyntax.Location = new System.Drawing.Point(14, 75);
             this.btnRemoveSyntax.Name = "btnRemoveSyntax";
             this.btnRemoveSyntax.Size = new System.Drawing.Size(75, 23);
             this.btnRemoveSyntax.TabIndex = 7;
@@ -147,7 +164,7 @@
             // btnSaveSyntax
             // 
             this.btnSaveSyntax.Enabled = false;
-            this.btnSaveSyntax.Location = new System.Drawing.Point(12, 22);
+            this.btnSaveSyntax.Location = new System.Drawing.Point(14, 17);
             this.btnSaveSyntax.Name = "btnSaveSyntax";
             this.btnSaveSyntax.Size = new System.Drawing.Size(75, 23);
             this.btnSaveSyntax.TabIndex = 6;
@@ -159,18 +176,18 @@
             // btnTest
             // 
             this.btnTest.Enabled = false;
-            this.btnTest.Location = new System.Drawing.Point(12, 384);
+            this.btnTest.Location = new System.Drawing.Point(14, 13);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(75, 23);
             this.btnTest.TabIndex = 5;
             this.btnTest.Text = "Тест";
-            this.toolTip1.SetToolTip(this.btnTest, "Протестировать все правила в окне тестирования");
+            this.toolTip1.SetToolTip(this.btnTest, "Протестировать выделенное правило в окне тестирования");
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(12, 413);
+            this.btnClear.Location = new System.Drawing.Point(14, 42);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 4;
@@ -182,7 +199,7 @@
             // btnDelete
             // 
             this.btnDelete.Enabled = false;
-            this.btnDelete.Location = new System.Drawing.Point(12, 238);
+            this.btnDelete.Location = new System.Drawing.Point(14, 44);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 3;
@@ -194,7 +211,7 @@
             // btnCreate
             // 
             this.btnCreate.Enabled = false;
-            this.btnCreate.Location = new System.Drawing.Point(12, 209);
+            this.btnCreate.Location = new System.Drawing.Point(14, 15);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(75, 23);
             this.btnCreate.TabIndex = 2;
@@ -206,7 +223,7 @@
             // btnMoveDown
             // 
             this.btnMoveDown.Enabled = false;
-            this.btnMoveDown.Location = new System.Drawing.Point(12, 325);
+            this.btnMoveDown.Location = new System.Drawing.Point(14, 131);
             this.btnMoveDown.Name = "btnMoveDown";
             this.btnMoveDown.Size = new System.Drawing.Size(75, 23);
             this.btnMoveDown.TabIndex = 1;
@@ -218,7 +235,7 @@
             // btnMoveUp
             // 
             this.btnMoveUp.Enabled = false;
-            this.btnMoveUp.Location = new System.Drawing.Point(12, 296);
+            this.btnMoveUp.Location = new System.Drawing.Point(14, 102);
             this.btnMoveUp.Name = "btnMoveUp";
             this.btnMoveUp.Size = new System.Drawing.Size(75, 23);
             this.btnMoveUp.TabIndex = 0;
@@ -239,12 +256,12 @@
             this.id0,
             this.enabled0,
             this.name0});
-            this.dgvList.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dgvList.Location = new System.Drawing.Point(99, 0);
+            this.dgvList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvList.Location = new System.Drawing.Point(104, 0);
             this.dgvList.MultiSelect = false;
             this.dgvList.Name = "dgvList";
             this.dgvList.RowHeadersVisible = false;
-            this.dgvList.Size = new System.Drawing.Size(844, 185);
+            this.dgvList.Size = new System.Drawing.Size(839, 188);
             this.dgvList.TabIndex = 3;
             this.dgvList.SelectionChanged += new System.EventHandler(this.dgvList_SelectionChanged);
             // 
@@ -343,48 +360,101 @@
             this.columnRegexKeywords.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.columnRegexKeywords.Width = 119;
             // 
-            // btnExportSyntax
+            // columnCase
             // 
-            this.btnExportSyntax.Enabled = false;
-            this.btnExportSyntax.Location = new System.Drawing.Point(12, 109);
-            this.btnExportSyntax.Name = "btnExportSyntax";
-            this.btnExportSyntax.Size = new System.Drawing.Size(75, 23);
-            this.btnExportSyntax.TabIndex = 9;
-            this.btnExportSyntax.Text = "Экспорт";
-            this.toolTip1.SetToolTip(this.btnExportSyntax, "Экспортировать группу синтаксических правил в буфер обмена в формате XML");
-            this.btnExportSyntax.UseVisualStyleBackColor = true;
-            this.btnExportSyntax.Click += new System.EventHandler(this.btnExportSyntax_Click);
+            this.columnCase.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.columnCase.DataPropertyName = "case";
+            this.columnCase.HeaderText = "Insensitive";
+            this.columnCase.Name = "columnCase";
+            this.columnCase.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnCase.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.columnCase.Width = 82;
             // 
-            // btnImportSyntax
+            // pnlTestSection
             // 
-            this.btnImportSyntax.Location = new System.Drawing.Point(12, 138);
-            this.btnImportSyntax.Name = "btnImportSyntax";
-            this.btnImportSyntax.Size = new System.Drawing.Size(75, 23);
-            this.btnImportSyntax.TabIndex = 10;
-            this.btnImportSyntax.Text = "Импорт";
-            this.toolTip1.SetToolTip(this.btnImportSyntax, "Импортировать группу синтаксических правил из буфера обмена. Для импорта примера," +
-        " импортируйте из буфера строку \'sample\'");
-            this.btnImportSyntax.UseVisualStyleBackColor = true;
-            this.btnImportSyntax.Click += new System.EventHandler(this.btnImportSyntax_Click);
+            this.pnlTestSection.Controls.Add(this.rtb);
+            this.pnlTestSection.Controls.Add(this.panel1);
+            this.pnlTestSection.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlTestSection.Location = new System.Drawing.Point(0, 380);
+            this.pnlTestSection.Name = "pnlTestSection";
+            this.pnlTestSection.Size = new System.Drawing.Size(943, 120);
+            this.pnlTestSection.TabIndex = 4;
+            // 
+            // pnlRulesSection
+            // 
+            this.pnlRulesSection.Controls.Add(this.dgv);
+            this.pnlRulesSection.Controls.Add(this.panel3);
+            this.pnlRulesSection.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlRulesSection.Location = new System.Drawing.Point(0, 188);
+            this.pnlRulesSection.Name = "pnlRulesSection";
+            this.pnlRulesSection.Size = new System.Drawing.Size(943, 192);
+            this.pnlRulesSection.TabIndex = 5;
+            // 
+            // pnlGroupsSection
+            // 
+            this.pnlGroupsSection.Controls.Add(this.dgvList);
+            this.pnlGroupsSection.Controls.Add(this.panel4);
+            this.pnlGroupsSection.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlGroupsSection.Location = new System.Drawing.Point(0, 0);
+            this.pnlGroupsSection.Name = "pnlGroupsSection";
+            this.pnlGroupsSection.Size = new System.Drawing.Size(943, 188);
+            this.pnlGroupsSection.TabIndex = 6;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnClear);
+            this.panel1.Controls.Add(this.btnTest);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(104, 120);
+            this.panel1.TabIndex = 2;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.btnDelete);
+            this.panel3.Controls.Add(this.btnCreate);
+            this.panel3.Controls.Add(this.btnMoveUp);
+            this.panel3.Controls.Add(this.btnMoveDown);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(104, 192);
+            this.panel3.TabIndex = 3;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.btnImportSyntax);
+            this.panel4.Controls.Add(this.btnSaveSyntax);
+            this.panel4.Controls.Add(this.btnExportSyntax);
+            this.panel4.Controls.Add(this.btnRemoveSyntax);
+            this.panel4.Controls.Add(this.btnCreateSyntax);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(104, 188);
+            this.panel4.TabIndex = 3;
             // 
             // frmSyntaxBuilder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(943, 500);
-            this.Controls.Add(this.dgv);
-            this.Controls.Add(this.dgvList);
-            this.Controls.Add(this.rtb);
-            this.Controls.Add(this.panel2);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Controls.Add(this.pnlRulesSection);
+            this.Controls.Add(this.pnlGroupsSection);
+            this.Controls.Add(this.pnlTestSection);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
             this.Name = "frmSyntaxBuilder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактор подсветки синтаксиса";
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
-            this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).EndInit();
+            this.pnlTestSection.ResumeLayout(false);
+            this.pnlRulesSection.ResumeLayout(false);
+            this.pnlGroupsSection.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -392,8 +462,7 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgv;
-        private System.Windows.Forms.RichTextBox rtb;
-        private System.Windows.Forms.Panel panel2;
+        public System.Windows.Forms.RichTextBox rtb;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnDelete;
@@ -407,6 +476,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn id0;
         private System.Windows.Forms.DataGridViewCheckBoxColumn enabled0;
         private System.Windows.Forms.DataGridViewTextBoxColumn name0;
+        private System.Windows.Forms.Button btnImportSyntax;
+        private System.Windows.Forms.Button btnExportSyntax;
+        private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.DataGridViewTextBoxColumn id1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnOrder;
@@ -416,8 +488,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn columnColor;
         private System.Windows.Forms.DataGridViewCheckBoxColumn columnSingleLine;
         private System.Windows.Forms.DataGridViewCheckBoxColumn columnRegexKeywords;
-        private System.Windows.Forms.Button btnImportSyntax;
-        private System.Windows.Forms.Button btnExportSyntax;
-        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn columnCase;
+        private System.Windows.Forms.Panel pnlTestSection;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnlRulesSection;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel pnlGroupsSection;
+        private System.Windows.Forms.Panel panel4;
     }
 }

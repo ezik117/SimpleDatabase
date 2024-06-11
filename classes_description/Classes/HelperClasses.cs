@@ -425,26 +425,41 @@ namespace simple_database
                 if (rr.Enabled)
                 {
                     RegexOptions ro = rr.SingleLine ? RegexOptions.Multiline : RegexOptions.Singleline;
+                    if (rr.Case) ro |= RegexOptions.IgnoreCase;
                     if (rr.RgKw)
                     {
                         string[] kws = rr.Rule.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string kw in kws)
                         {
-                            MatchCollection mm = Regex.Matches(selectedText, kw, ro);
+                            try
+                            {
+                                MatchCollection mm = Regex.Matches(selectedText, kw, ro);
+                                foreach (Match m in mm)
+                                {
+                                    rtb.Select(selStart + m.Index, m.Length);
+                                    rtb.SelectionColor = Color.FromArgb(rr.Color);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            MatchCollection mm = Regex.Matches(selectedText, rr.Rule, ro);
                             foreach (Match m in mm)
                             {
                                 rtb.Select(selStart + m.Index, m.Length);
                                 rtb.SelectionColor = Color.FromArgb(rr.Color);
                             }
                         }
-                    }
-                    else
-                    {
-                        MatchCollection mm = Regex.Matches(selectedText, rr.Rule, ro);
-                        foreach (Match m in mm)
+                        catch (Exception ex)
                         {
-                            rtb.Select(selStart + m.Index, m.Length);
-                            rtb.SelectionColor = Color.FromArgb(rr.Color);
+                            MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -461,6 +476,8 @@ namespace simple_database
         private static void customCtxMenu_Syntax_Editor_Click(object sender, EventArgs e)
         {
             frmSyntaxBuilder frm = new frmSyntaxBuilder();
+            if (VARS.main_form.paramTextEditor.txtBox.SelectedText.Length != 0)
+                frm.rtb.Text = VARS.main_form.paramTextEditor.txtBox.SelectedText;
             frm.ShowDialog();
         }
 
@@ -701,6 +718,7 @@ namespace simple_database
         public int Color = 0;
         public bool SingleLine = false;
         public bool RgKw = false;
+        public bool Case = false;
         public bool Enabled = true;
     }
 

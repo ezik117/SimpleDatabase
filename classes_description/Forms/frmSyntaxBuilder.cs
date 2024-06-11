@@ -46,6 +46,7 @@ namespace simple_database
             dt1.Columns.Add("singleLine", typeof(bool));
             dt1.Columns.Add("rgKw", typeof(bool));
             dt1.Columns.Add("enabled", typeof(bool));
+            dt1.Columns.Add("case", typeof(bool));
             dgv.AutoGenerateColumns = false;
             ds.Tables["rules"].DefaultView.Sort = "order";
             ds.Tables["rules"].DefaultView.RowFilter = "parentId=NULL";
@@ -67,6 +68,7 @@ namespace simple_database
                     dr1["color"] = rr.Color;
                     dr1["singleLine"] = rr.SingleLine;
                     dr1["rgKw"] = rr.RgKw;
+                    dr1["case"] = rr.Case;
                     dr1["parentId"] = dr0["id"];
                     dr1["order"] = rr.Order;
                     ds.Tables["rules"].Rows.Add(dr1);
@@ -113,26 +115,42 @@ namespace simple_database
                 if (dr.Cells["columnRule"].Value != null && (bool)dr.Cells["columnEnabled"].Value)
                 {
                     RegexOptions ro = (bool)dr.Cells["columnSingleLine"].Value ? RegexOptions.Multiline : RegexOptions.Singleline;
+                    if ((bool)dr.Cells["columnCase"].Value) ro |= RegexOptions.IgnoreCase;
+
                     if ((bool)dr.Cells["columnRegexKeywords"].Value)
                     {
                         string[] kws = dr.Cells["columnRule"].Value.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string kw in kws)
                         {
-                            MatchCollection mm = Regex.Matches(rtb.Text, kw, ro);
+                            try
+                            {
+                                MatchCollection mm = Regex.Matches(rtb.Text, kw, ro);
+                                foreach (Match m in mm)
+                                {
+                                    rtb.Select(m.Index, m.Length);
+                                    rtb.SelectionColor = dr.Cells["columnColor"].Style.BackColor;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            MatchCollection mm = Regex.Matches(rtb.Text, dr.Cells["columnRule"].Value.ToString(), ro);
                             foreach (Match m in mm)
                             {
                                 rtb.Select(m.Index, m.Length);
                                 rtb.SelectionColor = dr.Cells["columnColor"].Style.BackColor;
                             }
                         }
-                    }
-                    else
-                    {
-                        MatchCollection mm = Regex.Matches(rtb.Text, dr.Cells["columnRule"].Value.ToString(), ro);
-                        foreach (Match m in mm)
+                        catch (Exception ex)
                         {
-                            rtb.Select(m.Index, m.Length);
-                            rtb.SelectionColor = dr.Cells["columnColor"].Style.BackColor;
+                            MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -152,6 +170,7 @@ namespace simple_database
                 Color.Black.ToArgb(),
                 false,
                 false,
+                false,
                 true
             );
         }
@@ -166,9 +185,10 @@ namespace simple_database
         /// <param name="color"></param>
         /// <param name="singleLine"></param>
         /// <param name="rgKw"></param>
+        /// <param name="Case"></param>
         /// <param name="enabled"></param>
         /// <returns>ID созданной строки</returns>
-        private int AddRuleRow(int parentId, int order, string name, string rule, int color, bool singleLine, bool rgKw, bool enabled)
+        private int AddRuleRow(int parentId, int order, string name, string rule, int color, bool singleLine, bool rgKw, bool Case, bool enabled)
         {
             int ret = -1;
             DataRow dr = ds.Tables["rules"].NewRow();
@@ -179,6 +199,7 @@ namespace simple_database
             dr["color"] = color;
             dr["singleLine"] = singleLine;
             dr["rgKw"] = rgKw;
+            dr["case"] = Case;
             dr["enabled"] = enabled;
             ret = (int)dr["id"];
             ds.Tables["rules"].Rows.Add(dr);
@@ -366,6 +387,7 @@ namespace simple_database
                     rr.Color = (int)r["color"];
                     rr.SingleLine = (bool)r["singleLine"];
                     rr.RgKw = (bool)r["rgKw"];
+                    rr.Case = (bool)r["case"];
                     sr.Rules.Add(rr);
                 }
                 VARS.syntaxRules.Rules.Add(sr);
@@ -442,6 +464,7 @@ namespace simple_database
                 rr.Color = (int)r["color"];
                 rr.SingleLine = (bool)r["singleLine"];
                 rr.RgKw = (bool)r["rgKw"];
+                rr.Case = (bool)r["case"];
                 sr.Rules.Add(rr);
             }
 
@@ -476,6 +499,7 @@ namespace simple_database
                         rr.Color,
                         rr.SingleLine,
                         rr.RgKw,
+                        rr.Case,
                         rr.Enabled
                     );
             }
@@ -499,6 +523,7 @@ namespace simple_database
       <Color>-16776961</Color>
       <SingleLine>false</SingleLine>
       <RgKw>false</RgKw>
+      <Case>false</Case>
       <Enabled>true</Enabled>
     </RuleRow>
     <RuleRow>
@@ -509,6 +534,7 @@ namespace simple_database
       <Color>-8388353</Color>
       <SingleLine>false</SingleLine>
       <RgKw>true</RgKw>
+      <Case>false</Case>
       <Enabled>true</Enabled>
     </RuleRow>
     <RuleRow>
@@ -519,6 +545,7 @@ namespace simple_database
       <Color>-45233</Color>
       <SingleLine>false</SingleLine>
       <RgKw>false</RgKw>
+      <Case>false</Case>
       <Enabled>true</Enabled>
     </RuleRow>
     <RuleRow>
@@ -529,6 +556,7 @@ namespace simple_database
       <Color>-45233</Color>
       <SingleLine>false</SingleLine>
       <RgKw>false</RgKw>
+      <Case>false</Case>
       <Enabled>true</Enabled>
     </RuleRow>
     <RuleRow>
@@ -539,6 +567,7 @@ namespace simple_database
       <Color>-16744384</Color>
       <SingleLine>true</SingleLine>
       <RgKw>false</RgKw>
+      <Case>false</Case>
       <Enabled>true</Enabled>
     </RuleRow>
     <RuleRow>
@@ -549,6 +578,7 @@ namespace simple_database
       <Color>-32640</Color>
       <SingleLine>false</SingleLine>
       <RgKw>false</RgKw>
+      <Case>false</Case>
       <Enabled>true</Enabled>
     </RuleRow>
   </Rules>
