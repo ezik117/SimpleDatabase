@@ -388,7 +388,7 @@ namespace simple_database
             item.Name = "extra01";
             VARS.main_form.paramTextEditor.txtBox.ContextMenuStrip.Items.Add(item);
 
-            item = new ToolStripMenuItem("Синтаксис");
+            item = new ToolStripMenuItem("Подсветка синтаксиса");
             item.Name = "extra02";
             VARS.main_form.paramTextEditor.txtBox.ContextMenuStrip.Items.Add(item);
             it = (ToolStripMenuItem)item;

@@ -89,6 +89,8 @@ namespace simple_database
             }
 
             dgvList_SelectionChanged(null, null);
+
+            rtb.Text = "sample";
         }
 
         /// <summary>
@@ -290,7 +292,7 @@ namespace simple_database
             ret = (int)dr["id"];
             ds.Tables["syntax_rules"].Rows.Add(dr);
             ds.Tables["syntax_rules"].AcceptChanges();
-            btnRemoveSyntax.Enabled = btnSaveSyntax.Enabled = true;
+            btnRemoveSyntax.Enabled = btnSaveSyntax.Enabled = btnExportSyntax.Enabled = true;
             btnCreate.Enabled = true;
             dgv.Enabled = true;
             return ret;
