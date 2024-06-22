@@ -355,6 +355,11 @@ namespace simple_database
                 btnTest.Enabled = false;
                 dgv.Enabled = false;
             }
+            else
+            {
+                selectedRowIndex = -1;
+                dgvList_SelectionChanged(null, null);
+            }
         }
 
         public IEnumerable<DataGridViewRow> GetSyntaxChildren(DataGridView d, int id)
