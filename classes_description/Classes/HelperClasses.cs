@@ -697,7 +697,11 @@ namespace simple_database
         /// <param name="obj">Объект для сериализации</param>
         public static void DeserializeSyntaxRules<T>(string serializedRules, ref T obj)
         {
-            if (serializedRules == "") return;
+            if (serializedRules == "")
+            {
+                obj = default(T);
+                return;
+            }
 
             XmlSerializer formatter = new XmlSerializer(obj.GetType());
             using (TextReader textReader = new StringReader(serializedRules))

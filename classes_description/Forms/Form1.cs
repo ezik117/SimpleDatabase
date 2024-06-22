@@ -74,19 +74,7 @@ namespace simple_database
             double db_size = DATABASE.GetOpenedDatabaseSize() / 1024.0/ 1024.0;
             slblLastUpdate.Text = $"Last update: {DATABASE.GetLastUpdate()}  |  Size: {db_size:0.0} Mb";
 
-            // загрузим синтаксические правила
-            try
-            {
-                string xml = DATABASE.LoadSyntaxRules();
-                HELPER.DeserializeSyntaxRules(xml, ref VARS.syntaxRules);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Невозможно загрузить синтаксические правила. Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            // добавим контестное меню подсвветки синтаксиса
-            HELPER.AddPropertiesContextMenuItems();
+            
         }
 
         // Обработка нажатий некоторых клавиш
@@ -316,6 +304,8 @@ namespace simple_database
         {
             if (e.Button == MouseButtons.Left && e.Item.GetType() == typeof(TreeNode))
             {
+                if (((TreeNode)e.Item).Level == 0) return; // нельзя перемещать оглавление верхнего уровня
+
                 DnD.Start((TreeNode)e.Item);
                 DoDragDrop(e.Item, DragDropEffects.Move);
             }
@@ -431,6 +421,8 @@ namespace simple_database
         /// </summary>
         private void btnPropSearch_Click(object sender, EventArgs e)
         {
+            if (tvProps.Nodes.Count == 0) return; // empty database
+
             frmSearchProperty frm = new frmSearchProperty();
             frm.tb = paramTextEditor.txtBox;
             frm.InitSearch(tvProps, false);
@@ -593,6 +585,15 @@ namespace simple_database
         private void ctxMenuCharters_Opening(object sender, CancelEventArgs e)
         {
             TreeNode node = tvProps.SelectedNode;
+            if (node == null)
+            {
+                ctxMenuCharters.Enabled = false;
+                return;
+            }
+            else
+            {
+                ctxMenuCharters.Enabled = true;
+            }
 
             tsmiAttachments.Visible = false;
 

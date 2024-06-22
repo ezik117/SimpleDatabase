@@ -511,6 +511,8 @@ namespace simple_database
         /// <returns>True - пользователь хочет отменить действие. False-можно продолжить.</returns>
         public static bool CheckForUnsavedDesc(Form1 main)
         {
+            if (main.tvProps.Nodes.Count == 0) return false; // empty database
+
             if (main.btnDescSave.ImageKey == "notsaved")
             {
                 DialogResult res = MessageBox.Show("Имеются несохраненные данные (описание свойства). Сохранить?",
@@ -526,6 +528,7 @@ namespace simple_database
                 else if (res == DialogResult.No)
                 {
                     main.paramTextEditor.userAction1();
+                    PropertyChanged(main);
                     return false;
                 }
 

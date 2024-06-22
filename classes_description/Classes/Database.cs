@@ -354,6 +354,24 @@ namespace simple_database
 
             // загрузим избранное
             ReadFavourites();
+
+            // загрузим синтаксические правила
+            try
+            {
+                string xml = DATABASE.LoadSyntaxRules();
+                HELPER.DeserializeSyntaxRules(xml, ref VARS.syntaxRules);
+                if (VARS.syntaxRules == null)
+                {
+                    VARS.syntaxRules = new SyntaxRulesHolder();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Невозможно загрузить синтаксические правила. Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // добавим контестное меню подсвветки синтаксиса
+            HELPER.AddPropertiesContextMenuItems();
         }
 
         /// <summary>
@@ -1585,8 +1603,8 @@ namespace simple_database
             SQLiteTransaction trans = conn.BeginTransaction();
             try
             {
-                cmd.CommandText = @"INSERT INTO properties (name, description, type, parent, class, keywords)
-                                SELECT name, description, 4, @property_id, @class_id2, '' FROM classes
+                cmd.CommandText = @"INSERT INTO properties (name, description, type, parent, class)
+                                SELECT name, description, 4, @property_id, @class_id2 FROM classes
                                 WHERE id=@class_id";
                 cmd.ExecuteNonQuery();
                 long lastId = conn.LastInsertRowId;

@@ -262,9 +262,21 @@ namespace simple_database
 
             if (pnlDbNameAction.Visible) return;
 
+            // проверим на несохраненные данные 
+            if (PROPERTY.CheckForUnsavedDesc(VARS.main_form) == false)
+            {
+                VARS.main_form.btnDescSave.ImageKey = "save";
+                VARS.main_form.paramTextEditor.textWasChanged = false;
+            }
+            else
+            {
+                return; // cancel
+            }
+
             dbName = (string)dgv.SelectedRows[0].Cells["dbmgrFile"].Value;
             action = 3;
             DATABASE.SelectDatabaseRecord(dbName);
+
             Close();
         }
 
