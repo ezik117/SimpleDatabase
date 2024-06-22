@@ -162,7 +162,7 @@ namespace simple_database
         /// </summary>
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            AddRuleRow(
+            int rowId = AddRuleRow(
                 (int)dgvList.SelectedCells[0].OwningRow.Cells["id0"].Value,
                 -1,
                 $"Правило {1 + dgv.Rows.Count}",
@@ -173,6 +173,13 @@ namespace simple_database
                 false,
                 true
             );
+            
+            for (int i = 0; i < dgv.Rows.Count; i++)
+                if ((int)dgv.Rows[i].Cells[0].Value == rowId)
+                {
+                    dgv.Rows[i].Cells["columnEnabled"].Selected = true;
+                    break;
+                }
         }
 
         /// <summary>
