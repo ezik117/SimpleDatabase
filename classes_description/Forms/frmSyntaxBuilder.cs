@@ -85,7 +85,7 @@ namespace simple_database
             // активация кнопок
             if (ds.Tables["syntax_rules"].Rows.Count > 0)
             {
-                btnRemoveSyntax.Enabled = btnSaveSyntax.Enabled = btnExportSyntax.Enabled = true;
+                btnRemoveSyntax.Enabled = btnExportSyntax.Enabled = true;
                 btnCreate.Enabled = true;
                 dgv.Enabled = true;
             }
@@ -313,7 +313,7 @@ namespace simple_database
             ret = (int)dr["id"];
             ds.Tables["syntax_rules"].Rows.Add(dr);
             ds.Tables["syntax_rules"].AcceptChanges();
-            btnRemoveSyntax.Enabled = btnSaveSyntax.Enabled = btnExportSyntax.Enabled = true;
+            btnRemoveSyntax.Enabled = btnExportSyntax.Enabled = true;
             btnCreate.Enabled = true;
             dgv.Enabled = true;
             return ret;
@@ -349,7 +349,7 @@ namespace simple_database
 
             if (ds.Tables["syntax_rules"].Rows.Count == 0)
             {
-                btnRemoveSyntax.Enabled = btnSaveSyntax.Enabled = false;
+                btnRemoveSyntax.Enabled = false;
                 btnCreate.Enabled = btnDelete.Enabled = btnMoveDown.Enabled = btnMoveUp.Enabled = false;
                 btnExportSyntax.Enabled = false;
                 btnTest.Enabled = false;
@@ -507,6 +507,9 @@ namespace simple_database
                         rr.Case,
                         rr.Enabled
                     );
+
+                selectedRowIndex = -1;
+                dgvList_SelectionChanged(null, null);
             }
             catch (Exception ex)
             {
