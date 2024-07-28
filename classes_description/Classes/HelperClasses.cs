@@ -437,7 +437,7 @@ namespace simple_database
                                 rtb.SelectionColor = Color.FromArgb(rr.Color);
                                 if (rr.FBold || rr.FItalic)
                                 {
-                                    rtb.SelectionFont = new Font(rtb.SelectionFont,
+                                    rtb.SelectionFont = new Font(rtb.SelectionFont ?? rtb.Font,
                                         (rr.FBold ? FontStyle.Bold : FontStyle.Regular) |
                                         (rr.FItalic ? FontStyle.Italic : FontStyle.Regular)
                                         );

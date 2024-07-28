@@ -104,6 +104,7 @@ namespace simple_database
         {
             rtb.SelectAll();
             rtb.SelectionColor = Color.Black;
+            rtb.SelectionFont = new Font(rtb.SelectionFont ?? rtb.Font, FontStyle.Regular);
             rtb.Select(0, 0);
         }
 
@@ -130,7 +131,7 @@ namespace simple_database
                                 rtb.SelectionColor = dr.Cells["columnColor"].Style.BackColor;
                                 if ((bool)dr.Cells["columnFBold"].Value || (bool)dr.Cells["columnFItalic"].Value)
                                 {
-                                    rtb.SelectionFont = new Font(rtb.SelectionFont,
+                                    rtb.SelectionFont = new Font(rtb.SelectionFont ?? rtb.Font,
                                         ((bool)dr.Cells["columnFBold"].Value ? FontStyle.Bold : FontStyle.Regular) |
                                         ((bool)dr.Cells["columnFItalic"].Value ? FontStyle.Italic : FontStyle.Regular)
                                         );
