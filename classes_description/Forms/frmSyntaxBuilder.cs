@@ -41,12 +41,13 @@ namespace simple_database
             c = dt1.Columns.Add("parentId", typeof(int));
             dt1.Columns.Add("order", typeof(int));
             dt1.Columns.Add("name", typeof(string));
-            dt1.Columns.Add("rule", typeof(string));
+            dt1.Columns.Add("rule", typeof(List<string>));
             dt1.Columns.Add("color", typeof(int));
             dt1.Columns.Add("singleLine", typeof(bool));
-            dt1.Columns.Add("rgKw", typeof(bool));
             dt1.Columns.Add("enabled", typeof(bool));
             dt1.Columns.Add("case", typeof(bool));
+            dt1.Columns.Add("fbold", typeof(bool));
+            dt1.Columns.Add("fitalic", typeof(bool));
             dgv.AutoGenerateColumns = false;
             ds.Tables["rules"].DefaultView.Sort = "order";
             ds.Tables["rules"].DefaultView.RowFilter = "parentId=NULL";
@@ -64,11 +65,12 @@ namespace simple_database
                     DataRow dr1 = ds.Tables["rules"].NewRow();
                     dr1["name"] = rr.Name;
                     dr1["enabled"] = rr.Enabled;
-                    dr1["rule"] = rr.Rule;
+                    dr1["rule"] = rr.RuleElements;
                     dr1["color"] = rr.Color;
                     dr1["singleLine"] = rr.SingleLine;
-                    dr1["rgKw"] = rr.RgKw;
                     dr1["case"] = rr.Case;
+                    dr1["fbold"] = rr.FBold;
+                    dr1["fitalic"] = rr.FItalic;
                     dr1["parentId"] = dr0["id"];
                     dr1["order"] = rr.Order;
                     ds.Tables["rules"].Rows.Add(dr1);
@@ -117,35 +119,22 @@ namespace simple_database
                     RegexOptions ro = (bool)dr.Cells["columnSingleLine"].Value ? RegexOptions.Multiline : RegexOptions.Singleline;
                     if ((bool)dr.Cells["columnCase"].Value) ro |= RegexOptions.IgnoreCase;
 
-                    if ((bool)dr.Cells["columnRegexKeywords"].Value)
-                    {
-                        string[] kws = dr.Cells["columnRule"].Value.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (string kw in kws)
-                        {
-                            try
-                            {
-                                MatchCollection mm = Regex.Matches(rtb.Text, kw, ro);
-                                foreach (Match m in mm)
-                                {
-                                    rtb.Select(m.Index, m.Length);
-                                    rtb.SelectionColor = dr.Cells["columnColor"].Style.BackColor;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                    }
-                    else
+                    foreach (string kw in (List<string>)dr.Cells["columnRule"].Value)
                     {
                         try
                         {
-                            MatchCollection mm = Regex.Matches(rtb.Text, dr.Cells["columnRule"].Value.ToString(), ro);
+                            MatchCollection mm = Regex.Matches(rtb.Text, kw, ro);
                             foreach (Match m in mm)
                             {
                                 rtb.Select(m.Index, m.Length);
                                 rtb.SelectionColor = dr.Cells["columnColor"].Style.BackColor;
+                                if ((bool)dr.Cells["columnFBold"].Value || (bool)dr.Cells["columnFItalic"].Value)
+                                {
+                                    rtb.SelectionFont = new Font(rtb.SelectionFont,
+                                        ((bool)dr.Cells["columnFBold"].Value ? FontStyle.Bold : FontStyle.Regular) |
+                                        ((bool)dr.Cells["columnFItalic"].Value ? FontStyle.Italic : FontStyle.Regular)
+                                        );
+                                }
                             }
                         }
                         catch (Exception ex)
@@ -166,8 +155,9 @@ namespace simple_database
                 (int)dgvList.SelectedCells[0].OwningRow.Cells["id0"].Value,
                 -1,
                 $"Правило {1 + dgv.Rows.Count}",
-                String.Empty,
+                new List<string>(),
                 Color.Black.ToArgb(),
+                false,
                 false,
                 false,
                 false,
@@ -191,11 +181,12 @@ namespace simple_database
         /// <param name="rule"></param>
         /// <param name="color"></param>
         /// <param name="singleLine"></param>
-        /// <param name="rgKw"></param>
         /// <param name="Case"></param>
+        /// <param name="FBold"></param>
+        /// <param name="FItalic"></param>
         /// <param name="enabled"></param>
         /// <returns>ID созданной строки</returns>
-        private int AddRuleRow(int parentId, int order, string name, string rule, int color, bool singleLine, bool rgKw, bool Case, bool enabled)
+        private int AddRuleRow(int parentId, int order, string name, List<string> rule, int color, bool singleLine, bool Case, bool FBold, bool FItalic, bool enabled)
         {
             int ret = -1;
             DataRow dr = ds.Tables["rules"].NewRow();
@@ -205,8 +196,9 @@ namespace simple_database
             dr["rule"] = rule;
             dr["color"] = color;
             dr["singleLine"] = singleLine;
-            dr["rgKw"] = rgKw;
             dr["case"] = Case;
+            dr["fbold"] = FBold;
+            dr["fitalic"] = FItalic;
             dr["enabled"] = enabled;
             ret = (int)dr["id"];
             ds.Tables["rules"].Rows.Add(dr);
@@ -242,7 +234,7 @@ namespace simple_database
             if (e.RowIndex < 0) return;
 
             DataGridView d = (DataGridView)sender;
-            if (d.Columns[e.ColumnIndex].DataPropertyName == "color")
+            if (d.Columns[e.ColumnIndex].Name == "columnColor")
             {
                 ColorDialog cd = new ColorDialog();
                 cd.Color = Color.FromArgb((int)d.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
@@ -259,6 +251,20 @@ namespace simple_database
                         DataGridViewCellStyle cs = d.Rows[e.RowIndex].Cells["columnColor"].Style;
                         cs.SelectionBackColor = cs.SelectionForeColor = cs.BackColor = cs.ForeColor = cd.Color;
                     }
+                }
+            }
+            else if (d.Columns[e.ColumnIndex].Name == "сolumnEditRule")
+            {
+                frmSyntaxRuleEditor frm = new frmSyntaxRuleEditor();
+                frm.PrepareRules((List<string>)d.Rows[e.RowIndex].Cells["columnRule"].Value);
+                frm.ShowDialog();
+
+                if (frm.Rules != null)
+                {
+                    DataGridViewRow hostRow = d.SelectedCells[0].OwningRow;
+                    DataRowView row = (DataRowView)hostRow.DataBoundItem;
+                    row["rule"] = frm.Rules;
+                    ds.Tables["syntax_rules"].AcceptChanges();
                 }
             }
         }
@@ -395,11 +401,12 @@ namespace simple_database
                     rr.Order = (int)r["order"];
                     rr.Enabled = (bool)r["enabled"];
                     rr.Name = (string)r["name"];
-                    rr.Rule = (string)r["rule"];
+                    rr.RuleElements = (List<string>)r["rule"];
                     rr.Color = (int)r["color"];
                     rr.SingleLine = (bool)r["singleLine"];
-                    rr.RgKw = (bool)r["rgKw"];
                     rr.Case = (bool)r["case"];
+                    rr.FBold = (bool)r["fbold"];
+                    rr.FItalic = (bool)r["fitalic"];
                     sr.Rules.Add(rr);
                 }
                 VARS.syntaxRules.Rules.Add(sr);
@@ -449,6 +456,8 @@ namespace simple_database
                     DataGridViewCellStyle cs = row.Cells["columnColor"].Style;
                     cs.SelectionBackColor = cs.SelectionForeColor = cs.BackColor = cs.ForeColor = Color.FromArgb((int)row.Cells["columnColor"].Value);
                 }
+
+                row.Cells["сolumnEditRule"].Value = "...";
             }
         }
 
@@ -472,11 +481,12 @@ namespace simple_database
                 rr.Order = (int)r["order"];
                 rr.Enabled = (bool)r["enabled"];
                 rr.Name = (string)r["name"];
-                rr.Rule = (string)r["rule"];
+                rr.RuleElements = (List<string>)r["rule"];
                 rr.Color = (int)r["color"];
                 rr.SingleLine = (bool)r["singleLine"];
-                rr.RgKw = (bool)r["rgKw"];
                 rr.Case = (bool)r["case"];
+                rr.FBold = (bool)r["fbold"];
+                rr.FItalic = (bool)r["fitalic"];
                 sr.Rules.Add(rr);
             }
 
@@ -507,11 +517,12 @@ namespace simple_database
                         id0,
                         rr.Order,
                         rr.Name,
-                        rr.Rule,
+                        rr.RuleElements,
                         rr.Color,
                         rr.SingleLine,
-                        rr.RgKw,
                         rr.Case,
+                        rr.FBold,
+                        rr.FItalic,
                         rr.Enabled
                     );
 
@@ -534,66 +545,113 @@ namespace simple_database
       <ParentId>1</ParentId>
       <Order>1</Order>
       <Name>Код</Name>
-      <Rule>.*</Rule>
+      <RuleElements>
+        <string>.*</string>
+      </RuleElements>
       <Color>-16776961</Color>
       <SingleLine>false</SingleLine>
-      <RgKw>false</RgKw>
       <Case>false</Case>
+      <FBold>false</FBold>
+      <FItalic>false</FItalic>
       <Enabled>true</Enabled>
     </RuleRow>
     <RuleRow>
       <ParentId>1</ParentId>
       <Order>2</Order>
       <Name>Ключевые слова 1</Name>
-      <Rule>import |from |if |else:|elif |pass|while |for | in |range|break|continue|True|False| and | or | not | |class | as |def |del |raise|except|try|finally|global |None|with |yield|return|</Rule>
+      <RuleElements>
+        <string>import </string>
+        <string>from </string>
+        <string>if </string>
+        <string>else:</string>
+        <string>elif </string>
+        <string>pass</string>
+        <string>while </string>
+        <string>for </string>
+        <string> in </string>
+        <string>range</string>
+        <string>break</string>
+        <string>continue</string>
+        <string>True</string>
+        <string>False</string>
+        <string> and </string>
+        <string> or </string>
+        <string> not </string>
+        <string>class </string>
+        <string> as </string>
+        <string>def </string>
+        <string>del </string>
+        <string>raise</string>
+        <string>except</string>
+        <string>try</string>
+        <string>finally</string>
+        <string>global </string>
+        <string>None</string>
+        <string>with </string>
+        <string>yield</string>
+        <string>return</string>
+      </RuleElements>
       <Color>-8388353</Color>
       <SingleLine>false</SingleLine>
-      <RgKw>true</RgKw>
       <Case>false</Case>
+      <FBold>false</FBold>
+      <FItalic>false</FItalic>
       <Enabled>true</Enabled>
     </RuleRow>
     <RuleRow>
       <ParentId>1</ParentId>
       <Order>3</Order>
       <Name>Строка 1</Name>
-      <Rule>"".*?""</Rule>
+      <RuleElements>
+        <string>"".*?""</string>
+      </RuleElements>
       <Color>-45233</Color>
       <SingleLine>false</SingleLine>
-      <RgKw>false</RgKw>
       <Case>false</Case>
+      <FBold>false</FBold>
+      <FItalic>false</FItalic>
       <Enabled>true</Enabled>
     </RuleRow>
     <RuleRow>
       <ParentId>1</ParentId>
       <Order>4</Order>
       <Name>Строка 2</Name>
-      <Rule>'.*?'</Rule>
+      <RuleElements>
+        <string>'.*?'</string>
+      </RuleElements>
       <Color>-45233</Color>
       <SingleLine>false</SingleLine>
-      <RgKw>false</RgKw>
       <Case>false</Case>
+      <FBold>false</FBold>
+      <FItalic>false</FItalic>
       <Enabled>true</Enabled>
     </RuleRow>
     <RuleRow>
       <ParentId>1</ParentId>
       <Order>5</Order>
       <Name>Комментарий 1</Name>
-      <Rule>#.*?$</Rule>
+      <RuleElements>
+        <string>#.*?$</string>
+      </RuleElements>
       <Color>-16744384</Color>
       <SingleLine>true</SingleLine>
-      <RgKw>false</RgKw>
       <Case>false</Case>
+      <FBold>false</FBold>
+      <FItalic>false</FItalic>
       <Enabled>true</Enabled>
     </RuleRow>
     <RuleRow>
       <ParentId>1</ParentId>
       <Order>6</Order>
       <Name>Комментарий 2</Name>
-      <Rule>"""""".*?""""""</Rule>
+      <RuleElements>
+        <string>"""""".*?""""""</string>
+      </RuleElements>
       <Color>-32640</Color>
       <SingleLine>false</SingleLine>
-      <RgKw>false</RgKw>
       <Case>false</Case>
+      <FBold>false</FBold>
+      <FItalic>false</FItalic>
       <Enabled>true</Enabled>
     </RuleRow>
   </Rules>

@@ -426,35 +426,22 @@ namespace simple_database
                 {
                     RegexOptions ro = rr.SingleLine ? RegexOptions.Multiline : RegexOptions.Singleline;
                     if (rr.Case) ro |= RegexOptions.IgnoreCase;
-                    if (rr.RgKw)
-                    {
-                        string[] kws = rr.Rule.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (string kw in kws)
-                        {
-                            try
-                            {
-                                MatchCollection mm = Regex.Matches(selectedText, kw, ro);
-                                foreach (Match m in mm)
-                                {
-                                    rtb.Select(selStart + m.Index, m.Length);
-                                    rtb.SelectionColor = Color.FromArgb(rr.Color);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                    }
-                    else
+                    foreach (string kw in rr.RuleElements)
                     {
                         try
                         {
-                            MatchCollection mm = Regex.Matches(selectedText, rr.Rule, ro);
+                            MatchCollection mm = Regex.Matches(selectedText, kw, ro);
                             foreach (Match m in mm)
                             {
                                 rtb.Select(selStart + m.Index, m.Length);
                                 rtb.SelectionColor = Color.FromArgb(rr.Color);
+                                if (rr.FBold || rr.FItalic)
+                                {
+                                    rtb.SelectionFont = new Font(rtb.SelectionFont,
+                                        (rr.FBold ? FontStyle.Bold : FontStyle.Regular) |
+                                        (rr.FItalic ? FontStyle.Italic : FontStyle.Regular)
+                                        );
+                                }
                             }
                         }
                         catch (Exception ex)
@@ -718,11 +705,12 @@ namespace simple_database
         public int ParentId = 0;
         public int Order = 0;
         public string Name = "";
-        public string Rule = "";
+        public List<string> RuleElements = new List<string>();
         public int Color = 0;
         public bool SingleLine = false;
-        public bool RgKw = false;
         public bool Case = false;
+        public bool FBold = false;
+        public bool FItalic = false;
         public bool Enabled = true;
     }
 

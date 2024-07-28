@@ -31,16 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSyntaxBuilder));
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.id1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnEnabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnRule = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnSingleLine = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.columnRegexKeywords = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.columnCase = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.rtb = new System.Windows.Forms.RichTextBox();
             this.btnImportSyntax = new System.Windows.Forms.Button();
             this.btnExportSyntax = new System.Windows.Forms.Button();
@@ -64,6 +54,18 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.pnlGroupsSection = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.id1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnRule = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnEnabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.сolumnEditRule = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.columnColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnSingleLine = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.columnCase = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.columnFBold = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.columnFItalic = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
             this.pnlTestSection.SuspendLayout();
@@ -86,13 +88,15 @@
             this.id1,
             this.Column1,
             this.columnOrder,
+            this.columnRule,
             this.columnEnabled,
             this.Column5,
-            this.columnRule,
+            this.сolumnEditRule,
             this.columnColor,
             this.columnSingleLine,
-            this.columnRegexKeywords,
-            this.columnCase});
+            this.columnCase,
+            this.columnFBold,
+            this.columnFItalic});
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv.Enabled = false;
             this.dgv.Location = new System.Drawing.Point(104, 0);
@@ -103,87 +107,6 @@
             this.dgv.TabIndex = 0;
             this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellClick);
             this.dgv.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
-            // 
-            // id1
-            // 
-            this.id1.DataPropertyName = "id";
-            this.id1.HeaderText = "id";
-            this.id1.Name = "id1";
-            this.id1.Visible = false;
-            // 
-            // Column1
-            // 
-            this.Column1.DataPropertyName = "parentId";
-            this.Column1.HeaderText = "parentId";
-            this.Column1.Name = "Column1";
-            this.Column1.Visible = false;
-            // 
-            // columnOrder
-            // 
-            this.columnOrder.DataPropertyName = "order";
-            this.columnOrder.HeaderText = "order";
-            this.columnOrder.Name = "columnOrder";
-            this.columnOrder.ReadOnly = true;
-            this.columnOrder.Visible = false;
-            // 
-            // columnEnabled
-            // 
-            this.columnEnabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.columnEnabled.DataPropertyName = "enabled";
-            this.columnEnabled.HeaderText = "Включено";
-            this.columnEnabled.Name = "columnEnabled";
-            this.columnEnabled.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.columnEnabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.columnEnabled.Width = 82;
-            // 
-            // Column5
-            // 
-            this.Column5.DataPropertyName = "name";
-            this.Column5.HeaderText = "Имя";
-            this.Column5.Name = "Column5";
-            // 
-            // columnRule
-            // 
-            this.columnRule.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.columnRule.DataPropertyName = "rule";
-            this.columnRule.HeaderText = "Правило";
-            this.columnRule.Name = "columnRule";
-            // 
-            // columnColor
-            // 
-            this.columnColor.DataPropertyName = "color";
-            this.columnColor.HeaderText = "Цвет";
-            this.columnColor.Name = "columnColor";
-            this.columnColor.ReadOnly = true;
-            this.columnColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.columnColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // columnSingleLine
-            // 
-            this.columnSingleLine.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.columnSingleLine.DataPropertyName = "singleLine";
-            this.columnSingleLine.HeaderText = "Multiline";
-            this.columnSingleLine.Name = "columnSingleLine";
-            this.columnSingleLine.Width = 51;
-            // 
-            // columnRegexKeywords
-            // 
-            this.columnRegexKeywords.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.columnRegexKeywords.DataPropertyName = "rgKw";
-            this.columnRegexKeywords.HeaderText = "Regex(0)/Keywords(1)";
-            this.columnRegexKeywords.Name = "columnRegexKeywords";
-            this.columnRegexKeywords.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.columnRegexKeywords.Width = 119;
-            // 
-            // columnCase
-            // 
-            this.columnCase.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.columnCase.DataPropertyName = "case";
-            this.columnCase.HeaderText = "Insensitive";
-            this.columnCase.Name = "columnCase";
-            this.columnCase.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.columnCase.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.columnCase.Width = 82;
             // 
             // rtb
             // 
@@ -434,6 +357,105 @@
             this.panel4.Size = new System.Drawing.Size(104, 188);
             this.panel4.TabIndex = 3;
             // 
+            // id1
+            // 
+            this.id1.DataPropertyName = "id";
+            this.id1.HeaderText = "_id";
+            this.id1.Name = "id1";
+            this.id1.Visible = false;
+            // 
+            // Column1
+            // 
+            this.Column1.DataPropertyName = "parentId";
+            this.Column1.HeaderText = "_parentId";
+            this.Column1.Name = "Column1";
+            this.Column1.Visible = false;
+            // 
+            // columnOrder
+            // 
+            this.columnOrder.DataPropertyName = "order";
+            this.columnOrder.HeaderText = "_order";
+            this.columnOrder.Name = "columnOrder";
+            this.columnOrder.ReadOnly = true;
+            this.columnOrder.Visible = false;
+            // 
+            // columnRule
+            // 
+            this.columnRule.DataPropertyName = "rule";
+            this.columnRule.HeaderText = "_dataRule";
+            this.columnRule.Name = "columnRule";
+            this.columnRule.Visible = false;
+            // 
+            // columnEnabled
+            // 
+            this.columnEnabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.columnEnabled.DataPropertyName = "enabled";
+            this.columnEnabled.HeaderText = "Включено";
+            this.columnEnabled.Name = "columnEnabled";
+            this.columnEnabled.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnEnabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.columnEnabled.Width = 82;
+            // 
+            // Column5
+            // 
+            this.Column5.DataPropertyName = "name";
+            this.Column5.HeaderText = "Имя";
+            this.Column5.Name = "Column5";
+            // 
+            // сolumnEditRule
+            // 
+            this.сolumnEditRule.HeaderText = "Правило";
+            this.сolumnEditRule.Name = "сolumnEditRule";
+            this.сolumnEditRule.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.сolumnEditRule.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // columnColor
+            // 
+            this.columnColor.DataPropertyName = "color";
+            this.columnColor.HeaderText = "Цвет";
+            this.columnColor.Name = "columnColor";
+            this.columnColor.ReadOnly = true;
+            this.columnColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // columnSingleLine
+            // 
+            this.columnSingleLine.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.columnSingleLine.DataPropertyName = "singleLine";
+            this.columnSingleLine.HeaderText = "Multiline";
+            this.columnSingleLine.Name = "columnSingleLine";
+            this.columnSingleLine.Width = 51;
+            // 
+            // columnCase
+            // 
+            this.columnCase.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.columnCase.DataPropertyName = "case";
+            this.columnCase.HeaderText = "Insensitive";
+            this.columnCase.Name = "columnCase";
+            this.columnCase.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnCase.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.columnCase.Width = 82;
+            // 
+            // columnFBold
+            // 
+            this.columnFBold.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.columnFBold.DataPropertyName = "fbold";
+            this.columnFBold.HeaderText = "Bold";
+            this.columnFBold.Name = "columnFBold";
+            this.columnFBold.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnFBold.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.columnFBold.Width = 53;
+            // 
+            // columnFItalic
+            // 
+            this.columnFItalic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.columnFItalic.DataPropertyName = "fitalic";
+            this.columnFItalic.HeaderText = "Italic";
+            this.columnFItalic.Name = "columnFItalic";
+            this.columnFItalic.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnFItalic.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.columnFItalic.Width = 54;
+            // 
             // frmSyntaxBuilder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -478,21 +500,23 @@
         private System.Windows.Forms.Button btnImportSyntax;
         private System.Windows.Forms.Button btnExportSyntax;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnOrder;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn columnEnabled;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnRule;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnColor;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn columnSingleLine;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn columnRegexKeywords;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn columnCase;
         private System.Windows.Forms.Panel pnlTestSection;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel pnlRulesSection;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel pnlGroupsSection;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnOrder;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnRule;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn columnEnabled;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewButtonColumn сolumnEditRule;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnColor;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn columnSingleLine;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn columnCase;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn columnFBold;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn columnFItalic;
     }
 }
