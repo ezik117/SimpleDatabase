@@ -114,17 +114,26 @@ namespace simple_database
             }
             else
             {
+                bool withLeadingZero = false;
                 int max = 0;
                 foreach (TreeNode n in currentProperty.Nodes)
                 {
-                    if (Regex.IsMatch(n.Text, @"^\d+\. +"))
+                    Match m = Regex.Match(n.Text, @"^(\d+)\. +");
+                    if (m.Success && m.Groups.Count == 2)
                     {
-                        int num = int.Parse(n.Text.Substring(0, 2));
+                        int num = int.Parse(m.Groups[1].Value);
                         max = Math.Max(max, num);
+
+                        // определим что в нумерации используются лидирующие нули
+                        if (m.Groups[1].Value.Length > 1 && m.Groups[1].Value[0] == '0')
+                            withLeadingZero = true;
                     }
                 }
                 max++;
-                numbering = max.ToString("D2");
+                if (withLeadingZero)
+                    numbering = max.ToString("D2");
+                else
+                    numbering = max.ToString();
             }
 
             frmPropertyEdit frm = new frmPropertyEdit();
