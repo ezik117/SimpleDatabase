@@ -314,10 +314,5 @@
   <ItemGroup>
     <Folder Include="Plugins_Test\" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Google.Apis.Drive.v2">
-      <Version>1.68.0.3544</Version>
-    </PackageReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
