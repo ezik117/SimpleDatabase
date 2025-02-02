@@ -103,6 +103,7 @@
             this.slblEmpty = new System.Windows.Forms.ToolStripStatusLabel();
             this.slblVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.tsmiDuplicate = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panelDescriptionHolder.SuspendLayout();
             this.pnlDescriptionHeader.SuspendLayout();
@@ -352,36 +353,37 @@
             this.tsmiMoveDown,
             this.tsmiRenumering,
             this.tsmiDenumering,
+            this.tsmiDuplicate,
             this.toolStripSeparator1,
             this.инструментыToolStripMenuItem,
             this.toolStripMenuItem3,
             this.tsmiAttachments,
             this.tsmiPlugin});
             this.ctxMenuCharters.Name = "ctxMenuCharters";
-            this.ctxMenuCharters.Size = new System.Drawing.Size(154, 170);
+            this.ctxMenuCharters.Size = new System.Drawing.Size(219, 214);
             this.ctxMenuCharters.Opening += new System.ComponentModel.CancelEventHandler(this.ctxMenuCharters_Opening);
             // 
             // tsmiMoveUp
             // 
             this.tsmiMoveUp.Image = global::simple_database.Properties.Resources.up_16;
             this.tsmiMoveUp.Name = "tsmiMoveUp";
-            this.tsmiMoveUp.Size = new System.Drawing.Size(153, 22);
-            this.tsmiMoveUp.Text = "Поднять вверх";
+            this.tsmiMoveUp.Size = new System.Drawing.Size(218, 22);
+            this.tsmiMoveUp.Text = "Поднять вверх (Alt+Up)";
             this.tsmiMoveUp.Click += new System.EventHandler(this.tsmiMoveUp_Click);
             // 
             // tsmiMoveDown
             // 
             this.tsmiMoveDown.Image = global::simple_database.Properties.Resources.down_16;
             this.tsmiMoveDown.Name = "tsmiMoveDown";
-            this.tsmiMoveDown.Size = new System.Drawing.Size(153, 22);
-            this.tsmiMoveDown.Text = "Опустить вниз";
+            this.tsmiMoveDown.Size = new System.Drawing.Size(218, 22);
+            this.tsmiMoveDown.Text = "Опустить вниз (Alt+Down)";
             this.tsmiMoveDown.Click += new System.EventHandler(this.tsmiMoveDown_Click);
             // 
             // tsmiRenumering
             // 
             this.tsmiRenumering.Image = global::simple_database.Properties.Resources.renumbering_16;
             this.tsmiRenumering.Name = "tsmiRenumering";
-            this.tsmiRenumering.Size = new System.Drawing.Size(153, 22);
+            this.tsmiRenumering.Size = new System.Drawing.Size(218, 22);
             this.tsmiRenumering.Text = "Нумеровать";
             this.tsmiRenumering.Click += new System.EventHandler(this.tsmiRenumering_Click);
             // 
@@ -389,14 +391,14 @@
             // 
             this.tsmiDenumering.Image = global::simple_database.Properties.Resources.denumbering_16;
             this.tsmiDenumering.Name = "tsmiDenumering";
-            this.tsmiDenumering.Size = new System.Drawing.Size(153, 22);
+            this.tsmiDenumering.Size = new System.Drawing.Size(218, 22);
             this.tsmiDenumering.Text = "Денумеровать";
             this.tsmiDenumering.Click += new System.EventHandler(this.tsmiDenumering_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(150, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(215, 6);
             // 
             // инструментыToolStripMenuItem
             // 
@@ -412,7 +414,7 @@
             this.tsmiHashtags});
             this.инструментыToolStripMenuItem.Image = global::simple_database.Properties.Resources.tools_16;
             this.инструментыToolStripMenuItem.Name = "инструментыToolStripMenuItem";
-            this.инструментыToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.инструментыToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.инструментыToolStripMenuItem.Text = "Инструменты";
             // 
             // tsmiSearch
@@ -479,7 +481,7 @@
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(150, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(215, 6);
             // 
             // tsmiAttachments
             // 
@@ -489,7 +491,7 @@
             this.tsmiAttachmentSaveAs});
             this.tsmiAttachments.Image = global::simple_database.Properties.Resources.attachment;
             this.tsmiAttachments.Name = "tsmiAttachments";
-            this.tsmiAttachments.Size = new System.Drawing.Size(153, 22);
+            this.tsmiAttachments.Size = new System.Drawing.Size(218, 22);
             this.tsmiAttachments.Text = "Вложение";
             // 
             // tsmiAttachmentOpen
@@ -523,7 +525,7 @@
             this.tsmiPluginCreate});
             this.tsmiPlugin.Image = global::simple_database.Properties.Resources.plugin_16;
             this.tsmiPlugin.Name = "tsmiPlugin";
-            this.tsmiPlugin.Size = new System.Drawing.Size(153, 22);
+            this.tsmiPlugin.Size = new System.Drawing.Size(218, 22);
             this.tsmiPlugin.Text = "Плагин";
             // 
             // tsmiPluginExecute
@@ -1003,6 +1005,13 @@
             this.slblVersion.Size = new System.Drawing.Size(64, 17);
             this.slblVersion.Text = "slblVersion";
             // 
+            // tsmiDuplicate
+            // 
+            this.tsmiDuplicate.Name = "tsmiDuplicate";
+            this.tsmiDuplicate.Size = new System.Drawing.Size(218, 22);
+            this.tsmiDuplicate.Text = "Дублировать";
+            this.tsmiDuplicate.Click += new System.EventHandler(this.tsmiDuplicate_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1112,6 +1121,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiCreateDbFromClass;
         public System.Windows.Forms.Button btnPropForward;
         public System.Windows.Forms.Button btnPropBackward;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDuplicate;
     }
 }
 

@@ -8,10 +8,11 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>simple_database</RootNamespace>
     <AssemblyName>simple_database</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>false</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -105,6 +106,12 @@
     </Compile>
     <Compile Include="Forms\frmDbManager.Designer.cs">
       <DependentUpon>frmDbManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmGlobalSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmGlobalSettings.Designer.cs">
+      <DependentUpon>frmGlobalSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmPropertyEdit.cs">
       <SubType>Form</SubType>
@@ -203,6 +210,9 @@
     <EmbeddedResource Include="Forms\frmDbManager.resx">
       <DependentUpon>frmDbManager.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmGlobalSettings.resx">
+      <DependentUpon>frmGlobalSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmKeywords.resx">
       <DependentUpon>frmKeywords.cs</DependentUpon>
     </EmbeddedResource>
@@ -264,6 +274,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="main_icon.ico" />
+    <None Include="Resources\configure2-16-grayed.png" />
+    <None Include="Resources\configure-16-grayed.png" />
     <None Include="Resources\down-green-16-grayed.png" />
     <None Include="Resources\up-green-16-grayed.png" />
     <None Include="Resources\list-161.png" />
@@ -301,6 +313,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins_Test\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Drive.v2">
+      <Version>1.68.0.3544</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

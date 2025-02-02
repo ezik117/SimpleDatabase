@@ -600,6 +600,7 @@ namespace simple_database
             if (node.ImageIndex == (int)IconTypes.Attachment)
             {
                 tsmiAttachments.Visible = true;
+                tsmiDuplicate.Visible = false;
             }
             else if (node.ImageIndex == (int)IconTypes.Plugin)
             {
@@ -608,6 +609,7 @@ namespace simple_database
                 tsmiPluginExecute.Visible = true;
                 tsmiPluginSaveTo.Visible = true;
                 tsmiPluginRename.Visible = true;
+                tsmiDuplicate.Visible = false;
             }
             else
             {
@@ -616,6 +618,16 @@ namespace simple_database
                 tsmiPluginExecute.Visible = false;
                 tsmiPluginSaveTo.Visible = false;
                 tsmiPluginRename.Visible = false;
+
+                // проверим не корневой ли это элемент
+                if (node.Parent == null)
+                {
+                    tsmiDuplicate.Visible = false;
+                }
+                else
+                {
+                    tsmiDuplicate.Visible = true;
+                }
             }
         }
 
@@ -921,11 +933,31 @@ namespace simple_database
                         e.SuppressKeyPress = true;
                         e.Handled = true;
                         break;
+
+                    // переместить позицию вверх
+                    case Keys.Up:
+                        e.SuppressKeyPress = true;
+                        e.Handled = true;
+                        tsmiMoveUp.PerformClick();
+                        break;
+
+                    // переместить позицию вниз
+                    case Keys.Down:
+                        e.SuppressKeyPress = true;
+                        e.Handled = true;
+                        tsmiMoveDown.PerformClick();
+                        break;
                 }
             }
         }
 
-
+        /// <summary>
+        /// Дублировать текущий выделенный элемент оглавления (без вложенной структуры)
+        /// </summary>
+        private void tsmiDuplicate_Click(object sender, EventArgs e)
+        {
+            PROPERTY.Create(this, duplicate: true);
+        }
     }
 
 

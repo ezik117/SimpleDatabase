@@ -54,3 +54,7 @@ https://www.iconarchive.com/show/oxygen-icons-by-oxygen-icons.org/Actions-tools-
 вперед/назад
 https://www.iconarchive.com/show/oxygen-icons-by-oxygen-icons.org/Actions-go-previous-icon.html
 
+configure
+https://www.iconarchive.com/show/ios7-style-metro-ui-icons-by-igh0zt/MetroUI-Folder-OS-Configure-Alt-icon.html
+https://www.iconarchive.com/show/papirus-apps-icons-by-papirus-team/applications-development-icon.html
+

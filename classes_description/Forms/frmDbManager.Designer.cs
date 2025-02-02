@@ -42,9 +42,11 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ctxRemoveIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHotButtons = new System.Windows.Forms.Panel();
+            this.btnConfigure = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pnlDbNameAction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -157,6 +159,7 @@
             // pnlHotButtons
             // 
             this.pnlHotButtons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.pnlHotButtons.Controls.Add(this.btnConfigure);
             this.pnlHotButtons.Controls.Add(this.btnAdd);
             this.pnlHotButtons.Controls.Add(this.btnEdit);
             this.pnlHotButtons.Controls.Add(this.btnDelete);
@@ -165,6 +168,23 @@
             this.pnlHotButtons.Name = "pnlHotButtons";
             this.pnlHotButtons.Size = new System.Drawing.Size(499, 22);
             this.pnlHotButtons.TabIndex = 5;
+            // 
+            // btnConfigure
+            // 
+            this.btnConfigure.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnConfigure.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnConfigure.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnConfigure.FlatAppearance.BorderSize = 0;
+            this.btnConfigure.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConfigure.Image = global::simple_database.Properties.Resources.configure2_16_grayed;
+            this.btnConfigure.Location = new System.Drawing.Point(0, 0);
+            this.btnConfigure.Name = "btnConfigure";
+            this.btnConfigure.Size = new System.Drawing.Size(20, 22);
+            this.btnConfigure.TabIndex = 7;
+            this.btnConfigure.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.btnConfigure, "Настройки программы");
+            this.btnConfigure.UseVisualStyleBackColor = false;
+            this.btnConfigure.Click += new System.EventHandler(this.btnConfigure_Click);
             // 
             // btnAdd
             // 
@@ -179,6 +199,7 @@
             this.btnAdd.Size = new System.Drawing.Size(20, 22);
             this.btnAdd.TabIndex = 6;
             this.btnAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.btnAdd, "Создать БД");
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnCreate_Click);
             // 
@@ -195,6 +216,7 @@
             this.btnEdit.Size = new System.Drawing.Size(20, 22);
             this.btnEdit.TabIndex = 5;
             this.btnEdit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.btnEdit, "Изменить БД");
             this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnRename_Click);
             // 
@@ -211,6 +233,7 @@
             this.btnDelete.Size = new System.Drawing.Size(20, 22);
             this.btnDelete.TabIndex = 4;
             this.btnDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.btnDelete, "Удалить БД");
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
@@ -252,5 +275,7 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnConfigure;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

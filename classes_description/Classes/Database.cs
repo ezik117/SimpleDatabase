@@ -142,12 +142,22 @@ namespace simple_database
             dblist_cmd.Parameters.Add("@selected", DbType.Int64).IsNullable = true;
             dblist_cmd.Parameters.Add("@icon", DbType.Binary).IsNullable = true;
 
+            dblist_cmd.Parameters.Add("@group", DbType.String).IsNullable = true;
+            dblist_cmd.Parameters.Add("@key", DbType.String).IsNullable = true;
+            dblist_cmd.Parameters.Add("@value", DbType.String).IsNullable = true;
+
             dblist_cmd.CommandText = @"CREATE TABLE IF NOT EXISTS databases (
                                 name TEXT,
                                 icon BLOB DEFAULT NULL,
                                 icon_filename TEXT,
                                 selected INTEGER DEFAULT 0,
                                 creation_date DATETIME)";
+            dblist_cmd.ExecuteNonQuery();
+
+            dblist_cmd.CommandText = @"CREATE TABLE IF NOT EXISTS settings (
+                                sgroup TEXT UNIQUE,
+                                key TEXT,
+                                value TEXT)";
             dblist_cmd.ExecuteNonQuery();
 
         }
@@ -393,6 +403,10 @@ namespace simple_database
             dblist_conn?.Close();
             dblist_conn?.Dispose();
             dblist_cmd?.Dispose();
+            //conn = null;
+            //cmd = null;
+            //dblist_conn = null;
+            //dblist_cmd = null;
         }
 
         /// <summary>

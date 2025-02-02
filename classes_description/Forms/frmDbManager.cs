@@ -350,5 +350,14 @@ namespace simple_database
                 File.WriteAllBytes(sfd.FileName, raw_data);
             }
         }
+
+        /// <summary>
+        /// Вызвать окно настроек программмы
+        /// </summary>
+        private void btnConfigure_Click(object sender, EventArgs e)
+        {
+            frmGlobalSettings frm = new frmGlobalSettings();
+            frm.ShowDialog();
+        }
     }
 }

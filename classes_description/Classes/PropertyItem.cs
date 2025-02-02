@@ -101,7 +101,8 @@ namespace simple_database
         /// Создает элемент оглавления.
         /// </summary>
         /// <param name="main">Ссылка на главную форму.</param>
-        public static void Create(Form1 main)
+        /// <param name="duplicate">Если true-то создается дубликат выделенного элемента без вложенной иерархии</param>
+        public static void Create(Form1 main, bool duplicate=false)
         {
             TreeNode currentProperty = main.tvProps.SelectedNode;
             if (currentProperty == null) return;
@@ -140,11 +141,21 @@ namespace simple_database
             frm.IsItNewItem = true;
             frm.tbPropertyName.Text = numbering == "" ? "" : numbering + ". ";
             frm.PropertyType = (int)Types.Document;
+            string propName = frm.tbPropertyName.Text;
 
-            if (frm.ShowDialog() != DialogResult.OK) return;
+            if (!duplicate)
+            {
+                if (frm.ShowDialog() != DialogResult.OK) return;
+            }
+            else
+            {
+                propName = main.tvProps.SelectedNode.Text + " (копия)";
+            }
 
             long id;
-            string propName = frm.tbPropertyName.Text.Trim();
+            long parentNodeId = (long)(duplicate ? currentProperty.Parent.Tag : currentProperty.Tag);
+            int propertyType = (duplicate ? currentProperty.ImageIndex : frm.PropertyType);
+            string description = (duplicate ? main.paramTextEditor.txtBox.Rtf : "");
 
             if (frm.rbAttachment.Checked)
             {
@@ -181,8 +192,8 @@ namespace simple_database
             {
                 // выбран значок
                 id = DATABASE.SaveProperty(-1, (long)main.tvClasses.SelectedNode.Tag,
-                                            propName, frm.PropertyType,
-                                            (long)currentProperty.Tag, "");
+                                            propName, propertyType,
+                                            parentNodeId, description);
             }
 
             main.slblLastUpdate.Text = "Last update: " + DATABASE.SetLastUpdate();
@@ -191,10 +202,14 @@ namespace simple_database
 
             TreeNode t = new TreeNode();
             t.Text = propName;
-            t.ImageIndex = t.SelectedImageIndex = frm.PropertyType;
+            t.ImageIndex = t.SelectedImageIndex = propertyType;
             t.Tag = id;
 
-            currentProperty.Nodes.Add(t);
+            if (duplicate)
+                currentProperty.Parent.Nodes.Add(t);
+            else
+                currentProperty.Nodes.Add(t);
+
             main.tvProps.SelectedNode = t;
             main.tvProps.Focus();
         }
