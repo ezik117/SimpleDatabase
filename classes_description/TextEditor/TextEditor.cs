@@ -114,6 +114,13 @@ namespace TextEditorNS
         private NumberedList nl;
 
         /// <summary>
+        /// Текст RTF по умолчанию. Нужен для вставки в новый RTF документ при создании,
+        /// т.к. иначе вставки из буфера обмена RTF текста может быть неудачной, т.к. по умолчанию
+        /// новый документ создается со свойством RTF == null
+        /// </summary>
+        public readonly string DefaultRtf;
+
+        /// <summary>
         /// Конструктор. Создает объект для редактирования текста.
         /// </summary>
         /// <param name="parent">Родительский контрол.</param>
@@ -371,6 +378,16 @@ namespace TextEditorNS
 
             textWasChanged = false;
             this.Clear();
+
+            // создание пустого RTF для вставки по умолчанию
+            using (RichTextBox r = new RichTextBox())
+            {
+                r.Text = "start";
+                r.SelectAll();
+                r.SelectionColor = Color.Black;
+                r.Clear();
+                this.DefaultRtf = r.Rtf;
+            }
         }
 
         /// <summary>

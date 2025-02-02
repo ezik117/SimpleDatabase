@@ -155,7 +155,7 @@ namespace simple_database
             long id;
             long parentNodeId = (long)(duplicate ? currentProperty.Parent.Tag : currentProperty.Tag);
             int propertyType = (duplicate ? currentProperty.ImageIndex : frm.PropertyType);
-            string description = (duplicate ? main.paramTextEditor.txtBox.Rtf : "");
+            string description = (duplicate ? main.paramTextEditor.txtBox.Rtf : main.paramTextEditor.DefaultRtf);
 
             if (frm.rbAttachment.Checked)
             {
