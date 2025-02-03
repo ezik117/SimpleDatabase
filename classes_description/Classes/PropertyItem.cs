@@ -146,6 +146,7 @@ namespace simple_database
             if (!duplicate)
             {
                 if (frm.ShowDialog() != DialogResult.OK) return;
+                propName = frm.tbPropertyName.Text.Trim();
             }
             else
             {

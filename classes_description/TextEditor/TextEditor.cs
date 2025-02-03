@@ -145,6 +145,7 @@ namespace TextEditorNS
 
             txtBox = new RichTextBox();
             lockResetControls = false;
+            this.Font = new Font("Lucida Console", 10.0f);
             txtBox.Parent = this;
             txtBox.Dock = DockStyle.Fill;
             txtBox.AcceptsTab = true;
@@ -159,6 +160,7 @@ namespace TextEditorNS
             txtBox.MouseUp += TxtBox_MouseUp;
             txtBox.MouseDown += TxtBox_MouseDown;
             txtBox.SelectionChanged += TxtBox_SelectionChanged;
+            txtBox.Font = CreateDefaultFont();
 
             textColor = Color.Black;
             textBackgroundColor = Color.Yellow;
@@ -382,12 +384,38 @@ namespace TextEditorNS
             // создание пустого RTF для вставки по умолчанию
             using (RichTextBox r = new RichTextBox())
             {
+                r.Font = CreateDefaultFont();
                 r.Text = "start";
                 r.SelectAll();
                 r.SelectionColor = Color.Black;
-                r.Clear();
+                r.SelectedText = "";
+                r.SelectAll();
+                r.SelectionFont = CreateDefaultFont();
                 this.DefaultRtf = r.Rtf;
             }
+        }
+
+        /// <summary>
+        /// Пытается вернуть фонт "Lucida Console", 10.
+        /// Если фонт не может быть создан (например, его нет в системе, то возвращает фонт по умолчанию
+        /// для RichTextBox, но с размером в 10 em.
+        /// </summary>
+        /// <returns>Фонт</returns>
+        private Font CreateDefaultFont()
+        {
+            Font fnt = Control.DefaultFont;
+            try
+            {
+                fnt = new Font("Lucida Console", 10, FontStyle.Regular);
+            }
+            catch
+            {
+                using (RichTextBox r = new RichTextBox())
+                {
+                    fnt = new Font(r.Font.Name, 10, FontStyle.Regular);
+                }
+            }
+            return fnt;
         }
 
         /// <summary>
