@@ -135,6 +135,7 @@ namespace simple_database
 
             DATABASE.DeleteClass((long)main.tvClasses.SelectedNode.Tag);
             main.tvClasses.Nodes.Remove(main.tvClasses.SelectedNode);
+            main.tvProps.Nodes.RemoveAt(0);
 
             main.slblLastUpdate.Text = "Last update: " + DATABASE.SetLastUpdate();
         }

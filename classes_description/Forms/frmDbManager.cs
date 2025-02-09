@@ -63,12 +63,15 @@ namespace simple_database
             {
                 if (Path.GetFileNameWithoutExtension(file).ToLower() != "databases")
                 {
-                    string s = Path.GetFileNameWithoutExtension(file).ToLower();
-                    Image im = DATABASE.GetIconForDatabaseRecord(s);
-                    int rn = dgv.Rows.Add(im ?? dbDefaultIcon, s);
-                    if (s == "default")
+                    if (Path.GetExtension(file).ToLower() == ".sqlite")
                     {
-                        dgv.Rows[rn].DefaultCellStyle.ForeColor = Color.Blue;
+                        string s = Path.GetFileNameWithoutExtension(file).ToLower();
+                        Image im = DATABASE.GetIconForDatabaseRecord(s);
+                        int rn = dgv.Rows.Add(im ?? dbDefaultIcon, s);
+                        if (s == "default")
+                        {
+                            dgv.Rows[rn].DefaultCellStyle.ForeColor = Color.Blue;
+                        }
                     }
                 }
             }

@@ -109,8 +109,8 @@ namespace simple_database
             cmd.Parameters.Add("@rowid", DbType.Int64).IsNullable = true;
             cmd.Parameters.Add("@fileName", DbType.String).IsNullable = true;
             cmd.Parameters.Add("@lastupdate", DbType.String).IsNullable = true;
-            cmd.Parameters.Add("@keyword", DbType.String);
-            cmd.Parameters.Add("@keyword_id", DbType.Int64);
+            cmd.Parameters.Add("@keywords", DbType.String);
+            cmd.Parameters.Add("@keywords_id", DbType.Int64);
             cmd.Parameters.Add("@count", DbType.Int64);
             cmd.Parameters.Add("@stringData", DbType.String); // universal data holder
 
@@ -423,27 +423,29 @@ namespace simple_database
         /// <param name="id">ROWID записи класса.</param>ChangeProperty
         /// <param name="className">Имя класса.</param>
         /// <param name="description">Описание класса.</param>
-        /// <returns>ROWID записи класса.</returns>
-        public static long SaveClass(long id, string className, string description)
+        /// <param name="cmd0">Указывается, если нужно записть в другую БД чем текущая</param>
+        /// <returns>ROWID записи класса</returns>
+        public static long SaveClass(long id, string className, string description, SQLiteCommand cmd0 = null)
         {
+            if (cmd0 == null) cmd0 = cmd;
             long ret = id;
-            cmd.CommandText = "UPDATE classes SET name=@className, description=@description WHERE id=@id";
-            cmd.Parameters["@className"].Value = className;
-            cmd.Parameters["@description"].Value = description;
-            cmd.Parameters["@id"].Value = id;
-            if (cmd.ExecuteNonQuery() == 0)
+            cmd0.CommandText = "UPDATE classes SET name=@className, description=@description WHERE id=@id";
+            cmd0.Parameters["@className"].Value = className;
+            cmd0.Parameters["@description"].Value = description;
+            cmd0.Parameters["@id"].Value = id;
+            if (cmd0.ExecuteNonQuery() == 0)
             {
-                cmd.CommandText = "INSERT INTO classes (name, description) VALUES(@className, @description)";
-                cmd.ExecuteNonQuery();
-                ret = conn.LastInsertRowId;
+                cmd0.CommandText = "INSERT INTO classes (name, description) VALUES(@className, @description)";
+                cmd0.ExecuteNonQuery();
+                ret = cmd0.Connection.LastInsertRowId;
 
                 // сохраним в истории
-                SaveHistory(ret, ret, "classes", "Создание каталога", className);
+                SaveHistory(ret, ret, "classes", "Создание каталога", className, cmd0);
             }
             else
             {
                 // сохраним в истории
-                SaveHistory(id, id, "classes", "Изменение имени каталога", className);
+                SaveHistory(id, id, "classes", "Изменение имени каталога", className, cmd0);
             }
 
             return ret;
@@ -526,37 +528,39 @@ namespace simple_database
         /// <param name="type">Тип (номер в ImageList) параметра.</param>
         /// <param name="parent_id">Ссылка на родительский параметр (ROWID).</param>
         /// <param name="description">Описание параметра.</param>
+        /// <param name="cmd0">Указывается, если нужно записть в другую БД чем текущая</param>
         /// <returns>ROWID вставленной строки</returns>
-        public static long SaveProperty(long id, long class_id, string name, long type, long parent_id, string description)
+        public static long SaveProperty(long id, long class_id, string name, long type, long parent_id, string description, SQLiteCommand cmd0 = null)
         {
+            if (cmd0 == null) cmd0 = cmd;
             long ret = id;
-            cmd.CommandText = $@"UPDATE properties SET name=@name,
+            cmd0.CommandText = $@"UPDATE properties SET name=@name,
                                                  type=@type,
                                                  parent=@parent_id,
                                                  class=@class_id,
                                                  description=@description
                                  WHERE id=@id";
-            cmd.Parameters["@name"].Value = name;
-            cmd.Parameters["@type"].Value = type;
-            if (parent_id == -1) cmd.Parameters["@parent_id"].Value = null; else cmd.Parameters["@parent_id"].Value =parent_id;
-            cmd.Parameters["@class_id"].Value = class_id;
-            cmd.Parameters["@description"].Value = description;
-            cmd.Parameters["@id"].Value = id;
+            cmd0.Parameters["@name"].Value = name;
+            cmd0.Parameters["@type"].Value = type;
+            if (parent_id == -1) cmd0.Parameters["@parent_id"].Value = null; else cmd0.Parameters["@parent_id"].Value =parent_id;
+            cmd0.Parameters["@class_id"].Value = class_id;
+            cmd0.Parameters["@description"].Value = description;
+            cmd0.Parameters["@id"].Value = id;
 
-            if (cmd.ExecuteNonQuery() == 0)
+            if (cmd0.ExecuteNonQuery() == 0)
             {
-                cmd.CommandText = @"INSERT INTO properties (name, type, parent, class, description)
+                cmd0.CommandText = @"INSERT INTO properties (name, type, parent, class, description)
                                     VALUES(@name, @type, @parent_id, @class_id, @description)";
-                cmd.ExecuteNonQuery();
+                cmd0.ExecuteNonQuery();
                 ret = conn.LastInsertRowId;
 
                 // сохраним в истории
-                SaveHistory(class_id, ret, "properties", "Создание элемента оглавления", name);
+                SaveHistory(class_id, ret, "properties", "Создание элемента оглавления", name, cmd0);
             }
             else
             {
                 // сохраним в истории
-                SaveHistory(class_id, id, "properties", "Изменение названия элемента оглавления", name);
+                SaveHistory(class_id, id, "properties", "Изменение названия элемента оглавления", name, cmd0);
             }
 
             
@@ -964,8 +968,8 @@ namespace simple_database
                 // теперь добавим все ключевые слова для данного элемента оглавления
                 foreach (DataRow dr in keywords.Rows)
                 {
-                    cmd.Parameters["@keyword_id"].Value = (long)dr["ROWID"];
-                    cmd.CommandText = "INSERT INTO keywords_binding VALUES (@keyword_id, @property_id)";
+                    cmd.Parameters["@keywords_id"].Value = (long)dr["ROWID"];
+                    cmd.CommandText = "INSERT INTO keywords_binding VALUES (@keywords_id, @property_id)";
                     cmd.ExecuteNonQuery();
                 }
 
@@ -1039,14 +1043,14 @@ namespace simple_database
         public static long NewKeywordAdd(string keyword, long class_id)
         { 
             long ret = -1;
-            cmd.Parameters["@keyword"].Value = keyword;
+            cmd.Parameters["@keywords"].Value = keyword;
             cmd.Parameters["@class_id"].Value = class_id;
 
-            cmd.CommandText = "SELECT ROWID FROM keywords WHERE keyword=@keyword AND class_id=@class_id";
+            cmd.CommandText = "SELECT ROWID FROM keywords WHERE keyword=@keywords AND class_id=@class_id";
             object o = cmd.ExecuteScalar();
             if (o == null || o == DBNull.Value)
             {
-                cmd.CommandText = "INSERT INTO keywords (keyword, class_id) VALUES(@keyword, @class_id)";
+                cmd.CommandText = "INSERT INTO keywords (keyword, class_id) VALUES(@keywords, @class_id)";
                 cmd.ExecuteNonQuery();
                 ret = conn.LastInsertRowId;
             }
@@ -1065,15 +1069,15 @@ namespace simple_database
         {
             bool ret = true;
 
-            cmd.Parameters["@keyword_id"].Value = keyword_id;
+            cmd.Parameters["@keywords_id"].Value = keyword_id;
             cmd.Parameters["@class_id"].Value = class_id;
-            cmd.Parameters["@keyword"].Value = keyword;
+            cmd.Parameters["@keywords"].Value = keyword;
 
-            cmd.CommandText = "SELECT ROWID FROM keywords WHERE keyword=@keyword AND class_id=@class_id";
+            cmd.CommandText = "SELECT ROWID FROM keywords WHERE keyword=@keywords AND class_id=@class_id";
             object o = cmd.ExecuteScalar();
             if (o == null || o == DBNull.Value)
             {
-                cmd.CommandText = "UPDATE keywords SET keyword=@keyword WHERE ROWID=@keyword_id AND class_id=@class_id";
+                cmd.CommandText = "UPDATE keywords SET keyword=@keywords WHERE ROWID=@keywords_id AND class_id=@class_id";
                 cmd.ExecuteNonQuery();
             }
             else
@@ -1095,15 +1099,15 @@ namespace simple_database
             bool ret = true;
             SQLiteTransaction trans = conn.BeginTransaction();
 
-            cmd.Parameters["@keyword_id"].Value = keyword_id;
+            cmd.Parameters["@keywords_id"].Value = keyword_id;
             cmd.Parameters["@class_id"].Value = class_id;
             
             try
             {
-                cmd.CommandText = "DELETE FROM keywords_binding WHERE keyword_id=@keyword_id";
+                cmd.CommandText = "DELETE FROM keywords_binding WHERE keyword_id=@keywords_id";
                 cmd.ExecuteNonQuery();
 
-                cmd.CommandText = "DELETE FROM keywords WHERE ROWID=@keyword_id";
+                cmd.CommandText = "DELETE FROM keywords WHERE ROWID=@keywords_id";
                 cmd.ExecuteNonQuery();
 
                 trans.Commit();
@@ -1126,28 +1130,30 @@ namespace simple_database
         /// <param name="tablename">Имя изменяемой таблицы</param>
         /// <param name="change_type">Текст типа изменения. Должно начинаться с "Изменение, Обновление, Удаление, Создание"</param>
         /// <param name="name">Новое название изменяемого элемента</param>
-        public static void SaveHistory(long class_id, long property_id, string tablename, string change_type, string name)
+        /// <param name="cmd0">Указывается, если нужно записть в другую БД чем текущая</param>
+        public static void SaveHistory(long class_id, long property_id, string tablename, string change_type, string name, SQLiteCommand cmd0 = null)
         {
-            cmd.Parameters["@class_id"].Value = class_id < 0 ? (long)VARS.main_form.tvClasses.SelectedNode.Tag : class_id;
-            cmd.Parameters["@id"].Value = property_id;
-            cmd.Parameters["@change"].Value = change_type;
-            cmd.Parameters["@tablename"].Value = tablename;
-            cmd.Parameters["@user"].Value = Environment.GetEnvironmentVariable("username");
-            cmd.Parameters["@name"].Value = name;
+            if (cmd0 == null) cmd0 = cmd;
+            cmd0.Parameters["@class_id"].Value = class_id < 0 ? (long)VARS.main_form.tvClasses.SelectedNode.Tag : class_id;
+            cmd0.Parameters["@id"].Value = property_id;
+            cmd0.Parameters["@change"].Value = change_type;
+            cmd0.Parameters["@tablename"].Value = tablename;
+            cmd0.Parameters["@user"].Value = Environment.GetEnvironmentVariable("username");
+            cmd0.Parameters["@name"].Value = name;
             TreeNode node = VARS.main_form.tvProps.SelectedNode;
-            cmd.Parameters["@path"].Value = node == null ? "" : PROPERTY.BuildFullNodePath(node);
-            cmd.CommandText = "INSERT INTO history VALUES(DATETIME('now', 'localtime'), @user, @class_id, @id, @tablename, @change, @name, @path)";
-            cmd.ExecuteNonQuery();
+            cmd0.Parameters["@path"].Value = node == null ? "" : PROPERTY.BuildFullNodePath(node);
+            cmd0.CommandText = "INSERT INTO history VALUES(DATETIME('now', 'localtime'), @user, @class_id, @id, @tablename, @change, @name, @path)";
+            cmd0.ExecuteNonQuery();
 
             while (true)
             {
-                cmd.CommandText = "SELECT count(*) FROM history";
-                long count = (long)cmd.ExecuteScalar();
+                cmd0.CommandText = "SELECT count(*) FROM history";
+                long count = (long)cmd0.ExecuteScalar();
 
                 if (count > HISTORY_MAX_ROWS)
                 {
-                    cmd.CommandText = "DELETE FROM history WHERE ROWID = (SELECT ROWID FROM history WHERE date = (SELECT MIN(date) FROM history));";
-                    cmd.ExecuteNonQuery();
+                    cmd0.CommandText = "DELETE FROM history WHERE ROWID = (SELECT ROWID FROM history WHERE date = (SELECT MIN(date) FROM history));";
+                    cmd0.ExecuteNonQuery();
                 }
                 else
                 {
@@ -1665,6 +1671,121 @@ namespace simple_database
             object o = cmd.ExecuteScalar();
             ret = (string)(o ?? "");
             return ret;
+        }
+
+        /// <summary>
+        /// Копирует каталог (класс) в другую БД как класс
+        /// </summary>
+        /// <param name="newDbName">Имя БД места назначения без расширения и пути</param>
+        /// <param name="classId">ID копируемого класса</param>
+        /// <returns>Сообщение об ошибке или null</returns>
+        public static string MoveClassToAnotherDatabase(string newDbName, long classId)
+        {
+            string ret = null;
+            string fullDbName = $@"{Application.StartupPath}\databases\{newDbName}.sqlite";
+
+            SQLiteConnection conn1 = new SQLiteConnection("");
+            conn1.ConnectionString = $@"Data Source={fullDbName}; foreign keys=true; nolock=1; auto_vacuum=1, version=3;";
+            conn1.Open();
+
+            
+            SQLiteCommand cmd1 = (SQLiteCommand)cmd.Clone();
+            cmd1.Connection = conn1;
+
+            // проверим, если класс уже существует
+            cmd1.CommandText = "SELECT id FROM classes WHERE name=@className";
+            cmd1.Parameters["@className"].Value = VARS.main_form.tvClasses.SelectedNode.Text;
+            object o = cmd1.ExecuteScalar();
+            if (o == null)
+            {
+                SQLiteTransaction t1 = conn1.BeginTransaction();
+
+                try
+                {
+                    long src_class_rowid = (long)VARS.main_form.tvClasses.SelectedNode.Tag;
+                    long dst_class_rowid = SaveClass(-1, VARS.main_form.tvClasses.SelectedNode.Text, "", cmd1);
+                    MoveClassToAnotherDatabaseRecursively(cmd1, VARS.main_form.tvProps.Nodes[0], dst_class_rowid, -1);
+                    DeleteClass(src_class_rowid);
+
+                    t1.Commit();
+                }
+                catch (Exception ex)
+                {
+                    t1.Rollback();
+                    ret = ex.ToString();
+                }
+
+                t1 = null;
+            }
+            else
+            {
+                ret = "В БД места назначения уже есть оглавление с таким же названием. Пожалуйста, переименуйте перед перемещением";
+            }
+            
+            conn1.Close();
+            cmd1 = null;
+            conn1 = null;
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Рекурсивная функция переноса данных к функции MoveClassToAnotherDatabase()
+        /// </summary>
+        /// <param name="cmd0">Ссылка на команду связанную с БД-приемником</param>
+        /// <param name="node">Элемент копируемого TreeView</param>
+        /// <param name="class_id">ROWID класса (не меняется на протяжении всего процесса)</param>
+        /// <param name="parent_id">ROWID родительской записи</param>
+        private static void MoveClassToAnotherDatabaseRecursively(SQLiteCommand cmd0, TreeNode node, long class_id, long parent_id)
+        {
+            SQLiteDataReader dr = null;
+            try
+            {
+                foreach (TreeNode n in node.Nodes)
+                {
+                    cmd.Parameters["@id"].Value = (long)n.Tag;
+                    cmd.CommandText = "SELECT * FROM properties WHERE id=@id";
+                    dr = cmd.ExecuteReader(CommandBehavior.SingleRow);
+                    if (dr.Read())
+                    {
+                        // вставим элемент каталога и его содержимое
+                        cmd0.Parameters["@name"].Value = dr["name"];
+                        cmd0.Parameters["@description"].Value = dr["description"];
+                        cmd0.Parameters["@type"].Value = dr["type"];
+                        cmd0.Parameters["@parent_id"].Value = parent_id;
+                        if (parent_id == -1) cmd0.Parameters["@parent_id"].Value = DBNull.Value;
+                        cmd0.Parameters["@class_id"].Value = class_id;
+
+                        cmd0.CommandText = "INSERT INTO properties (name, description, type, parent, class) VALUES (@name, @description, @type, @parent_id, @class_id)";
+                        cmd0.ExecuteNonQuery();
+
+                        long prop_rowid = cmd0.Connection.LastInsertRowId;
+                        dr.Close();
+                        dr = null;
+
+                        // если это плагин или вложение, то скопируем и их
+                        cmd.CommandText = "SELECT * FROM attachments WHERE property=@id";
+                        dr = cmd.ExecuteReader(CommandBehavior.SingleRow);
+                        if (dr.Read())
+                        {
+                            cmd0.Parameters["@property_id"].Value = prop_rowid;
+                            cmd0.Parameters["@fileName"].Value = dr["filename"];
+                            cmd0.Parameters["@data"].Value = dr["data"];
+                            cmd0.CommandText = "INSERT INTO attachments (property, filename, data) VALUES (@property_id, @fileName, @data)";
+                            cmd0.ExecuteNonQuery();
+                        }
+                        dr.Close();
+                        dr = null;
+
+                        MoveClassToAnotherDatabaseRecursively(cmd0, n, class_id, prop_rowid);
+                    }
+                }
+            }
+            finally
+            {
+                dr?.Close();
+                dr = null;
+            }
         }
     }
 }

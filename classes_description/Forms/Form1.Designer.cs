@@ -49,6 +49,7 @@
             this.tsmiMoveDown = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiRenumering = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDenumering = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDuplicate = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.инструментыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSearch = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,7 +91,6 @@
             this.tvClasses = new System.Windows.Forms.TreeView();
             this.ctxMenuCatalogues = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiMoveClassToAnotherDB = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiCreateDbFromClass = new System.Windows.Forms.ToolStripMenuItem();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.btnChangeDb = new System.Windows.Forms.Button();
@@ -103,7 +103,6 @@
             this.slblEmpty = new System.Windows.Forms.ToolStripStatusLabel();
             this.slblVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.tsmiDuplicate = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panelDescriptionHolder.SuspendLayout();
             this.pnlDescriptionHeader.SuspendLayout();
@@ -360,7 +359,7 @@
             this.tsmiAttachments,
             this.tsmiPlugin});
             this.ctxMenuCharters.Name = "ctxMenuCharters";
-            this.ctxMenuCharters.Size = new System.Drawing.Size(219, 214);
+            this.ctxMenuCharters.Size = new System.Drawing.Size(219, 192);
             this.ctxMenuCharters.Opening += new System.ComponentModel.CancelEventHandler(this.ctxMenuCharters_Opening);
             // 
             // tsmiMoveUp
@@ -394,6 +393,13 @@
             this.tsmiDenumering.Size = new System.Drawing.Size(218, 22);
             this.tsmiDenumering.Text = "Денумеровать";
             this.tsmiDenumering.Click += new System.EventHandler(this.tsmiDenumering_Click);
+            // 
+            // tsmiDuplicate
+            // 
+            this.tsmiDuplicate.Name = "tsmiDuplicate";
+            this.tsmiDuplicate.Size = new System.Drawing.Size(218, 22);
+            this.tsmiDuplicate.Text = "Дублировать";
+            this.tsmiDuplicate.Click += new System.EventHandler(this.tsmiDuplicate_Click);
             // 
             // toolStripSeparator1
             // 
@@ -848,22 +854,16 @@
             // ctxMenuCatalogues
             // 
             this.ctxMenuCatalogues.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiMoveClassToAnotherDB,
-            this.tsmiCreateDbFromClass});
+            this.tsmiMoveClassToAnotherDB});
             this.ctxMenuCatalogues.Name = "ctxMenuCatalogues";
-            this.ctxMenuCatalogues.Size = new System.Drawing.Size(204, 48);
+            this.ctxMenuCatalogues.Size = new System.Drawing.Size(204, 26);
             // 
             // tsmiMoveClassToAnotherDB
             // 
             this.tsmiMoveClassToAnotherDB.Name = "tsmiMoveClassToAnotherDB";
             this.tsmiMoveClassToAnotherDB.Size = new System.Drawing.Size(203, 22);
             this.tsmiMoveClassToAnotherDB.Text = "Перенести в другую БД";
-            // 
-            // tsmiCreateDbFromClass
-            // 
-            this.tsmiCreateDbFromClass.Name = "tsmiCreateDbFromClass";
-            this.tsmiCreateDbFromClass.Size = new System.Drawing.Size(203, 22);
-            this.tsmiCreateDbFromClass.Text = "Создать БД из Каталога";
+            this.tsmiMoveClassToAnotherDB.Click += new System.EventHandler(this.tsmiMoveClassToAnotherDB_Click);
             // 
             // panel7
             // 
@@ -1005,13 +1005,6 @@
             this.slblVersion.Size = new System.Drawing.Size(64, 17);
             this.slblVersion.Text = "slblVersion";
             // 
-            // tsmiDuplicate
-            // 
-            this.tsmiDuplicate.Name = "tsmiDuplicate";
-            this.tsmiDuplicate.Size = new System.Drawing.Size(218, 22);
-            this.tsmiDuplicate.Text = "Дублировать";
-            this.tsmiDuplicate.Click += new System.EventHandler(this.tsmiDuplicate_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1118,7 +1111,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiMoveClassToAnotherDB;
         private System.Windows.Forms.Button btnChangeDb;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ToolStripMenuItem tsmiCreateDbFromClass;
         public System.Windows.Forms.Button btnPropForward;
         public System.Windows.Forms.Button btnPropBackward;
         private System.Windows.Forms.ToolStripMenuItem tsmiDuplicate;

@@ -958,6 +958,36 @@ namespace simple_database
         {
             PROPERTY.Create(this, duplicate: true);
         }
+
+        /// <summary>
+        /// Перенести каталог в другую БД
+        /// </summary>
+        private void tsmiMoveClassToAnotherDB_Click(object sender, EventArgs e)
+        {
+            frmDbManager frm = new frmDbManager();
+            frm.ShowDialog();
+            if (frm.dbName == null) return;
+
+            if (Path.GetFileNameWithoutExtension(DATABASE.FileName).ToUpper() == frm.dbName.ToUpper())
+            {
+                MessageBox.Show("Нельзя копировать в ту же самую базу данных", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string result = DATABASE.MoveClassToAnotherDatabase(frm.dbName, (long)tvClasses.SelectedNode.Tag);
+
+            if (result != null)
+            {
+                MessageBox.Show($"В процессе копирования возникла  ошибка '{result}'", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                tvClasses.SelectedNode.Remove();
+                tvProps.Nodes.RemoveAt(0);
+
+                MessageBox.Show("Выполнено");
+            }
+        }
     }
 
 
