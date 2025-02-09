@@ -274,6 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="main_icon.ico" />
+    <None Include="Resources\copy.png" />
     <None Include="Resources\configure2-16-grayed.png" />
     <None Include="Resources\configure-16-grayed.png" />
     <None Include="Resources\down-green-16-grayed.png" />

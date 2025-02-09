@@ -117,18 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="about_16" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAEeSURBVDhPhdK7SkNBFIXhXQnRNk9g6oC1haRQJJLCxsJSxMIu+gpa+wBW3tp0voKNVoKdYqEg
-        gpWNN7z9S/aElXhCDnxhWLPXcMiZWOx2BvC0cYJbfCStlbX/zfcXEQ2c4WcMzTQGDuBp4gnDw6fYwKNl
-        otlmdmMSN/CBopVDR5YV6qgb2xlUucYB3i1z6sa5BYVecQ9buMysirrxYkHxgMN8fX2V4f1C3ZGv18sD
-        Vi0bpm5cWeA284B9y4apG7sWuJk8QH9k1b7sIOqougMreYDuwX1mTp16uUjzeIUPfOEOusqeyxsW/rr6
-        yUN6uTmODp3r97K8hE/44LettXeBLqZKObuxjvIpn3GMFmqYTjUvOT3LWMMsJqqGRuvEL7GN2yIqZ8dK
-        AAAAAElFTkSuQmCC
-</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Button_Add_icon_16_grayed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Button-Add-icon-16-grayed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="denumbering_16" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKM+VkT1I
@@ -231,19 +224,15 @@
         eXZzWQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="arrow_down_16" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="about_16" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAIaSURBVDhPY3Av8KEIYwhYeycz9q65/Klk9pl/IFw8+zQY96y69AFdLQhjCPCrezImtG35P3/v
-        FRSc0LbpH7paEMYQ4FG0Zwwqnf+/a/kBFBxSNo84A/iUXRg98+b+L5249n8JEvYtmIvbAKuk+T5KQTPq
-        lYLn1SuHLWpwyl74P6F2zv/EurlgnFA7+7973uJ/KuGLgWrm1CsHTa+PqVljBDfAOqpzql9m9/+g3L7/
-        IQUT/4cVT/0fXjrjf2T5bDAOK5nxP7Royv+Q/An/A3N6/8eWTfuf3rRmAtwADilTQWmjkEdW4bX/XZK7
-        /vvmTvsfUjLvf3jFIjAOLpkLFJv6P6J4+v+grJ7/xu4pL/gU7cXhBoAwu6SpvaZL1h+nJKAtRQv+x9Su
-        +Z/csvl/KjBGEhvX/Y8oW/zfLKz9v6xFwl92SRMPmD64ASAMjIFWm7i+/37FK/9HNWz7n9i2F4j3gNkg
-        MZAcn4JNH7IeFANYBBRZZM3CT8Q27/ifM+HY/9KZ58A4G8iOadrxX8E85ByrgBIbsh4UA0CYVVhTxS6m
-        /lPl3Ev/21ff/9++6t7/CiDbMb7xC5uQijq6ehQODHOIqiWkd2/+P2nL8/8TgTizd/t/TjGVFGxqMQRg
-        WFTddGXd0qv/65dd/y+pbb4KmxoQxioIwkwcAgK63gkPDQNTHzBx8AlgUwPCWAVhWNrQxkjGyM4QmxwE
-        +zAAANkWjENueZhTAAAAAElFTkSuQmCC
+        YQUAAAEeSURBVDhPhdK7SkNBFIXhXQnRNk9g6oC1haRQJJLCxsJSxMIu+gpa+wBW3tp0voKNVoKdYqEg
+        gpWNN7z9S/aElXhCDnxhWLPXcMiZWOx2BvC0cYJbfCStlbX/zfcXEQ2c4WcMzTQGDuBp4gnDw6fYwKNl
+        otlmdmMSN/CBopVDR5YV6qgb2xlUucYB3i1z6sa5BYVecQ9buMysirrxYkHxgMN8fX2V4f1C3ZGv18sD
+        Vi0bpm5cWeA284B9y4apG7sWuJk8QH9k1b7sIOqougMreYDuwX1mTp16uUjzeIUPfOEOusqeyxsW/rr6
+        yUN6uTmODp3r97K8hE/44LettXeBLqZKObuxjvIpn3GMFmqYTjUvOT3LWMMsJqqGRuvEL7GN2yIqZ8dK
+        AAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="database_deny_16_grayed" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -270,7 +259,6 @@
         AAG/iOT1TpUfAAAAAElFTkSuQmCC
 </value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="down-green-16-grayed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\down-green-16-grayed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -371,6 +359,9 @@
         L8aQjHeK2HNGr5ZP4x/sP3OO40gspAAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="configure2-16-grayed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\configure2-16-grayed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="database_16" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -405,9 +396,6 @@
         duUwiOX7Ce2/Ri13bvZ7ODwTFej8morXXivdhq8MMGOHGxyeiQpM9eQ+JN9xcDPVY7SLCv6Pph/I1HYd
         3IVZSgAAAABJRU5ErkJggg==
 </value>
-  </data>
-  <data name="Button_Add_icon_16_grayed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Button-Add-icon-16-grayed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="database_16_grayed" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -503,6 +491,21 @@
         Z+UVwnA6BPswAABPnrKD1GWWagAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="arrow_down_16" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAIaSURBVDhPY3Av8KEIYwhYeycz9q65/Klk9pl/IFw8+zQY96y69AFdLQhjCPCrezImtG35P3/v
+        FRSc0LbpH7paEMYQ4FG0Zwwqnf+/a/kBFBxSNo84A/iUXRg98+b+L5249n8JEvYtmIvbAKuk+T5KQTPq
+        lYLn1SuHLWpwyl74P6F2zv/EurlgnFA7+7973uJ/KuGLgWrm1CsHTa+PqVljBDfAOqpzql9m9/+g3L7/
+        IQUT/4cVT/0fXjrjf2T5bDAOK5nxP7Royv+Q/An/A3N6/8eWTfuf3rRmAtwADilTQWmjkEdW4bX/XZK7
+        /vvmTvsfUjLvf3jFIjAOLpkLFJv6P6J4+v+grJ7/xu4pL/gU7cXhBoAwu6SpvaZL1h+nJKAtRQv+x9Su
+        +Z/csvl/KjBGEhvX/Y8oW/zfLKz9v6xFwl92SRMPmD64ASAMjIFWm7i+/37FK/9HNWz7n9i2F4j3gNkg
+        MZAcn4JNH7IeFANYBBRZZM3CT8Q27/ifM+HY/9KZ58A4G8iOadrxX8E85ByrgBIbsh4UA0CYVVhTxS6m
+        /lPl3Ev/21ff/9++6t7/CiDbMb7xC5uQijq6ehQODHOIqiWkd2/+P2nL8/8TgTizd/t/TjGVFGxqMQRg
+        WFTddGXd0qv/65dd/y+pbb4KmxoQxioIwkwcAgK63gkPDQNTHzBx8AlgUwPCWAVhWNrQxkjGyM4QmxwE
+        +zAAANkWjENueZhTAAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="Gear_icon_16_grayed" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABg2lDQ1BJQ0MgcHJvZmlsZQAAKM+VkTlI
@@ -580,7 +583,7 @@
         48MAAB+PseCP5FMSAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="configure2-16-grayed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\configure2-16-grayed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

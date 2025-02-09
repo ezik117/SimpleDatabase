@@ -50,7 +50,7 @@ namespace simple_database
 
             // ищем все параметры
             MatchCollection mm = Regex.Matches(code, @"{#SET\s+([A-Z]+)=(.+)(?=#})", RegexOptions.Multiline);
-            int shorten = 0;
+            //int shorten = 0;
             foreach (Match m in mm)
             {
                 if (m.Groups.Count == 3)
@@ -65,7 +65,6 @@ namespace simple_database
             // получаем список пользовательских параметров
             user_data.Clear();
             mm = Regex.Matches(code, @"{#ASK\s+NAME=""(.*?)""\s+TYPE=""(.*?)""\s+TEXT=""(.*?)""\s+VALUE=""(.*?)""\s*#}", RegexOptions.Multiline);
-            shorten = 0;
             foreach (Match m in mm)
             {
                 if (m.Groups.Count == 5)
@@ -210,7 +209,7 @@ namespace simple_database
             if (!parameters.ContainsKey("REFERENCES")) parameters.Add("REFERENCES", "");
 
             // подготавливаем код к компиляции
-            CodeDomProvider provider = provider = CodeDomProvider.CreateProvider("CSharp");
+            CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
             CompilerParameters cp = null;
             CompilerResults cr = null;
             string[] references = parameters["REFERENCES"].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);

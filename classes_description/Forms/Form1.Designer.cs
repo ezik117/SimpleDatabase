@@ -359,7 +359,7 @@
             this.tsmiAttachments,
             this.tsmiPlugin});
             this.ctxMenuCharters.Name = "ctxMenuCharters";
-            this.ctxMenuCharters.Size = new System.Drawing.Size(219, 192);
+            this.ctxMenuCharters.Size = new System.Drawing.Size(219, 214);
             this.ctxMenuCharters.Opening += new System.ComponentModel.CancelEventHandler(this.ctxMenuCharters_Opening);
             // 
             // tsmiMoveUp
@@ -396,6 +396,7 @@
             // 
             // tsmiDuplicate
             // 
+            this.tsmiDuplicate.Image = global::simple_database.Properties.Resources.copy;
             this.tsmiDuplicate.Name = "tsmiDuplicate";
             this.tsmiDuplicate.Size = new System.Drawing.Size(218, 22);
             this.tsmiDuplicate.Text = "Дублировать";
