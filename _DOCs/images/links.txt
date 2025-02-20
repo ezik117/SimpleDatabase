@@ -58,3 +58,6 @@ configure
 https://www.iconarchive.com/show/ios7-style-metro-ui-icons-by-igh0zt/MetroUI-Folder-OS-Configure-Alt-icon.html
 https://www.iconarchive.com/show/papirus-apps-icons-by-papirus-team/applications-development-icon.html
 
+sync on cloud
+https://www.iconarchive.com/show/small-n-flat-icons-by-paomedia/cloud-sync-icon.html
+

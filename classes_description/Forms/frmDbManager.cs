@@ -9,13 +9,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Imaging;
+using System.IO.Compression;
+using System.Threading;
+using Google.Apis.Drive.v3;
 
 namespace simple_database
 {
     public partial class frmDbManager : Form
     {
         /// <summary>
-        /// Имя выбранной БД
+        /// Имя выделенной в БД таблице (без пути и расширения)
         /// </summary>
         public string dbName;
 
@@ -45,7 +48,7 @@ namespace simple_database
             {
                 dbDefaultIcon = Properties.Resources.database_24;
             }
-            catch {}
+            catch { }
 
             dgv.AutoGenerateColumns = false;
             dgv.RowTemplate.Height = 30;
@@ -82,7 +85,7 @@ namespace simple_database
             {
                 foreach (DataGridViewRow r in dgv.Rows)
                 {
-                    if ((string)r.Cells["dbmgrFile"].Value == dbName)
+                    if ((string)r.Cells["dbmgrFile"].Value == DATABASE.Name)
                     {
                         r.Selected = true;
                     }
@@ -113,6 +116,12 @@ namespace simple_database
             if (dgv.SelectedRows.Count == 0) return;
             if (pnlDbNameAction.Visible) return;
 
+            if (DATABASE.Name == dbName)
+            {
+                MessageBox.Show("Нельзя переименовать открытую базу данных.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             tbDbName.Text = (string)dgv.SelectedRows[0].Cells["dbmgrFile"].Value;
             old_dbName = tbDbName.Text;
             pnlDbNameAction.Visible = true;
@@ -128,28 +137,27 @@ namespace simple_database
             if (dgv.SelectedRows.Count == 0) return;
             if (pnlDbNameAction.Visible) return;
 
-            string current_db = (string)dgv.SelectedRows[0].Cells["dbmgrFile"].Value;
-            if (dbName == current_db)
+            if (dbName == DATABASE.Name)
             {
                 MessageBox.Show("Нельзя удалить открытую базу данных!", "Ошибка",
                                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (MessageBox.Show($"База данных '{current_db.ToUpper()}' будет безвозратно удалена!\r\nВЫ УВЕРЕНЫ?",
+            if (MessageBox.Show($"База данных '{dbName.ToUpper()}' будет безвозратно удалена!\r\nВЫ УВЕРЕНЫ?",
                 "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.No)
                 return;
 
-            if (MessageBox.Show($"Пожалуйста, еще раз подтвердите удаление БД '{current_db.ToUpper()}'. Действие необратимо.",
+            if (MessageBox.Show($"Пожалуйста, еще раз подтвердите удаление БД '{dbName.ToUpper()}'. Действие необратимо.",
                 "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.No)
-                            return;
+                return;
 
             try
             {
-                File.Delete($@"{ Application.StartupPath}\databases\{current_db}.sqlite");
+                File.Delete($@"{ Application.StartupPath}\databases\{dbName}.sqlite");
                 dgv.Rows.Remove(dgv.SelectedRows[0]);
 
-                DATABASE.DeleteDatabaseRecord(current_db);
+                DATABASE.DeleteDatabaseRecord(dbName);
             }
             catch
             {
@@ -221,17 +229,11 @@ namespace simple_database
                 }
                 else if (action == 2) // переименовать БД
                 {
-                    if (dbName == old_dbName)
-                    {
-                        MessageBox.Show("Нельзя переименовать открытую базу данных.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
                     if (old_dbName == "default")
                     {
-                        if (MessageBox.Show("Вы собираетесь переименовать базу данных открываемую по умолчанию. Это может привести к непредсказуемым последствиям. Продолжить?", "Переименование",
+                        if (MessageBox.Show("Вы собираетесь переименовать базу данных открываемую по умолчанию. Должна быть как минимум одна база 'default'. Это может привести к непредсказуемым последствиям. Продолжить?", "Переименование",
                             MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.No)
-                                                    return;
+                            return;
                     }
 
                     try
@@ -292,7 +294,7 @@ namespace simple_database
 
             if (MessageBox.Show("Удалить пиктограмму для выбранной базы данных?", "Удаление",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.No)
-                    return;
+                return;
 
             string current_db = (string)dgv.SelectedRows[0].Cells["dbmgrFile"].Value;
 
@@ -360,6 +362,41 @@ namespace simple_database
         private void btnConfigure_Click(object sender, EventArgs e)
         {
             frmGlobalSettings frm = new frmGlobalSettings();
+            frm.ShowDialog();
+        }
+
+        /// <summary>
+        /// Выбрана другая строка - сохраним в переменной dbName имя выбранное БД
+        /// </summary>
+        private void dgv_SelectionChanged(object sender, EventArgs e)
+        {
+            dbName = (string)dgv.SelectedRows[0].Cells["dbmgrFile"].Value;
+        }
+
+        /// <summary>
+        /// Показать панель синхронизации БД с облаком
+        /// </summary>
+        private void btnSync_Click(object sender, EventArgs e)
+        {
+            // проверим настройки
+            BACKUPS.GdConfigInfo info = BACKUPS.GdCloud.LoadConfig();
+            if (!info.activated)
+            {
+                MessageBox.Show("Нет ни одного активного облачного аккаунта. Пожалуйста, вначале настройте.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (info.sakey == "")
+            {
+                MessageBox.Show("Не задан JSON файл Drive System Account. Пожалуйста, вначале настройте.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (info.folderid == "")
+            {
+                MessageBox.Show("Не задана удаленная папка для хранения данных. Пожалуйста, вначале настройте.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            frmDbCloudSync frm = new frmDbCloudSync();
             frm.ShowDialog();
         }
     }

@@ -29,9 +29,14 @@ namespace simple_database
         public static bool property_update_finished;
 
         /// <summary>
-        /// Папка temp программы
+        /// Полный путь к папке 'temp' программы
         /// </summary>
         public static string temp_folder;
+
+        /// <summary>
+        /// Полный путь к папке 'databases' программы
+        /// </summary>
+        public static string db_folder;
 
         /// <summary>
         /// Флаг, показывающий является ли переход результатом нажатия кнопок навигации по истории

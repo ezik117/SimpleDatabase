@@ -36,6 +36,7 @@ namespace simple_database
 
             VARS.main_form = this;
             VARS.temp_folder = Path.Combine(Application.StartupPath, "temp");
+            VARS.db_folder = Path.Combine(Application.StartupPath, "databases");
 
             slblEmpty.Text = "";
             slblEmpty.Spring = true;
@@ -62,7 +63,7 @@ namespace simple_database
             };
 
             // очистим папку TEMP, если там что то есть
-            CleanUpTemp();
+            HELPER.CleanUpTemp();
             
             // создаем или открываем БД по умолчанию
             DATABASE.Init();
@@ -105,24 +106,6 @@ namespace simple_database
         private void ParamTextEditor_OnContentChanged(RichTextBox sender)
         {
             if (btnDescSave.ImageKey != "notsaved") btnDescSave.ImageKey = "notsaved";
-        }
-
-        // Очистка папки temp
-        private void CleanUpTemp()
-        {
-            try
-            {
-                string[] files = System.IO.Directory.GetFiles(VARS.temp_folder);
-                foreach (string file in files)
-                {
-                    try
-                    {
-                        System.IO.File.Delete(file);
-                    }
-                    catch { };
-                }
-            }
-            catch { };
         }
 
         // Добавить класс

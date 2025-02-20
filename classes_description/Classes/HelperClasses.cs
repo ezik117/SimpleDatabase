@@ -373,6 +373,26 @@ namespace simple_database
     public static class HELPER
     {
         /// <summary>
+        /// Очистка папки temp
+        /// </summary>
+        public static void CleanUpTemp()
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(VARS.temp_folder);
+                foreach (string file in files)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                    }
+                    catch { };
+                }
+            }
+            catch { };
+        }
+
+        /// <summary>
         /// Добавляет к стандартному контекстному меню редактора, подменю подсветки синтаксиса
         /// </summary>
         public static void AddPropertiesContextMenuItems()

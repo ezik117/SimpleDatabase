@@ -51,6 +51,16 @@ namespace simple_database
         public static string FileName { get; private set; }
 
         /// <summary>
+        /// Имя файла БД без расширения и пути
+        /// </summary>
+        public static string Name {
+            get
+            {
+                return Path.GetFileNameWithoutExtension(FileName);
+            }
+        }
+
+        /// <summary>
         /// Для хранения разных наборов данных
         /// </summary>
         public static DataSet ds = new DataSet();
@@ -76,6 +86,11 @@ namespace simple_database
         /// Таблица для хранения ключевых слов текущего выбранного узла
         /// </summary>
         public static DataTable keywords;
+
+        /// <summary>
+        /// Переменная для хранения имени текущей открытой БД для функций CloseAllTemporarily() RestoreAllFromTemporary() 
+        /// </summary>
+        private static string SavedDbName = "";
 
 
         // *** PUBLIC мЕТОДЫ ****************************************
@@ -133,8 +148,7 @@ namespace simple_database
             keywords = ds.Tables.Add("keywords");
 
             // открытие специальной БД о всех БД
-            dblist_conn.ConnectionString = $@"Data Source={Application.StartupPath}\databases\databases.sqlite; foreign keys=true; nolock=1; auto_vacuum=1, version=3;";
-            dblist_conn.Open();
+            OpenSystemDb();
 
             dblist_cmd.Parameters.Add("@name", DbType.String).IsNullable = true;
             dblist_cmd.Parameters.Add("@oldName", DbType.String).IsNullable = true;
@@ -145,21 +159,6 @@ namespace simple_database
             dblist_cmd.Parameters.Add("@group", DbType.String).IsNullable = true;
             dblist_cmd.Parameters.Add("@key", DbType.String).IsNullable = true;
             dblist_cmd.Parameters.Add("@value", DbType.String).IsNullable = true;
-
-            dblist_cmd.CommandText = @"CREATE TABLE IF NOT EXISTS databases (
-                                name TEXT,
-                                icon BLOB DEFAULT NULL,
-                                icon_filename TEXT,
-                                selected INTEGER DEFAULT 0,
-                                creation_date DATETIME)";
-            dblist_cmd.ExecuteNonQuery();
-
-            dblist_cmd.CommandText = @"CREATE TABLE IF NOT EXISTS settings (
-                                sgroup TEXT UNIQUE,
-                                key TEXT,
-                                value TEXT)";
-            dblist_cmd.ExecuteNonQuery();
-
         }
 
         /// <summary>
@@ -229,6 +228,31 @@ namespace simple_database
 
             string lastupdate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             c.CommandText = $"INSERT INTO settings VALUES('LASTUPDATE','{lastupdate}')";
+            c.ExecuteNonQuery();
+
+            c.CommandText = @"CREATE TABLE IF NOT EXISTS favourites (
+                                class TEXT,
+                                class_id INTEGER,
+                                property_id INTEGER,
+                                FOREIGN KEY(class_id) REFERENCES classes(id) ON DELETE CASCADE,
+                                FOREIGN KEY(property_id) REFERENCES properties(id) ON DELETE CASCADE)";
+            c.ExecuteNonQuery();
+
+            c.CommandText = "CREATE TABLE IF NOT EXISTS keywords (keyword TEXT, class_id INTEGER)";
+            c.ExecuteNonQuery();
+
+            c.CommandText = "CREATE TABLE IF NOT EXISTS keywords_binding (keyword_id INTEGER, property_id INTEGER)";
+            c.ExecuteNonQuery();
+
+            c.CommandText = @"CREATE TABLE IF NOT EXISTS history (
+                                date DATETIME,
+                                user TEXT,
+                                class_id INTEGER,
+                                row_id INTEGER,
+                                tablename TEXT,
+                                change TEXT,
+                                name TEXT,
+                                path TEXT)";
             c.ExecuteNonQuery();
 
             c.Dispose();
@@ -322,6 +346,7 @@ namespace simple_database
         public static void OpenOrCreate(string fileName)
         {
             Close();
+            cmd.Connection = conn;
 
             CreateFolders();
 
@@ -335,32 +360,6 @@ namespace simple_database
 
             conn.Open();
             da = new SQLiteDataAdapter("SELECT * FROM favourites ORDER BY ", conn);
-
-            // добавляем таблицы которые должны быть, но их может еще нет
-            cmd.CommandText = @"CREATE TABLE IF NOT EXISTS favourites (
-                                class TEXT,
-                                class_id INTEGER,
-                                property_id INTEGER,
-                                FOREIGN KEY(class_id) REFERENCES classes(id) ON DELETE CASCADE,
-                                FOREIGN KEY(property_id) REFERENCES properties(id) ON DELETE CASCADE)";
-            cmd.ExecuteNonQuery();
-
-            cmd.CommandText = "CREATE TABLE IF NOT EXISTS keywords (keyword TEXT, class_id INTEGER)";
-            cmd.ExecuteNonQuery();
-
-            cmd.CommandText = "CREATE TABLE IF NOT EXISTS keywords_binding (keyword_id INTEGER, property_id INTEGER)";
-            cmd.ExecuteNonQuery();
-
-            cmd.CommandText = @"CREATE TABLE IF NOT EXISTS history (
-                                date DATETIME,
-                                user TEXT,
-                                class_id INTEGER,
-                                row_id INTEGER,
-                                tablename TEXT,
-                                change TEXT,
-                                name TEXT,
-                                path TEXT)";
-            cmd.ExecuteNonQuery();
 
             // загрузим избранное
             ReadFavourites();
@@ -385,11 +384,35 @@ namespace simple_database
         }
 
         /// <summary>
+        /// Закрывает системное соединение с БД 'databases'
+        /// </summary>
+        public static void CloseSystemDb()
+        {
+            if (dblist_conn?.State == ConnectionState.Open) dblist_conn?.Close();
+            dblist_cmd.Connection = null;
+        }
+
+        /// <summary>
+        /// Открывает системное соединение с БД 'databases'
+        /// </summary>
+        public static void OpenSystemDb()
+        {
+            dblist_conn.ConnectionString = $@"Data Source={Application.StartupPath}\databases\databases.sqlite; foreign keys=true; nolock=1; auto_vacuum=1, version=3;";
+            dblist_conn.Open();
+
+            if (dblist_cmd != null) dblist_cmd.Connection = dblist_conn;
+        }
+
+        /// <summary>
         /// Закрывает текущее соединение с БД.
         /// </summary>
         public static void Close()
         {
+            if (FileName == "") return;
+
             if (conn?.State == ConnectionState.Open) conn?.Close();
+            cmd.Connection = null;
+            FileName = "";
         }
 
         /// <summary>
@@ -403,10 +426,33 @@ namespace simple_database
             dblist_conn?.Close();
             dblist_conn?.Dispose();
             dblist_cmd?.Dispose();
+            FileName = "";
             //conn = null;
             //cmd = null;
             //dblist_conn = null;
             //dblist_cmd = null;
+        }
+
+        /// <summary>
+        /// Закрывает все соединения с базами данных включая системную.
+        /// Запоминает последнюю открытую БД.
+        /// После зарытия можно открыть все обратно вызывав функцию RestoreAllFromTemporary()
+        /// </summary>
+        public static void CloseAllTemporarily()
+        {
+            SavedDbName = DATABASE.Name;
+            DATABASE.Close();
+            DATABASE.CloseSystemDb();
+        }
+
+        /// <summary>
+        /// Восстанавливает последнюю открытую БД включая системную после вызова CloseAllTemporarily(),
+        /// а также переоткрывает последнюю БД
+        /// </summary>
+        public static void RestoreAllFromTemporary()
+        {
+            DATABASE.OpenSystemDb();
+            DATABASE.OpenOrCreate(SavedDbName);
         }
 
         /// <summary>
@@ -1786,6 +1832,61 @@ namespace simple_database
                 dr?.Close();
                 dr = null;
             }
+        }
+
+        /// <summary>
+        /// Сохраняет значение глобальных настроек в БД 'databases'
+        /// </summary>
+        /// <param name="group">Тип группы (совпадает с именем TabPage)</param>
+        /// <param name="key">Имя ключа</param>
+        /// <param name="value">Значение (по умолчанию пустая строка)</param>
+        /// <returns>пустая строка - если сохранено, иначе текст ошибки</returns>
+        public static string GlobalSettingsWrite(string group, string key, string value = "")
+        {
+            string ret = "";
+
+            try
+            {
+                dblist_cmd.Parameters["@group"].Value = group;
+                dblist_cmd.Parameters["@key"].Value = key;
+                dblist_cmd.Parameters["@value"].Value = value;
+                dblist_cmd.CommandText = "SELECT ROWID FROM settings WHERE sgroup=@group AND key=@key";
+                object o = dblist_cmd.ExecuteScalar();
+                if (o == null)
+                {
+                    dblist_cmd.CommandText = "INSERT INTO settings VALUES (@group, @key, @value)";
+                }
+                else
+                {
+                    dblist_cmd.CommandText = "UPDATE settings SET value=@value WHERE sgroup=@group AND key=@key";
+                }
+                dblist_cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                ret = ex.Message;
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Считывает значение глобальной переменной
+        /// </summary>
+        /// <param name="group">Тип группы (совпадает с именем TabPage)</param>
+        /// <param name="key">Имя ключа</param>
+        /// <returns>Пустая строка - если параметр не существует, иначе его значение</returns>
+        public static string GlobalSettingsRead(string group, string key)
+        {
+            string ret = "";
+
+            dblist_cmd.Parameters["@group"].Value = group;
+            dblist_cmd.Parameters["@key"].Value = key;
+            dblist_cmd.CommandText = "SELECT value FROM settings WHERE sgroup=@group AND key=@key";
+            object o = dblist_cmd.ExecuteScalar();
+            ret = (string)(o ?? "");
+
+            return ret;
         }
     }
 }

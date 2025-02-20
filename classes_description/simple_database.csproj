@@ -77,6 +77,7 @@
     <Compile Include="Classes\PluginsManager.cs" />
     <Compile Include="Classes\PropertyInfo.cs" />
     <Compile Include="Classes\ClassItem.cs" />
+    <Compile Include="Classes\CloudBackup.cs" />
     <Compile Include="Forms\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,12 +163,6 @@
     <Compile Include="Forms\frmPluginEditor.Designer.cs">
       <DependentUpon>frmPluginEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMoveBetweenDb.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMoveBetweenDb.Designer.cs">
-      <DependentUpon>frmMoveBetweenDb.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\frmConfirmPropertyMove.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,6 +180,18 @@
     </Compile>
     <Compile Include="Forms\frmSyntaxRuleEditor.Designer.cs">
       <DependentUpon>frmSyntaxRuleEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmStatusedProgressBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmStatusedProgressBar.Designer.cs">
+      <DependentUpon>frmStatusedProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDbCloudSync.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDbCloudSync.Designer.cs">
+      <DependentUpon>frmDbCloudSync.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -207,6 +214,9 @@
     <EmbeddedResource Include="Forms\frmClassEdit.resx">
       <DependentUpon>frmClassEdit.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDbCloudSync.resx">
+      <DependentUpon>frmDbCloudSync.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDbManager.resx">
       <DependentUpon>frmDbManager.cs</DependentUpon>
     </EmbeddedResource>
@@ -215,9 +225,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmKeywords.resx">
       <DependentUpon>frmKeywords.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMoveBetweenDb.resx">
-      <DependentUpon>frmMoveBetweenDb.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmPluginShowErrors.resx">
       <DependentUpon>frmPluginShowErrors.cs</DependentUpon>
@@ -249,6 +256,9 @@
     <EmbeddedResource Include="Forms\frmSyntaxRuleEditor.resx">
       <DependentUpon>frmSyntaxRuleEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmStatusedProgressBar.resx">
+      <DependentUpon>frmStatusedProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -274,6 +284,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="main_icon.ico" />
+    <None Include="Resources\sync1-16-grayed.png" />
     <None Include="Resources\copy.png" />
     <None Include="Resources\configure2-16-grayed.png" />
     <None Include="Resources\configure-16-grayed.png" />
@@ -314,6 +325,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins_Test\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Drive.v3">
+      <Version>1.69.0.3674</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -39,14 +39,14 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ctxAddIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxSaveIcon = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ctxRemoveIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHotButtons = new System.Windows.Forms.Panel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnSync = new System.Windows.Forms.Button();
             this.btnConfigure = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pnlDbNameAction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -99,6 +99,7 @@
             this.dgv.Size = new System.Drawing.Size(499, 383);
             this.dgv.TabIndex = 4;
             this.dgv.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
+            this.dgv.SelectionChanged += new System.EventHandler(this.dgv_SelectionChanged);
             this.dgv.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgv_MouseDown);
             // 
             // dbmgrIcon
@@ -125,10 +126,9 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ctxAddIcon,
             this.ctxSaveIcon,
-            this.toolStripSeparator1,
             this.ctxRemoveIcon});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(276, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(276, 92);
             // 
             // ctxAddIcon
             // 
@@ -144,11 +144,6 @@
             this.ctxSaveIcon.Text = "Сохранить пиктограмму в файл";
             this.ctxSaveIcon.Click += new System.EventHandler(this.ctxSaveIcon_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(272, 6);
-            // 
             // ctxRemoveIcon
             // 
             this.ctxRemoveIcon.Name = "ctxRemoveIcon";
@@ -159,6 +154,7 @@
             // pnlHotButtons
             // 
             this.pnlHotButtons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.pnlHotButtons.Controls.Add(this.btnSync);
             this.pnlHotButtons.Controls.Add(this.btnConfigure);
             this.pnlHotButtons.Controls.Add(this.btnAdd);
             this.pnlHotButtons.Controls.Add(this.btnEdit);
@@ -168,6 +164,23 @@
             this.pnlHotButtons.Name = "pnlHotButtons";
             this.pnlHotButtons.Size = new System.Drawing.Size(499, 22);
             this.pnlHotButtons.TabIndex = 5;
+            // 
+            // btnSync
+            // 
+            this.btnSync.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnSync.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnSync.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnSync.FlatAppearance.BorderSize = 0;
+            this.btnSync.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSync.Image = global::simple_database.Properties.Resources.sync1_16_grayed;
+            this.btnSync.Location = new System.Drawing.Point(20, 0);
+            this.btnSync.Name = "btnSync";
+            this.btnSync.Size = new System.Drawing.Size(20, 22);
+            this.btnSync.TabIndex = 8;
+            this.btnSync.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolTip1.SetToolTip(this.btnSync, "Сихнронизация баз");
+            this.btnSync.UseVisualStyleBackColor = false;
+            this.btnSync.Click += new System.EventHandler(this.btnSync_Click);
             // 
             // btnConfigure
             // 
@@ -268,7 +281,6 @@
         private System.Windows.Forms.ToolStripMenuItem ctxAddIcon;
         private System.Windows.Forms.ToolStripMenuItem ctxRemoveIcon;
         private System.Windows.Forms.ToolStripMenuItem ctxSaveIcon;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.DataGridViewImageColumn dbmgrIcon;
         private System.Windows.Forms.DataGridViewTextBoxColumn dbmgrFile;
         private System.Windows.Forms.Panel pnlHotButtons;
@@ -277,5 +289,6 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnConfigure;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnSync;
     }
 }
