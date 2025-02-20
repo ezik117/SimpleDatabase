@@ -210,7 +210,7 @@ namespace simple_database
                         bool restoreIfErrorRequired = false;
                         if (File.Exists(Path.Combine(VARS.db_folder, dbName + ".sqlite")))
                         {
-                            File.Copy(Path.Combine(VARS.db_folder, dbName + ".sqlite"), Path.Combine(VARS.temp_folder, dbName + ".sqlite"));
+                            File.Copy(Path.Combine(VARS.db_folder, dbName + ".sqlite"), Path.Combine(VARS.temp_folder, dbName + ".sqlite"), true);
                             restoreIfErrorRequired = true;
                         }
 
@@ -230,7 +230,7 @@ namespace simple_database
                         frm.ShowDialog();
 
                         // если все ОК - установим даты файла БД как они описаны в облачном архиве и очистим папку temp
-                        if (frm.resultMessage == "Выполнено1")
+                        if (frm.resultMessage == "Выполнено")
                         {
                             File.SetCreationTime(Path.Combine(VARS.db_folder, dbName + ".sqlite"), t2);
                             File.SetLastWriteTime(Path.Combine(VARS.db_folder, dbName + ".sqlite"), t2);
@@ -243,7 +243,7 @@ namespace simple_database
                             if (restoreIfErrorRequired)
                             {
                                 MessageBox.Show("При загрузке БД произошла ошибка. Локальная БД не будет изменена. Текст ошибки: " + frm.resultMessage, "Ошибка загрузки", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                File.Copy(Path.Combine(VARS.temp_folder, dbName + ".sqlite"), Path.Combine(VARS.db_folder, dbName + ".sqlite"));
+                                File.Copy(Path.Combine(VARS.temp_folder, dbName + ".sqlite"), Path.Combine(VARS.db_folder, dbName + ".sqlite"), true);
                                 HELPER.CleanUpTemp();
                             }
                         }
@@ -535,6 +535,150 @@ namespace simple_database
                 frm.UpdateControl();
             });
             frm.abortConfirmed = true;
+        }
+
+        /// <summary>
+        /// Кнопка: Принудительная загрузка из облака
+        /// </summary>
+        private void btnForceDownload_Click(object sender, EventArgs e)
+        {
+            if (dgv.SelectedRows.Count == 0) return;
+
+            string dbName = (string)dgv.SelectedRows[0].Cells[5].Value;
+
+            if (dbName == "") return;
+
+            if (MessageBox.Show($"Вы действительно хотите загрузить БД '{dbName}' из облака?", "Предупреждение", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2)
+                == DialogResult.No) return;
+
+            if (MessageBox.Show($"Принудительная загрузка БД '{dbName}' удалит все данные в локальной копии!\nТочно продолжить?", "Предупреждение", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2)
+                == DialogResult.No) return;
+
+            BACKUPS.GdConfigInfo info = BACKUPS.GdCloud.LoadConfig();
+            if (info.sakey == "")
+            {
+                MessageBox.Show("Не задан JSON файл Drive System Account.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (info.folderid == "")
+            {
+                MessageBox.Show("Не задана удаленная папка для хранения данных.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            DATABASE.CloseAllTemporarily();
+
+            DateTime t2 = (DateTime)(dgv.SelectedRows[0].Cells[6].Value ?? DateTime.MinValue);
+
+            // создадим резервную копию заменяемой БД, если она есть
+            bool restoreIfErrorRequired = false;
+            if (File.Exists(Path.Combine(VARS.db_folder, dbName + ".sqlite")))
+            {
+                File.Copy(Path.Combine(VARS.db_folder, dbName + ".sqlite"), Path.Combine(VARS.temp_folder, dbName + ".sqlite"), true);
+                restoreIfErrorRequired = true;
+            }
+
+            // покажем форму статуса загрузки
+            frmStatusedProgressBar frm = new frmStatusedProgressBar();
+            frm.userTask = DownloadFileFromGoogleDrive;
+            frm.userTaskParams.Add(info.sakey);
+            frm.userTaskParams.Add(info.folderid);
+            frm.userTaskParams.Add(new BACKUPS.GdItem()
+            {
+                name = dbName,
+                modifiedDateLocal = t2,
+                sizeCloud = (long)dgv.SelectedRows[0].Cells[10].Value,
+                id = (string)dgv.SelectedRows[0].Cells[8].Value
+            });
+            frm.pb1.Maximum = (int)(long)dgv.SelectedRows[0].Cells[10].Value;
+            frm.ShowDialog();
+
+            // если все ОК - установим даты файла БД как они описаны в облачном архиве и очистим папку temp
+            if (frm.resultMessage == "Выполнено")
+            {
+                File.SetCreationTime(Path.Combine(VARS.db_folder, dbName + ".sqlite"), t2);
+                File.SetLastWriteTime(Path.Combine(VARS.db_folder, dbName + ".sqlite"), t2);
+                File.SetLastAccessTime(Path.Combine(VARS.db_folder, dbName + ".sqlite"), t2);
+                HELPER.CleanUpTemp();
+            }
+            else
+            {
+                // восстановим БД из резервной копии в случае ошибки
+                if (restoreIfErrorRequired)
+                {
+                    MessageBox.Show("При загрузке БД произошла ошибка. Локальная БД не будет изменена. Текст ошибки: " + frm.resultMessage, "Ошибка загрузки", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    File.Copy(Path.Combine(VARS.temp_folder, dbName + ".sqlite"), Path.Combine(VARS.db_folder, dbName + ".sqlite"), true);
+                    HELPER.CleanUpTemp();
+                }
+            }
+
+            DATABASE.RestoreAllFromTemporary();
+
+            VARS.main_form.Invoke((MethodInvoker)delegate
+            {
+                ClassItem.Load(VARS.main_form);
+            });
+
+            frmDbCloudSync_Shown(null, null);
+        }
+
+        /// <summary>
+        /// Кнопка: Принудительная загрузка в облако
+        /// </summary>
+        private void btnForceUpload_Click(object sender, EventArgs e)
+        {
+            if (dgv.SelectedRows.Count == 0) return;
+
+            string dbName = (string)dgv.SelectedRows[0].Cells[1].Value;
+
+            if (dbName == "") return;
+
+            if (MessageBox.Show($"Вы действительно хотите выгрузить БД '{dbName}' в облако?", "Предупреждение", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2)
+                == DialogResult.No) return;
+
+            if (MessageBox.Show($"Принудительная выгрузка БД '{dbName}' удалит все данные в облачной копии!\nТочно продолжить?", "Предупреждение", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2)
+                == DialogResult.No) return;
+
+            BACKUPS.GdConfigInfo info = BACKUPS.GdCloud.LoadConfig();
+            if (info.sakey == "")
+            {
+                MessageBox.Show("Не задан JSON файл Drive System Account.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (info.folderid == "")
+            {
+                MessageBox.Show("Не задана удаленная папка для хранения данных.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            DATABASE.CloseAllTemporarily();
+
+            DateTime t1 = (DateTime)(dgv.SelectedRows[0].Cells[2].Value ?? DateTime.MinValue);
+
+            // покажем форму статуса загрузки
+            frmStatusedProgressBar frm = new frmStatusedProgressBar();
+            frm.userTask = UploadFileToGoogleDrive;
+            frm.userTaskParams.Add(info.sakey);
+            frm.userTaskParams.Add(info.folderid);
+            frm.userTaskParams.Add(new BACKUPS.GdItem()
+            {
+                name = dbName,
+                modifiedDateLocal = t1,
+                sizeLocal = (long)dgv.SelectedRows[0].Cells[9].Value,
+                id = (string)dgv.SelectedRows[0].Cells[8].Value
+            });
+            frm.ShowDialog();
+
+            HELPER.CleanUpTemp();
+
+            DATABASE.RestoreAllFromTemporary();
+
+            VARS.main_form.Invoke((MethodInvoker)delegate
+            {
+                ClassItem.Load(VARS.main_form);
+            });
+
+            frmDbCloudSync_Shown(null, null);
         }
     }
 }

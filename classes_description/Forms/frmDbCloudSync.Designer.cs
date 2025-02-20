@@ -38,8 +38,6 @@
             this.btnUncheckAll = new System.Windows.Forms.Button();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.ssStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,10 +54,12 @@
             this.принудительнаяЗагрузкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnForceUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.btnForceDownload = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.ssStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -79,7 +79,7 @@
             this.btnSelectDifferent.Location = new System.Drawing.Point(12, 11);
             this.btnSelectDifferent.Name = "btnSelectDifferent";
             this.btnSelectDifferent.Size = new System.Drawing.Size(142, 23);
-            this.btnSelectDifferent.TabIndex = 3;
+            this.btnSelectDifferent.TabIndex = 0;
             this.btnSelectDifferent.Text = "Выбрать отличающиеся";
             this.btnSelectDifferent.UseVisualStyleBackColor = true;
             this.btnSelectDifferent.Click += new System.EventHandler(this.btnSelectDifferent_Click);
@@ -89,7 +89,7 @@
             this.btnSyncronize.Location = new System.Drawing.Point(452, 12);
             this.btnSyncronize.Name = "btnSyncronize";
             this.btnSyncronize.Size = new System.Drawing.Size(120, 23);
-            this.btnSyncronize.TabIndex = 2;
+            this.btnSyncronize.TabIndex = 3;
             this.btnSyncronize.Text = "Синхронизировать";
             this.btnSyncronize.UseVisualStyleBackColor = true;
             this.btnSyncronize.Click += new System.EventHandler(this.btnSyncronize_Click);
@@ -99,7 +99,7 @@
             this.btnUncheckAll.Location = new System.Drawing.Point(270, 12);
             this.btnUncheckAll.Name = "btnUncheckAll";
             this.btnUncheckAll.Size = new System.Drawing.Size(104, 23);
-            this.btnUncheckAll.TabIndex = 1;
+            this.btnUncheckAll.TabIndex = 2;
             this.btnUncheckAll.Text = "Сбросить";
             this.btnUncheckAll.UseVisualStyleBackColor = true;
             this.btnUncheckAll.Click += new System.EventHandler(this.btnUncheckAll_Click);
@@ -109,7 +109,7 @@
             this.btnSelectAll.Location = new System.Drawing.Point(160, 12);
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.Size = new System.Drawing.Size(104, 23);
-            this.btnSelectAll.TabIndex = 0;
+            this.btnSelectAll.TabIndex = 1;
             this.btnSelectAll.Text = "Выбрать все";
             this.btnSelectAll.UseVisualStyleBackColor = true;
             this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
@@ -145,22 +145,6 @@
             this.dgv.Size = new System.Drawing.Size(805, 383);
             this.dgv.TabIndex = 1;
             this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellClick);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ssStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(805, 22);
-            this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // ssStatus
-            // 
-            this.ssStatus.Name = "ssStatus";
-            this.ssStatus.Size = new System.Drawing.Size(223, 17);
-            this.ssStatus.Text = "Получение информации, подождите....";
             // 
             // Column7
             // 
@@ -272,7 +256,8 @@
             this.btnForceUpload.Image = global::simple_database.Properties.Resources.upload_16;
             this.btnForceUpload.Name = "btnForceUpload";
             this.btnForceUpload.Size = new System.Drawing.Size(185, 22);
-            this.btnForceUpload.Text = "Загрузить в облако";
+            this.btnForceUpload.Text = "Выгрузить в облако";
+            this.btnForceUpload.Click += new System.EventHandler(this.btnForceUpload_Click);
             // 
             // btnForceDownload
             // 
@@ -280,6 +265,23 @@
             this.btnForceDownload.Name = "btnForceDownload";
             this.btnForceDownload.Size = new System.Drawing.Size(185, 22);
             this.btnForceDownload.Text = "Загрузить из облака";
+            this.btnForceDownload.Click += new System.EventHandler(this.btnForceDownload_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ssStatus});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(805, 22);
+            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // ssStatus
+            // 
+            this.ssStatus.Name = "ssStatus";
+            this.ssStatus.Size = new System.Drawing.Size(223, 17);
+            this.ssStatus.Text = "Получение информации, подождите....";
             // 
             // frmDbCloudSync
             // 
@@ -297,9 +299,9 @@
             this.Shown += new System.EventHandler(this.frmDbCloudSync_Shown);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
