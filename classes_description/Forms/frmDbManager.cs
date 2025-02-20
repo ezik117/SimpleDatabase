@@ -12,6 +12,7 @@ using System.Drawing.Imaging;
 using System.IO.Compression;
 using System.Threading;
 using Google.Apis.Drive.v3;
+using System.Text.RegularExpressions;
 
 namespace simple_database
 {
@@ -183,14 +184,25 @@ namespace simple_database
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.Handled = e.SuppressKeyPress = true;
+
                 pnlDbNameAction.Visible = false;
                 string newDbName = tbDbName.Text.Trim().ToLower().Replace(' ', '_');
 
-                if (newDbName == "") return;
+                if (newDbName == "")
+                {
+                    return;
+                }
 
                 if (newDbName == "databases")
                 {
                     MessageBox.Show("Имя 'databases' зарезервировано. Пожалуйста, выберите другое имя.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (!Regex.IsMatch(newDbName, @"^[0-9a-zA-Zа-яА-я_]+$"))
+                {
+                    MessageBox.Show("В имени БД допускаются только буквы, цифры и знак подчеркивания.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 

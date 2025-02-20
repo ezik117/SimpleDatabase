@@ -61,3 +61,6 @@ https://www.iconarchive.com/show/papirus-apps-icons-by-papirus-team/applications
 sync on cloud
 https://www.iconarchive.com/show/small-n-flat-icons-by-paomedia/cloud-sync-icon.html
 
+upload/download
+https://www.iconarchive.com/show/android-lollipop-icons-by-dtafalonso/Downloads-icon.html
+

@@ -253,6 +253,16 @@ namespace simple_database.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap download_16 {
+            get {
+                object obj = ResourceManager.GetObject("download-16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap favourites_16_colored {
             get {
                 object obj = ResourceManager.GetObject("favourites_16_colored", resourceCulture);
@@ -356,6 +366,16 @@ namespace simple_database.Properties {
         internal static System.Drawing.Bitmap up_green_16_grayed {
             get {
                 object obj = ResourceManager.GetObject("up-green-16-grayed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap upload_16 {
+            get {
+                object obj = ResourceManager.GetObject("upload-16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDbCloudSync));
@@ -51,9 +52,14 @@
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.принудительнаяЗагрузкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnForceUpload = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnForceDownload = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -127,6 +133,7 @@
             this.Column9,
             this.Column10,
             this.Column12});
+            this.dgv.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgv.Location = new System.Drawing.Point(0, 45);
@@ -244,6 +251,36 @@
             this.Column12.ReadOnly = true;
             this.Column12.Visible = false;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.принудительнаяЗагрузкаToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(216, 26);
+            // 
+            // принудительнаяЗагрузкаToolStripMenuItem
+            // 
+            this.принудительнаяЗагрузкаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnForceUpload,
+            this.btnForceDownload});
+            this.принудительнаяЗагрузкаToolStripMenuItem.Name = "принудительнаяЗагрузкаToolStripMenuItem";
+            this.принудительнаяЗагрузкаToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.принудительнаяЗагрузкаToolStripMenuItem.Text = "Принудительная загрузка";
+            // 
+            // btnForceUpload
+            // 
+            this.btnForceUpload.Image = global::simple_database.Properties.Resources.upload_16;
+            this.btnForceUpload.Name = "btnForceUpload";
+            this.btnForceUpload.Size = new System.Drawing.Size(185, 22);
+            this.btnForceUpload.Text = "Загрузить в облако";
+            // 
+            // btnForceDownload
+            // 
+            this.btnForceDownload.Image = global::simple_database.Properties.Resources.download_16;
+            this.btnForceDownload.Name = "btnForceDownload";
+            this.btnForceDownload.Size = new System.Drawing.Size(185, 22);
+            this.btnForceDownload.Text = "Загрузить из облака";
+            // 
             // frmDbCloudSync
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -262,6 +299,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -289,5 +327,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem принудительнаяЗагрузкаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem btnForceUpload;
+        private System.Windows.Forms.ToolStripMenuItem btnForceDownload;
     }
 }

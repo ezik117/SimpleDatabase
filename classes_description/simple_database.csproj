@@ -284,6 +284,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="main_icon.ico" />
+    <None Include="Resources\download-16.png" />
+    <None Include="Resources\upload-16.png" />
     <None Include="Resources\sync1-16-grayed.png" />
     <None Include="Resources\copy.png" />
     <None Include="Resources\configure2-16-grayed.png" />

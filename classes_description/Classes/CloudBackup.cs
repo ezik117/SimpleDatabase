@@ -180,21 +180,21 @@ namespace BACKUPS
         }
 
         /// <summary>
-        /// Преобразовывает объект GdItem к виду "name_20250101102030_1024" для загрузки в облако.
+        /// Преобразовывает объект GdItem к виду "name-20250101102030-1024" для загрузки в облако.
         /// Поля разделены нижним подчеркиванием, состоит из трех секций: имя БД, дата изменения, размер в байтах
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
         public static string ConvertToCloudItemName(GdItem item)
         {
-            string ret = item.name + "_";
-            ret += item.modifiedDateLocal.ToString("yyyyMMddHHmmss") + "_";
+            string ret = item.name + "-";
+            ret += item.modifiedDateLocal.ToString("yyyyMMddHHmmss") + "-";
             ret += item.sizeLocal.ToString();
             return ret;
         }
 
         /// <summary>
-        /// Преобразовывает облачный объект вида "name_20250101102030_1024.zip" к объекту GdItem
+        /// Преобразовывает облачный объект вида "name-20250101102030-1024.zip" к объекту GdItem
         /// Если имя не содержит расширения .zip оно будет отброшено
         /// </summary>
         /// <param name="item"></param>
@@ -205,7 +205,7 @@ namespace BACKUPS
 
             item = Path.GetFileNameWithoutExtension(item);
             GdItem ret = new GdItem();
-            string[] parts = item.Split('_');
+            string[] parts = item.Split('-');
             if (parts.Length != 3) return null;
 
             ret.name = parts[0];
