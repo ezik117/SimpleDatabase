@@ -223,10 +223,10 @@ namespace simple_database
                         {
                             name = dbName,
                             modifiedDateLocal = t2,
-                            sizeCloud = (long)dgv.Rows[r].Cells[10].Value,
+                            sizeCloud = (long)dgv.Rows[r].Cells[11].Value,
                             id = (string)dgv.Rows[r].Cells[8].Value
                         });
-                        frm.pb1.Maximum = (int)(long)dgv.Rows[r].Cells[10].Value;
+                        frm.pb1.Maximum = (int)(long)dgv.Rows[r].Cells[11].Value;
                         frm.ShowDialog();
 
                         // если все ОК - установим даты файла БД как они описаны в облачном архиве и очистим папку temp
@@ -587,10 +587,10 @@ namespace simple_database
             {
                 name = dbName,
                 modifiedDateLocal = t2,
-                sizeCloud = (long)dgv.SelectedRows[0].Cells[10].Value,
+                sizeCloud = (long)dgv.SelectedRows[0].Cells[11].Value,
                 id = (string)dgv.SelectedRows[0].Cells[8].Value
             });
-            frm.pb1.Maximum = (int)(long)dgv.SelectedRows[0].Cells[10].Value;
+            frm.pb1.Maximum = (int)(long)dgv.SelectedRows[0].Cells[11].Value;
             frm.ShowDialog();
 
             // если все ОК - установим даты файла БД как они описаны в облачном архиве и очистим папку temp
